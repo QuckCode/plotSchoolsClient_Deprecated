@@ -1,5 +1,5 @@
 import { Bell, Bookmark, MessageCircle, PhoneCall } from 'react-feather';
-import { Col, Message, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 
 import ImageStatCard from './shared/ImageStatCard';
 import MockFeed from '../demos/mock/feed';
@@ -40,7 +40,7 @@ const Widgets = () => {
             value={103}
             icon={<Bookmark size={20} strokeWidth={1} />}
             color={theme.primaryColor}
-            clickHandler={() => Message.info('Campaign stat button clicked')}
+            clickHandler={() => message.info('Campaign stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -49,7 +49,7 @@ const Widgets = () => {
             value={230}
             icon={<PhoneCall size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => Message.info('Customer stat button clicked')}
+            clickHandler={() => message.info('Customer stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -58,16 +58,16 @@ const Widgets = () => {
             value={323}
             icon={<Bell size={20} strokeWidth={1} />}
             color={theme.warningColor}
-            clickHandler={() => Message.info('Queries stat button clicked')}
+            clickHandler={() => message.info('Queries stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             title="Opens"
             value={870}
-            icon={<MessageCircle size={20} strokeWidth={1} />}
+            icon={<messageCircle size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => Message.info('Opens stat button clicked')}
+            clickHandler={() => message.info('Opens stat button clicked')}
           />
         </Col>
       </Row>
@@ -82,7 +82,7 @@ const Widgets = () => {
             value={103}
             icon={<Bookmark size={20} strokeWidth={1} />}
             color={theme.primaryColor}
-            clickHandler={() => Message.info('Campaign stat button clicked')}
+            clickHandler={() => message.info('Campaign stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -92,7 +92,7 @@ const Widgets = () => {
             value={230}
             icon={<PhoneCall size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => Message.info('Customer stat button clicked')}
+            clickHandler={() => message.info('Customer stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -102,7 +102,7 @@ const Widgets = () => {
             value={323}
             icon={<Bell size={20} strokeWidth={1} />}
             color={theme.warningColor}
-            clickHandler={() => Message.info('Queries stat button clicked')}
+            clickHandler={() => message.info('Queries stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -110,9 +110,9 @@ const Widgets = () => {
             type="fill"
             title="Opens"
             value={870}
-            icon={<MessageCircle size={20} strokeWidth={1} />}
+            icon={<messageCircle size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => Message.info('Opens stat button clicked')}
+            clickHandler={() => message.info('Opens stat button clicked')}
           />
         </Col>
       </Row>
@@ -158,8 +158,8 @@ const Widgets = () => {
             location={'London, Uk'}
             imageHeight={230}
             stats={stats}
-            callHandler={() => Message.info('Call button clicked')}
-            messageHandler={() => Message.info('Message button clicked')}
+            callHandler={() => message.info('Call button clicked')}
+            messageHandler={() => message.info('message button clicked')}
           />
         </Col>
       </Row>
