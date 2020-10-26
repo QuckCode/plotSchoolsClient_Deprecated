@@ -1,4 +1,5 @@
-import '../assets/styles.less';
+import 'antd/dist/antd.css'; 
+import '../styles/globals.css'
 
 import App, { Container } from 'next/app';
 
