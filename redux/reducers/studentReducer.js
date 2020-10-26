@@ -5,7 +5,7 @@ import {
   FETCH_ALL_STUDENT_BEGIN,
   FETCH_ALL_STUDENT_SUCCESS,
   FETCH_ALL_STUDENT_ERROR
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   students: [],

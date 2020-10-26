@@ -2,7 +2,7 @@ import {
   GET_ALL_DEPARTMENTS_BEGIN,
   GET_ALL_DEPARTMENTS_ERROR,
   GET_ALL_DEPARTMENTS_SUCCESS,
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   departments: [],

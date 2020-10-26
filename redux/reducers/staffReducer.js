@@ -5,7 +5,7 @@ import {
   FETCH_ALL_STAFF_BEGIN,
   FETCH_ALL_STAFF_SUCCESS,
   FETCH_ALL_STAFF_ERROR
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   staffs: [],

@@ -5,7 +5,7 @@ import {
   FETCH_ALL_SECTION_BEGIN,
   FETCH_ALL_SECTION_SUCCESS,
   FETCH_ALL_SECTION_ERROR
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   section: [],

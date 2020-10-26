@@ -2,7 +2,7 @@ import {
   FETCH_ALL_SCHOOLS_BEGIN,
   FETCH_ALL_SCHOOLS_SUCCESS,
   FETCH_ALL_SCHOOLS_ERROR
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   schools: [],

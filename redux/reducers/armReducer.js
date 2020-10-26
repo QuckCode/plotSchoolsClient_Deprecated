@@ -5,7 +5,7 @@ CREATE_ARM_ERROR,
 FETCH_ALL_ARM_BEGIN,
 FETCH_ALL_ARM_SUCCESS,
 FETCH_ALL_ARM_ERROR
-} from '../Varables'
+} from '../varables'
 
 const initialState = {
   arms: [],
