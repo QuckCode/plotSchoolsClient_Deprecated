@@ -1,0 +1,7 @@
+.passport {
+  justify-content:'center' !important;
+  align-items:'center' !important;
+  display:'flex' !important;
+  flex-direction:'column' !important;
+  margin:10
+}

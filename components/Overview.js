@@ -22,11 +22,12 @@ import {
   Dropdown,
   List,
   Menu,
-  Message,
+  message,
   Progress,
   Row,
   Timeline
 } from 'antd';
+
 import {
   DiscreteColorLegend,
   FlexibleWidthXYPlot,
@@ -168,7 +169,7 @@ const Overview = () => {
             value={103}
             icon={<Bookmark size={20} strokeWidth={1} />}
             color={theme.primaryColor}
-            clickHandler={() => Message.info('Campaign stat button clicked')}
+            clickHandler={() => message.info('Campaign stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -178,7 +179,7 @@ const Overview = () => {
             value={230}
             icon={<PhoneCall size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => Message.info('Customers stat button clicked')}
+            clickHandler={() => message.info('Customers stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -188,7 +189,7 @@ const Overview = () => {
             value={323}
             icon={<Bell size={20} strokeWidth={1} />}
             color={theme.warningColor}
-            clickHandler={() => Message.info('Queries stat button clicked')}
+            clickHandler={() => message.info('Queries stat button clicked')}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -198,7 +199,7 @@ const Overview = () => {
             value={870}
             icon={<MessageCircle size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => Message.info('Opens stat button clicked')}
+            clickHandler={() => message.info('Opens stat button clicked')}
           />
         </Col>
       </Row>
