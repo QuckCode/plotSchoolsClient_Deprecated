@@ -23,7 +23,7 @@ class RegistrationParent extends React.Component {
     e.preventDefault();
      this.props.form.validateFields((err, values) => {
       if (!err) {
-        Message.success(
+        message.success(
           'Sign complete. Taking you to your dashboard!'
         ).then(() => Router.push('/dashboard'));
       

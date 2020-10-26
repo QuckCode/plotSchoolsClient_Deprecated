@@ -1,4 +1,4 @@
-import { Button, Form, Input, Message, Row, Tooltip } from 'antd';
+import { Button, Form, Input, message, Row, Tooltip } from 'antd';
 import { Eye, HelpCircle, Mail, Triangle, User } from 'react-feather';
 
 import Link from 'next/link';
@@ -39,7 +39,7 @@ const Signup = ({ form }) => (
           e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-              Message.success('Account created. Please check your inbox!').then(
+              message.success('Account created. Please check your inbox!').then(
                 () => Router.push('/signin')
               );
             }

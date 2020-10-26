@@ -1,4 +1,4 @@
-import { Button, Form, Input, Message, Row } from 'antd';
+import { Button, Form, Input, message, Row } from 'antd';
 import { Eye,User, Terminal} from 'react-feather';
 
 import Link from 'next/link';
@@ -39,7 +39,7 @@ const Forgot = ({ form }) => (
           e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-              Message.success(
+              message.success(
                 'We just sent a  your password to your mail'
               ).then(() => Router.push('/signin'));
             }

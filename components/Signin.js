@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Message, Row, AutoComplete, Card, Divider } from 'antd';
+import { Button, Checkbox, Form, Input, message, Row, AutoComplete, Card, Divider } from 'antd';
 import { Eye,User, Grid} from 'react-feather';
 
 import Link from 'next/link';
@@ -48,7 +48,7 @@ const Signin = ({ form, schools }) => {
           e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-              Message.success(
+              message.success(
                 'Sign complete. Taking you to your dashboard!'
               ).then(() => Router.push('/dashboard'));
             
