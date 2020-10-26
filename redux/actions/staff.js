@@ -5,7 +5,7 @@ import {
   FETCH_ALL_STAFF_BEGIN,
   FETCH_ALL_STAFF_SUCCESS,
   FETCH_ALL_STAFF_ERROR,
-  url
+  url,school
 } from '../varables';
 import axios from 'axios'
 import {message} from 'antd'
@@ -46,9 +46,10 @@ const createStaffError= error=>({
 export const getAllStaffs = (schoolID) => {
   return dispatch => {
     dispatch( getAllStaffsBegin())
-    return axios.get(`${url}/staff/5f8c7ee1b9776e05f105a6db`)
+    return axios.get(`${url}/staff/${school}`)
     .then(({data})=>{
-       console.log(data)
+       
+       console.log(process.env)
           dispatch(getAllStaffsSuccess(data))
     })
     .catch((error)=>{

@@ -5,7 +5,7 @@ import {
   FETCH_ALL_SECTION_BEGIN,
   FETCH_ALL_SECTION_SUCCESS,
   FETCH_ALL_SECTION_ERROR,
-  url
+  url, school
 } from '../varables';
 import axios from 'axios'
 import {message} from 'antd'
@@ -44,7 +44,7 @@ const createSectionError= error=>({
 export const getAllSection = (schoolID) => {
   return dispatch => {
     dispatch( getAllSectionBegin())
-    return axios.get(`${url}/section/5f8c7ee1b9776e05f105a6db`)
+    return axios.get(`${url}/section/${school}`)
     .then(({data})=>{
        console.log(data)
           dispatch(getAllSectionSuccess(data))

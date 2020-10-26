@@ -1,4 +1,5 @@
 import {Button,Form,Input, Select, Icon} from 'antd';
+import { school } from '../../redux/varables';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,7 +15,7 @@ const  RegistrationArm = ({form, classes, createArm, arm})=> {
              e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-             createArm({...values,school:"5f8c7ee1b9776e05f105a6db"})
+             createArm({...values,school:school})
             }
           });
       }}>

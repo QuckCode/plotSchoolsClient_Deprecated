@@ -3,6 +3,7 @@ import {
  Image
 } from "react-feather"
 import Webcam from 'react-webcam';
+import { school } from '../../redux/varables';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -22,7 +23,7 @@ class RegistrationStaff extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.createStaff({...values, dob:values.dob._d, employmentDate:values.employmentDate._d, school:"5f8c7ee1b9776e05f105a6db"})
+        this.props.createStaff({...values, dob:values.dob._d, employmentDate:values.employmentDate._d, school:school})
       }
     });
   };

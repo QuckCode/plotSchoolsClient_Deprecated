@@ -1,4 +1,5 @@
 import { AutoComplete,Button, DatePicker,Form,Input,Select, Upload, Icon, message} from 'antd';
+import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -10,7 +11,7 @@ class RegistrationSection extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.form.resetFields(['section'])
-        this.props.createSection({section:values.section, school:"5f8c7ee1b9776e05f105a6db"})
+        this.props.createSection({section:values.section, school:school})
       }
     });
   };

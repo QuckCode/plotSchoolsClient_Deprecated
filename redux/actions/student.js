@@ -5,7 +5,7 @@ import {
   FETCH_ALL_STUDENT_BEGIN,
   FETCH_ALL_STUDENT_SUCCESS,
   FETCH_ALL_STUDENT_ERROR,
-  url
+  url, school
 } from '../varables';
 import axios from 'axios'
 import {message} from 'antd'
@@ -46,7 +46,7 @@ const createStudentError= error=>({
 export const getAllStudents = (schoolID) => {
   return dispatch => {
     dispatch( getAllStudentsBegin())
-    return axios.get(`${url}/student/5f8c7ee1b9776e05f105a6db`)
+    return axios.get(`${url}/student/${school}`)
     .then(({data})=>{
        console.log(data)
           dispatch(getAllStudentsSuccess(data))

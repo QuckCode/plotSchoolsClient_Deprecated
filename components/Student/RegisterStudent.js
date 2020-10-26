@@ -5,6 +5,7 @@ import {
 } from "react-feather"
 import Webcam from 'react-webcam';
 import nigeriaData from '../../demos/mock/nigeriaData.json'
+import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -28,7 +29,7 @@ class RegistrationStudent extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.createStudent({...values, passport:this.state.image, dob:values.dob._d, admissionDate:values.admissionDate._d,  school:"5f8c7ee1b9776e05f105a6db"})
+        this.props.createStudent({...values, passport:this.state.image, dob:values.dob._d, admissionDate:values.admissionDate._d,  school:school})
       }
     });
   };

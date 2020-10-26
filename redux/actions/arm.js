@@ -5,7 +5,7 @@ import {
   FETCH_ALL_ARM_BEGIN,
   FETCH_ALL_ARM_SUCCESS,
   FETCH_ALL_ARM_ERROR,
-  url
+  url, school
 } from '../varables';
 import axios from 'axios'
 import {message} from 'antd'
@@ -46,7 +46,7 @@ const createArmError= error=>({
 export const getAllArms = (schoolID) => {
   return dispatch => {
     dispatch( getAllArmsBegin())
-    return axios.get(`${url}/arm/5f8c7ee1b9776e05f105a6db`)
+    return axios.get(`${url}/arm/${school}`)
     .then(({data})=>{
        console.log(data)
           dispatch(getAllArmsSuccess(data))
