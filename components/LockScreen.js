@@ -53,7 +53,7 @@ const LockScreen = ({ form }) => (
 
         <div className="text-center">
           <small className="text-muted text-center">
-            <span>Not your account?</span>
+            <span>Not your accont?</span>
             <Link href="/signin">
               <a>Sign in here!</a>
             </Link>
