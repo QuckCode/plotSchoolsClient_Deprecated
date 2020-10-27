@@ -18,3 +18,8 @@ a {
 .ant-layout-header {
   background-color: #fff;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
