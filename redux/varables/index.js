@@ -41,5 +41,5 @@ export const CREATE_STAFF_ERROR="CREATE_STAFF_ERROR"
 export const FETCH_ALL_STAFF_BEGIN="FETCH_ALL_STAFF_BEGIN"
 export const FETCH_ALL_STAFF_ERROR="FETCH_ALL_STAFF_ERROR"
 export const FETCH_ALL_STAFF_SUCCESS="FETCH_ALL_STAFF_SUCCESS"
-export const url ="http://localhost:4000"
-export const school= `5f8c7ee1b9776e05f105a6db`
+export const url ="https://plotapi-tets.herokuapp.com"
+export const school= `5f9183cad035174e94992476`
