@@ -6,6 +6,7 @@ import {schoolReducer} from './schoolsReducer'
 import { sectionReducer } from './sectionReducer';
 import { staffReducer } from './staffReducer';
 import {studentReducer} from './studentReducer'
+import { subjectsReducer } from './subjectReducer';
 
 export const allReducers = combineReducers({
   departments:departmentReducer,
@@ -14,5 +15,6 @@ export const allReducers = combineReducers({
   classes:classesReducer,
   arm:armReducer,
   student:studentReducer,
-  staff:staffReducer
+  staff:staffReducer,
+  subject:subjectsReducer
 });

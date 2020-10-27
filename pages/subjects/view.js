@@ -1,5 +1,6 @@
-import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown } from 'antd';
+
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from 'antd';
+import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -8,15 +9,15 @@ import {
   Save,
   Trash,
 } from 'react-feather';
-import {connect} from 'react-redux';
-import AddSubject from '../../components/Subject/AddSubject';
-import { createSubject } from '../../redux/actions/subject';
-
+import   SubjectTable from '../../components/Subject/ViewSubject';
+import { getAllStudents } from '../../redux/actions/student';
+import { connect } from 'react-redux';
+import React from 'react'
+import { getAllSubjects } from '../../redux/actions/subject';
 const Title = Typography.Title
 
 const Content = styled.div`
-  max-width: 700px;
-  z-index: 2;
+  z-index: 0;
   min-width: 300px;,
   backgroundColor:'#f0f0f0'
 `;
@@ -48,22 +49,27 @@ const menu = (
   </Menu>
 );
 
-const AddSubjectPage = (props) =>{
+const RegisterStaffPage = ({getAllSubjects,subject}) =>{
+ React.useEffect(() => {
+    getAllSubjects()
+    return () => {
+        // Anything in here is fired on component unmount.
+        getAllSubjects()
+    }
+}, [])
   return (
         <Card 
-        title="Create New Students"
+          title="View  Staffs"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
           </Dropdown>
         }
-        bodyStyle={{ padding: '1rem' }}
-        className="mb-4"> 
-          <div className="p-4">
+        bodyStyle={{ padding: 0 , height:'100%'}}
+        className="mb-10"> 
             <Content>
-              <AddSubject createSubject= {props.createSubject} loading={props.subject.loading}/>
+               <SubjectTable data={subject.subjects} loading={subject.loading}/>
             </Content>
-          </div>
        </Card>
   )
 };
@@ -73,7 +79,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createSubject:createSubject
+ getAllSubjects:getAllSubjects
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddSubjectPage);
+export default connect(mapStateToProps,mapDispatchToProps)(RegisterStaffPage);
