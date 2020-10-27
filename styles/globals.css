@@ -23,3 +23,8 @@ a {
   width: 0px;
   background: transparent; /* make scrollbar transparent */
 }
+
+::-moz-scrollbar{
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
