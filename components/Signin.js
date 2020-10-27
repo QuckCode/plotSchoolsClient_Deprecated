@@ -77,7 +77,7 @@ const Signin = ({ form, schools }) => {
           )}
         </FormItem>
         <FormItem label="Reg Number">
-          {form.getFieldDecorator('Reg Number', {rules: [ {required: true,message: 'Please input your Reg Number!'}]
+          {form.getFieldDecorator('regNumber', {rules: [ {required: true,message: 'Please input your Reg Number!'}]
           })(
             <Input
               prefix={
