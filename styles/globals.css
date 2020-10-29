@@ -44,9 +44,10 @@ a {
 }
 
 .textForm{
-  font-family: -apple-system;
-  /* font-weight: 600; */
-  font-size:medium - 10
+  font-family: Roboto;
+  font-weight: bolder;
+  font-size:medium;
+  color: #000;
 }
 .rowForm{
   padding-top: 2rem;

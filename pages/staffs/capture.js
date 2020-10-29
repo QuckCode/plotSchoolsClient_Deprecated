@@ -18,17 +18,7 @@ const StaffCapturePage = (props) =>{
   return (
         <Card 
         title="Print Staff Form"
-        bodyStyle={{ padding: '1rem' }}
-        extra={
-          <div>
-            <Button  style={{margin:10}}>
-             <Download/> 
-           </Button>
-           <Button>
-             <Printer/> 
-           </Button>
-          </div>
-        }> 
+        bodyStyle={{ padding: '1rem' }}> 
          
        </Card>
   )
