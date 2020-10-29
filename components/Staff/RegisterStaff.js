@@ -80,6 +80,7 @@ class RegistrationStaff extends React.Component {
     const videoConstraints = { width: 500, height: 500,facingMode: "user"};
     const {form, staff} = this.props
     return (
+      <div className="p-4">
       <Form onSubmit={this.handleSubmit}>
             {/* <div style={{
               justifyContent:'center',
@@ -137,7 +138,7 @@ class RegistrationStaff extends React.Component {
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Gender">
            {form.getFieldDecorator('gender', { initialValue: "", rules: [ {required: true,message: 'Please input  Gender'}] })(
-            <Select style={{ width: 320 }}>
+            <Select>
               <Option value={""}>Please Select a gender</Option>
               <Option value={1}>Male</Option>
               <Option value={2}>Female</Option>
@@ -149,14 +150,14 @@ class RegistrationStaff extends React.Component {
         </FormItem>
         <FormItem name="designation"  required  {...formItemLayout} label="Designation">
         {form.getFieldDecorator('designation', {initialValue:""})(
-            <Select style={{ width: 320 }}>
+            <Select>
               <Option value={""}>Select Your Class</Option>
             </Select>
            )}
         </FormItem>
         <FormItem name="department"   required  {...formItemLayout} label="Department">
         {form.getFieldDecorator('department', {initialValue:""})(
-            <Select style={{ width: 320 }}>
+            <Select>
               <Option value={""}>Select Your Class</Option>
             </Select>
            )}
@@ -167,6 +168,7 @@ class RegistrationStaff extends React.Component {
           </Button>
         </FormItem>
       </Form>
+      </div>
     );
   }
 }
