@@ -40,6 +40,7 @@ const DepartmentTable= ()=>{
     setTableHeight(window.innerHeight-280)
   }, []);
    return(
+     
     <Table 
      columns={columns}    
      bordered

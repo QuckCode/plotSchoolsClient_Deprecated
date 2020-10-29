@@ -105,7 +105,7 @@ const AppProvider = props => {
     boxed: false,
     darkSidebar: false,
     sidebarPopup: false,
-    sidebarIcons: false,
+    sidebarIcons: true,
     collapsed: false,
     weakColor: false,
     optionDrawer: false,

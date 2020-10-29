@@ -38,7 +38,7 @@ const StaffFormPage = (props) =>{
         className="mb-4"> 
           <div className="p-4">
             <Content>
-               <StaffForm/>
+      
             </Content>
           </div>
        </Card>

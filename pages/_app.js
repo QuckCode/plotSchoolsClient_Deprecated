@@ -16,14 +16,23 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 import {Provider} from 'react-redux';
 import { wrapper } from '../redux/store';
+import { TOKEN_LOCATION } from '../redux/varables';
+
+
+export function redirectUser(ctx, location) {
+  if (ctx.req) {
+    ctx.res.writeHead(302, { Location: location });
+    ctx.res.end();
+  } else {
+    Router.push(location);
+  }
+}
+
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx, req }) {
     let pageProps = {};
-    const userAgent = ctx.req
-      ? ctx.req.headers['user-agent']
-      : navigator.userAgent;
-
+    const userAgent = ctx.req ? ctx.req.headers['user-agent']  : navigator.userAgent;
     let ie = false;
     if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
       ie = true;
@@ -32,17 +41,17 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-
+    
     pageProps.query = ctx.query;
     pageProps.ieBrowser = ie;
-    return { pageProps };
+      return { pageProps };
   }
 
   render() {
     const { Component, pageProps } = this.props;
 
     return (
-      <Container>
+      <>
         <GlobalStyles />
         <Head>
           <meta
@@ -66,7 +75,7 @@ class MyApp extends App {
             <Component {...pageProps} />
           </Page>
         </AppProvider>
-      </Container>
+   </>
     );
   }
 }

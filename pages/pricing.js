@@ -1,11 +1,27 @@
+import { connect } from 'react-redux';
 import HomeHeader from '../components/HomeHeader';
 import Pricing from '../components/Pricing';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-const PricingPage = () =>(
+const PricingPage = ({auth}) =>{
+  const Router = useRouter()
+  useEffect(()=>{
+    if (auth.isAuth) {
+      Router.push('/dashboard')
+     }
+  })
+   return (
   <>
      <HomeHeader/>
      <Pricing />
    </>
 )
+  }
+const mapStateToProps = state => ({
+  auth:state.auth
+});
 
-export default PricingPage;
+const mapDispatchToProps = {};
+
+export default   connect(mapStateToProps, mapDispatchToProps)(PricingPage);

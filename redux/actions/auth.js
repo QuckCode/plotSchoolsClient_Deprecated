@@ -1,6 +1,6 @@
 import { message } from "antd"
 import axios from "axios"
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION} from "../varables"
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION, staff, student} from "../varables"
 import jwt from 'jsonwebtoken'
 import  Router  from "next/router"
 export const loginStudent = (data) => {
@@ -9,7 +9,7 @@ export const loginStudent = (data) => {
     .then(({data})=>{
        localStorage.setItem(TOKEN_LOCATION,data.token)
        message.success('Successfully login', 10)
-       dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), "STUDENT"))
+       dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), student))
        Router.push('/dashboard')
     })
     .catch(({response})=>{
@@ -24,7 +24,7 @@ export const loginStaff = (data) => {
     .then(({data})=>{
       localStorage.setItem(TOKEN_LOCATION,data.token)
       message.success('Successfully login', 10)
-      dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), "STAFF"))
+      dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), staff))
       Router.push('/dashboard')
     })
     .catch(({response})=>{
@@ -35,8 +35,7 @@ export const loginStaff = (data) => {
 }
 
 //Thunk to handle a successfull login 
-const loginSuccess = ( user, userType) => {
- 
+export const loginSuccess = ( user, userType) => {
   return {
     type: LOGIN_SUCCESS,
     payload:{
@@ -46,7 +45,7 @@ const loginSuccess = ( user, userType) => {
   }
 }
 
-const loginFailure = ( error) => {
+export const loginFailure = ( error) => {
 
   message.error(error.message, 10)
   return {
@@ -57,7 +56,7 @@ const loginFailure = ( error) => {
   }
 }
 
-const logOut = ()=>{
+ export const logOut = ()=>{
  localStorage.removeItem(TOKEN_LOCATION)
   return {
    type:LOGOUT

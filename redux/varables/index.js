@@ -57,3 +57,5 @@ export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const url ="http://localhost:4000"
 export const school= `5f8c7ee1b9776e05f105a6db`
+export const student= 'student'
+export const staff= 'staff'

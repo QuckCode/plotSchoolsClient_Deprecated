@@ -9,9 +9,10 @@ import { theme } from './styles/GlobalStyles';
 import { useAppState } from './shared/AppProvider';
 import { withRouter } from 'next/router';
 import {connect} from 'react-redux'
-import {getAllSchools} from '../redux/actions/school'
-import  Router  from 'next/router';
-import { loginStudent, loginStaff } from '../redux/actions/auth';
+import  { useRouter }  from 'next/router';
+import {  loginSuccess, logOut } from '../redux/actions/auth';
+import { TOKEN_LOCATION } from '../redux/varables';
+import jwt from 'jsonwebtoken';
 
 
 const { Content } = Layout;
@@ -25,17 +26,26 @@ const NonDashboardRoutes = [
   '/pricing'
 ];
 
-const Page = ({ router, children, auth }) => {
+const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
   const [loading, setLoading] = useState(true);
   const [state] = useAppState();
   const isNotDashboard = NonDashboardRoutes.includes(router.pathname);
 
   useEffect(() => {
-    setTimeout(() => {
-      
-      console.log(isNotDashboard, auth.isAuth)
+    let userData= localStorage.getItem(TOKEN_LOCATION)
+    if(userData){
+       let user= jwt.decode(userData,'BIU_WEB_APP')
+        loginSuccess( user, user.userType )
+        router.push('/dashboard')
+        setLoading(false);
+    }
+    else {
+      if(!isNotDashboard){
+        router.push('/')
+        setLoading(false);
+      }
       setLoading(false);
-    }, 1000);
+    }
   }, [loading]);
 
   return (
@@ -44,14 +54,16 @@ const Page = ({ router, children, auth }) => {
         <Container
           className={`${state.weakColor ? 'weakColor' : ''} ${ state.boxed ? 'boxed shadow-sm' : ''}`}
         >
-          {!isNotDashboard && <Header />}
+          {!isNotDashboard && <Header  user= {auth.user}/>}
           <Layout className="workspace">
             {!isNotDashboard && (
               <SidebarMenu
+                user= {auth.user}
                 sidebarTheme={state.darkSidebar ? 'dark' : 'light'}
                 sidebarMode={state.sidebarPopup ? 'vertical' : 'inline'}
                 sidebarIcons={state.sidebarIcons}
                 collapsed={state.collapsed}
+                logOut={logOut}
               />
             )}
 
@@ -72,10 +84,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-getSchools:getAllSchools,
-loginStudent: loginStudent,
-loginStaff:loginStaff
-
+ loginSuccess: loginSuccess,
+ logOut:logOut
 };
 
 

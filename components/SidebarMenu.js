@@ -49,7 +49,9 @@ const SidebarContent = ({
   sidebarMode,
   sidebarIcons,
   collapsed,
-  router
+  router,
+  user,
+  logOut
 }) => {
   const [state, dispatch] = useAppState();
   const [openKeys, setOpenKeys] = useState([]);
@@ -173,7 +175,7 @@ const SidebarContent = ({
                 <Avatar
                   shape="circle"
                   size={40}
-                  src="/static/images/avatar.jpg"
+                  src={user.passport}
                 />
               </Badge>
             </span>
@@ -185,7 +187,10 @@ const SidebarContent = ({
               <Popconfirm
                 placement="top"
                 title="Are you sure you want to sign out?"
-                onConfirm={() => router.push('/signin')}
+                onConfirm={() => {
+                  router.push('/signin')
+                  logOut()
+                }}
                 okText="Yes"
                 cancelText="Cancel"
               >
@@ -263,26 +268,6 @@ const SidebarContent = ({
             actions={[
               <Switch
                 size="small"
-                checked={!!state.boxed}
-                onChange={checked => dispatch({ type: 'boxed' })}
-              />
-            ]}
-          >
-            <span
-              css={`
-                -webkit-box-flex: 1;
-                -webkit-flex: 1 0;
-                -ms-flex: 1 0;
-                flex: 1 0;
-              `}
-            >
-              Boxed view
-            </span>
-          </List.Item>
-          <List.Item
-            actions={[
-              <Switch
-                size="small"
                 checked={!!state.darkSidebar}
                 disabled={state.weakColor}
                 onChange={checked => dispatch({ type: 'sidebarTheme' })}
@@ -325,27 +310,6 @@ const SidebarContent = ({
             actions={[
               <Switch
                 size="small"
-                checked={!!state.sidebarIcons}
-                disabled={state.collapsed}
-                onChange={checked => dispatch({ type: 'sidebarIcons' })}
-              />
-            ]}
-          >
-            <span
-              css={`
-                -webkit-box-flex: 1;
-                -webkit-flex: 1 0;
-                -ms-flex: 1 0;
-                flex: 1 0;
-              `}
-            >
-              Sidebar menu icons
-            </span>
-          </List.Item>
-          <List.Item
-            actions={[
-              <Switch
-                size="small"
                 checked={!!state.collapsed}
                 onChange={checked => dispatch({ type: 'collapse' })}
               />
@@ -367,7 +331,7 @@ const SidebarContent = ({
               <Switch
                 size="small"
                 checked={!!state.weakColor}
-                onChange={checked => dispatch({ type: 'weak', value: checked })}
+                onChange={checked =>  dispatch({ type: 'weak', value: checked })}
               />
             ]}
           >

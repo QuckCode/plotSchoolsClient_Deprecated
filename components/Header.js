@@ -17,9 +17,13 @@ import { useState } from 'react';
 const { SubMenu } = Menu;
 const { Header } = Layout;
 
-const MainHeader = () => {
+const MainHeader = ({
+  user
+}
+) => {
   const [state, dispatch] = useAppState();
   const [notifications] = useState(MockNotifications);
+  console.log(user)
   return (
     <DashHeader>
       <Header>
@@ -86,7 +90,7 @@ const MainHeader = () => {
             </Menu.Item>
           </SubMenu>
 
-          <SubMenu title={<Avatar src="/static/images/avatar.jpg" />}>
+          <SubMenu title={<Avatar   src={user.passport} />}>
             <Menu.Item>Settings</Menu.Item>
             <Menu.Item>Profile</Menu.Item>
             <Menu.Item>Notifications</Menu.Item>
