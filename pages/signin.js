@@ -10,7 +10,6 @@ import { loginStudent, loginStaff } from '../redux/actions/auth';
  
 class SignInPage extends Component {
     componentDidMount(){
-       this.props.getSchools()
        if (this.props.auth.isAuth) {
           Router.push('/dashboard')
        }

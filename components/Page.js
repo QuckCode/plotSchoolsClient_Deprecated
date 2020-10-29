@@ -36,7 +36,6 @@ const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
     if(userData){
        let user= jwt.decode(userData,'BIU_WEB_APP')
         loginSuccess( user, user.userType )
-        router.push('/dashboard')
         setLoading(false);
     }
     else {

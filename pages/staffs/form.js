@@ -1,17 +1,18 @@
-import React from 'react'
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from 'antd';
+import React, { useState } from 'react'
+import { Card, Divider, Row, Typography, Button, Col,Modal } from 'antd';
 import styled from 'styled-components';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 
 import {
-  Edit,
   Printer,
-  Save,
-  Trash,
   Download,
+  Phone,
+  Mail,
+  MapPin
 } from 'react-feather';
-// import StaffForm from '../../components/Staff/Form';
 
-const Title = Typography.Title
+const Text = Typography.Text
 
 const Content = styled.div`
   max-width: 700px;
@@ -21,26 +22,101 @@ const Content = styled.div`
 `;
 
 const StaffFormPage = (props) =>{
+   const savePDF =()=> {
+    const printArea = document.getElementById("formStaff");
+    html2canvas(printArea, {useCORS:true}).then(canvas => {
+      let img = new Image();
+      img.src = canvas.toDataURL('image/png');
+      img.onload = function () {
+        let pdf = new jsPDF("portrait", 'mm', 'a4');
+        console.log(img)
+        pdf.addImage(img, 10, 0, 190, 200);
+        pdf.save('formStaff.pdf');
+      }
+    })
+
+}
+
+const printPDF =()=> {
+  const printArea = document.getElementById("formStaff");
+  html2canvas(printArea, {useCORS:true}).then(canvas => {
+    let img = new Image();
+    img.src = canvas.toDataURL('image/png');
+    img.onload = function () {
+      let pdf = new jsPDF();
+      pdf.addImage(img, 10, 0, 190, 200);
+      window.open(pdf.output('bloburi',{ filename: 'formStaff.pdf' }), '_blank')
+    }
+  })
+
+}
   return (
         <Card 
         title="Print Staff Form"
         bodyStyle={{ padding: '1rem' }}
         extra={
           <div>
-            <Button style={{margin:10}}>
+            <Button onClick={()=>savePDF()} style={{margin:10}}>
              <Download/> 
            </Button>
-           <Button>
+           <Button onClick={()=>printPDF()}>
              <Printer/> 
            </Button>
           </div>
-        }
-        className="mb-4"> 
-          <div className="p-4">
-            <Content>
-      
-            </Content>
-          </div>
+        }> 
+            <div id="formStaff">
+                <Row className="rowForm">
+                   <Col span={12}>
+                       <img className="banner" src="https://www.integratedschoolrecords.com/storage/images/school_configuration/schoollogo/biiagauraka/mastlogo.gif"/>
+                   </Col>
+                   <Col span={12}>
+                     <div className="description-form">
+                         <span className="textForm">  <Phone/> O8034055074 </span>
+                         <span className="textForm"> <Mail/>  brilliantimpactschool@gmail.com </span>
+                         <span className="textForm"> <MapPin/> Angwan Tomato, Gauraka, Tafa L.G.A, Niger State </span>
+                     </div>
+                   </Col>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > First Name: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Middle Name: (optional) </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Surname: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Birth Date: (M/D/Y)  </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Sex: </span>
+                      <div>
+                      <input type='checkbox'></input>
+                      <span className="textForm" style={{marginLeft:10}} > Male  </span>
+                      <input type='checkbox' style={{marginLeft:40}}></input>
+                      <span className="textForm" style={{marginLeft:10}} > Female  </span>
+                      </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Employment Date: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Department: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Designation: </span>
+                       <div className="line" > </div>
+                </Row>
+                <span style={{marginLeft:'30%', marginRight:'30%', fontFamily:"Roboto", fontSize:15}} > Generated by Quantum Cude For Plot Schools </span>
+                <a href="http://www.plotSchools.com" style={{marginLeft:'35%', marginRight:'35%', fontFamily:"Roboto", fontSize:13}} > www.plotSchool.com </a>
+            </div>
        </Card>
   )
 };

@@ -1,140 +1,18 @@
 import React from 'react'
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from 'antd';
+import { Card, Divider, Row, Typography, Button, Col, Modal, } from 'antd';
 import styled from 'styled-components';
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+
 import {
   Printer,
   Download,
+  Phone,
+  Mail,
+  MapPin
 } from 'react-feather';
-import html2canvas from 'html2canvas'
-import jsPdf from 'jspdf'
 
-const data=`
-<html lang="en"><head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="">
-		
-		<title>Brilliant Impact International Academy - Staff Profile</title>
-		
-		<link rel="shortcut icon" href="https://www.integratedschoolrecords.com/logo.ico">
-
-		<!-- Bootstrap core CSS-->
-		
-		<link href="https://www.integratedschoolrecords.com/legacy/css_custom/cssall_reports.css" rel="stylesheet">
-		<link href="https://www.integratedschoolrecords.com/bootstrap-4.3.1-dist/css/bootstrap_reports.css" rel="stylesheet">
-		<!-- Custom fonts for this template-->
-		<link href="https://www.integratedschoolrecords.com/fontawesome-free-5.10.1-web/css/all.css" rel="stylesheet" type="text/css">
-		<!-- Page level plugin CSS-->
-		<link href="https://www.integratedschoolrecords.com/startbootstrap-sb-admin-gh-pages/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-		
-	</head>	
-	
-	<body data-new-gr-c-s-check-loaded="14.981.0">
-			
-		<div class="container-fluid">
-					
-				
-	<div class="container-fluid">
-
-	<div class="row">
-
-		<div class="col-sm-6">
-			<img class="img-fluid" src="https://www.integratedschoolrecords.com/storage/images/school_configuration/schoollogo/biiagauraka/mastlogo.gif" alt="School Logo" id="schoolimglogo" border="0px">
-		</div>
-		
-		<div class="col-sm-6">
-			<div class="d-flex align-items-end flex-column">
-				<div><i class="fas fa-phone-square-alt"></i> &nbsp; 08060769034</div>
-				<div><i class="fas fa-envelope"></i> &nbsp;brilliantimpactschool@gmail.com</div>
-				<div><i class="fas fa-location-arrow"></i> &nbsp;Angwan Tomato, Gauraka, Tafa L.G.A, Niger State</div>
-			</div>
-		</div>
-	
-	</div>
-	
-</div>
-	<br>
-
-	<table border="0" cellpadding="0" cellspacing="0">
-		<tbody><tr>
-			<td>
-			
-				<span class="fieldtitle_bold_18_505050">
-					
-					<br>
-					
-					Staff Profile
-					
-					<br>
-					<br>
-					
-				</span>
-			</td>
-		</tr>
-	</tbody></table>
-
-	<br>
-
-	<table border="0" cellpadding="0" cellspacing="0">
-		<tbody><tr>
-		  <td align="left">
-			<label class="col-form-label">Staff No:</label>&nbsp;____________________________________________________
-			<br>
-			<br>										  
-			<label class="col-form-label">First Name:</label>&nbsp;____________________________________________________
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Middle Name:</label><em> (optional)</em>&nbsp;____________________________________________________
-			<br>
-			<br>										  
-			<label class="col-form-label">Surname:</label>&nbsp;_________________________________________________________________________________________________________________________________________										  
-			<br>
-			<br>										  
-			<label class="col-form-label">Birth Date:</label><em> (M/D/Y)</em>&nbsp;____________________________________________________
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Sex:</label>&nbsp;&nbsp;Male&nbsp;&nbsp;<i class="fas fa-square"></i>&nbsp;&nbsp;Female&nbsp;&nbsp;<i class="fas fa-square"></i>
-			<br>
-			<br>										  
-			<label class="col-form-label">Employment Date:</label>
-			<em> (M/D/Y)</em>&nbsp;____________________________________________________										  
-			<br>
-			<br>										  
-			<label class="col-form-label">Designation:</label>&nbsp;_________________________________________________________
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Department:</label>&nbsp;_________________________________________________________										  
-			<br>
-			<br>										  
-			<label class="col-form-label">Block:</label>&nbsp;______________________________________
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Floor:</label>&nbsp;______________________________________										  
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Room No:</label>&nbsp;______________________________________										  
-			<br>
-			<br>										  
-			<label class="col-form-label">Mobile Phone No:</label>&nbsp;______________________________________________
-			&nbsp;&nbsp;&nbsp;
-			<label class="col-form-label">Office Phone No:</label><em> (optional)</em>&nbsp;______________________________________________										  
-			<br>
-			<br>										  
-			<label class="col-form-label">Email Address:</label>&nbsp;___________________________________________________________________
-		  </td>
-		</tr>
-	  </tbody></table>
-				  
-				
-							
-		</div>	
-		
-		<!-- Bootstrap core JavaScript-->			
-		<script src="https://www.integratedschoolrecords.com/jquery/jquery-3.4.1.js"></script>
-		<script src="https://www.integratedschoolrecords.com/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
-
-	
-	
-</body></html>
-`
-const Title = Typography.Title
+const Text = Typography.Text
 
 const Content = styled.div`
   max-width: 700px;
@@ -143,39 +21,118 @@ const Content = styled.div`
   backgroundColor:'#f0f0f0'
 `;
 
-const StaffFormPage = (props) =>{
+const StudentFormPage = (props) =>{
 
-    function printPDF () {
-//    let x =  document.getElementById('form')
-//     html2canvas(x)
-//     .then( async (canvas) => {
-//         const img =  await canvas.toDataURL('image/png')
-//         const pdf = new jsPdf()
-//             await  pdf.addImage(img, 'JPEG', 0, 0,100,100)
-//         //  await   pdf.save('your-filename.pdf')
-// }) 
-  }
+const savePDF =()=> {
+    const printArea = document.getElementById("formStaff");
+    html2canvas(printArea, {useCORS:true}).then(canvas => {
+      let img = new Image();
+      img.src = canvas.toDataURL('image/png');
+      img.onload = function () {
+        let pdf = new jsPDF("portrait", 'mm', 'a4');
+        console.log(img)
+        pdf.addImage(img, 10, 0, 190, 200);
+        pdf.save('formStaff.pdf');
+      }
+    })
 
+}
+
+const printPDF =()=> {
+  const printArea = document.getElementById("formStaff");
+  html2canvas(printArea, {useCORS:true}).then(canvas => {
+    let img = new Image();
+    img.src = canvas.toDataURL('image/png');
+    img.onload = function () {
+      let pdf = new jsPDF();
+      pdf.addImage(img, 10, 0, 190, 200);
+      window.open(pdf.output('bloburi',{ filename: 'formStaff.pdf' }), '_blank')
+    }
+  })
+
+}
   return (
-
         <Card 
-        title="Print Staff Form"
+        title="Print Student  Form"
         bodyStyle={{ padding: '1rem' }}
         extra={
           <div>
-             <Button onClick={()=>printPDF()}>
+            <Button onClick={()=>savePDF()} style={{margin:10}}>
              <Download/> 
            </Button>
-           <Button>
+           <Button onClick={()=>printPDF()}>
              <Printer/> 
            </Button>
           </div>
-        }
-        className="mb-4"> 
-          
+        }> 
+            <div id="formStaff">
+                <Row className="rowForm">
+                   <Col span={12}>
+                       <img className="banner" src="https://www.integratedschoolrecords.com/storage/images/school_configuration/schoollogo/biiagauraka/mastlogo.gif"/>
+                   </Col>
+                   <Col span={12}>
+                     <div className="description-form">
+                         <span className="textForm">  <Phone/> O8034055074 </span>
+                         <span className="textForm"> <Mail/>  brilliantimpactschool@gmail.com </span>
+                         <span className="textForm"> <MapPin/> Angwan Tomato, Gauraka, Tafa L.G.A, Niger State </span>
+                     </div>
+                   </Col>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Admission Date: (M/D/Y)  </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > First Name: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Middle Name: (optional) </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Surname: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Birth Date: (M/D/Y)  </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Sex: </span>
+                      <div>
+                      <input type='checkbox'></input>
+                      <span className="textForm" style={{marginLeft:10}} > Male  </span>
+                      <input type='checkbox' style={{marginLeft:40}}></input>
+                      <span className="textForm" style={{marginLeft:10}} > Female  </span>
+                      </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > State: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Class: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Arm: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Address: </span>
+                       <div className="line" > </div>
+                </Row>
+                <Row className=" rowForm flexRow">
+                       <span className="textForm labelForm" > Parent Phone Number: </span>
+                       <div className="line" > </div>
+                </Row>
+                <span style={{marginLeft:'30%', marginRight:'30%', fontFamily:"Roboto", fontSize:15}} > Generated by Quantum Cude For Plot Schools </span>
+                <a href="http://www.plotSchools.com" style={{marginLeft:'35%', marginRight:'35%', fontFamily:"Roboto", fontSize:13}} > www.plotSchool.com </a> 
+            </div>
        </Card>
   )
 };
 
 
-export default StaffFormPage;
+export default StudentFormPage;
