@@ -11,6 +11,7 @@ const  RegistrationArm = ({form, classes, createArm, arm})=> {
      const {loading} =arm
      console.log(loading)
     return (
+      <div className="p-4">
       <Form onSubmit= {(e)=>{
              e.preventDefault();
           form.validateFields((err, values) => {
@@ -40,6 +41,7 @@ const  RegistrationArm = ({form, classes, createArm, arm})=> {
           </Button>
         </FormItem>
       </Form>
+      </div>
     );
   }
 

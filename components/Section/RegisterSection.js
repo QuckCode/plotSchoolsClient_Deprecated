@@ -21,8 +21,8 @@ class RegistrationSection extends React.Component {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const {form, loading } = this.props
-    console.log(loading)
     return (
+      <div className="p-4">
       <Form onSubmit={this.handleSubmit}>
         <FormItem  required  {...formItemLayout} label="Section">
             {form.getFieldDecorator('section', {rules: [ {required: true,message: 'Please input  your section'}] })(<Input/>)}
@@ -33,6 +33,7 @@ class RegistrationSection extends React.Component {
           </Button>
         </FormItem>
       </Form>
+      </div>
     );
   }
 }

@@ -24,6 +24,7 @@ class RegistrationClass extends React.Component {
     const {form, classes } = this.props
     const {loading} = classes
     return (
+      <div className="p-4">
       <Form onSubmit={this.handleSubmit}>
          <FormItem  required  {...formItemLayout} label="Section">
         {form.getFieldDecorator('section', {  initialValue: "",rules: [ {required: true,message: 'Please select a section'}] })(
@@ -31,7 +32,7 @@ class RegistrationClass extends React.Component {
               <Option value={''}>Select  Section</Option>
               {
                 this.props.sections.map(d=>(
-                  <Option  value={d._id}>{d.section}</Option>
+                  <Option  key={d._id} value={d._id}>{d.section}</Option>
                 ))
               }
             </Select>
@@ -46,6 +47,7 @@ class RegistrationClass extends React.Component {
           </Button>
         </FormItem>
       </Form>
+      </div>
     );
   }
 }
