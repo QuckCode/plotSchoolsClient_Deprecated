@@ -22,7 +22,7 @@ export const createStaff = (data) => {
    })
    .catch((error)=>{
         message.error("Please an error occurred")
-      dispatch(createStaffError(error))
+      dispatch(createStaffError(error.response))
    })
  };
 };
@@ -53,7 +53,7 @@ export const getAllStaffs = (schoolID) => {
           dispatch(getAllStaffsSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllStaffsError(error))
+       dispatch(getAllStaffsError(error.response))
     })
   };
 };

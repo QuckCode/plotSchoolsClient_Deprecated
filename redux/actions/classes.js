@@ -20,7 +20,7 @@ export const createClasses = (data) => {
    })
    .catch((error)=>{
         message.error("Please an error occurred")
-      dispatch(createClassesError(error))
+      dispatch(createClassesError(error.response))
    })
  };
 };
@@ -49,7 +49,7 @@ export const getAllClasses = (schoolID) => {
           dispatch(getAllClassesSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllClassesError(error))
+       dispatch(getAllClassesError(error.response))
     })
   };
 };

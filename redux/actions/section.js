@@ -20,7 +20,7 @@ export const createSection = (data) => {
    })
    .catch((error)=>{
         message.error("PLease an error occurred")
-      dispatch(createSectionError(error))
+      dispatch(createSectionError(error.response))
    })
  };
 };

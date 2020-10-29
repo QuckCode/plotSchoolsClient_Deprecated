@@ -19,8 +19,9 @@ export const createSubject = (data) => {
        setTimeout( ()=>dispatch(createSubjectSuccess()),1000)
    })
    .catch((error)=>{
+       console.log(error.response)
         message.error("PLease an error occurred")
-      dispatch(createSubjectError(error))
+      dispatch(createSubjectError(error.response))
    })
  };
 
@@ -52,7 +53,7 @@ export const getAllSubjects = (schoolID) => {
           dispatch(getAllSubjectSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllSubjectError(error))
+       dispatch(getAllSubjectError(error.response))
     })
   };
 };

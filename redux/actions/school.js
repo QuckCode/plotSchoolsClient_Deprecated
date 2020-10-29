@@ -16,7 +16,7 @@ export const getAllSchools = (data) => {
           dispatch(getAllSchoolSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllSchoolError(error))
+       dispatch(getAllSchoolError(error.response))
     })
   };
 };
