@@ -18,7 +18,7 @@ const Content = styled.div`
   backgroundColor:'#f0f0f0'
 `;
 
-const Signin = ({ form, schools }) => {
+const Signin = ({ form, schools, loginStaff, loginStudent }) => {
   const [schoolName, setSchoolName] = useState([])
   useEffect(()=>{
     setSchoolName(schools.reduce((a, o) => (a.push(o.name), a), []))   
@@ -48,21 +48,23 @@ const Signin = ({ form, schools }) => {
           e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-              message.success(
-                'Sign complete. Taking you to your dashboard!'
-              ).then(() => Router.push('/dashboard'));
-            
+              //  console.log(loginStaff, loginStudent, values.userType)
+                  form.resetFields()
+               if(values.userType==0){
+                 loginStaff({regNumber:values.regNumber, password:values.password})
+               }
+
+               if(values.userType==1){
+
+               }
+
+               if(values.userType==2){
+                 loginStudent({admissionNumber:values.regNumber, password:values.password})
+               }
             }
           });
         }}
       >
-        <FormItem label="School Name">
-          {form.getFieldDecorator('schoolName', {rules: [ {required: true,message: 'Please input your School Name'}]
-          })(
-            <AutoComplete dataSource={schoolName}   placeholder="School Name"  
-            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}/>
-          )}
-        </FormItem>
         <FormItem label="Login As">
           {form.getFieldDecorator('userType', {rules: [ {required: true,message: 'Please select your user type'}]
           })(

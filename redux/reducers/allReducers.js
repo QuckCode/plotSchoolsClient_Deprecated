@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import { armReducer } from './armReducer';
+import { authReducer } from './authReducer';
 import { classesReducer } from './classesReducer';
 import {departmentReducer} from './departmentReducer'
 import {schoolReducer} from './schoolsReducer'
@@ -16,5 +17,6 @@ export const allReducers = combineReducers({
   arm:armReducer,
   student:studentReducer,
   staff:staffReducer,
-  subject:subjectsReducer
+  subject:subjectsReducer,
+  auth:authReducer
 });

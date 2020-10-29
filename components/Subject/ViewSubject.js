@@ -45,7 +45,7 @@ const SubjectTable= ({loading, data})=>{
      bordered
      size="default"
      loading={loading}
-       pagination={true} dataSource={data} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
+     pagination={{ size: "" }} dataSource={data} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
    )
 }
   

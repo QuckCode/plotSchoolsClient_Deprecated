@@ -59,7 +59,7 @@ const RegisterStaffPage = ({getAllSubjects,subject}) =>{
 }, [])
   return (
         <Card 
-          title="View  Staffs"
+          title="View  Subjects"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />

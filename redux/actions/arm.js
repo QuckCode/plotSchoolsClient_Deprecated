@@ -22,7 +22,7 @@ export const createArm = (data) => {
    })
    .catch((error)=>{
         message.error("Please an error occurred")
-      dispatch(createArmError(error))
+      dispatch(createArmError(error.response))
    })
  };
 };
@@ -52,7 +52,7 @@ export const getAllArms = (schoolID) => {
           dispatch(getAllArmsSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllArmsError(error))
+       dispatch(getAllArmsError(error.response))
     })
   };
 };
