@@ -4,17 +4,23 @@ import HomeHeader from '../components/HomeHeader';
 import {connect} from 'react-redux'
 import { useEffect } from 'react';
 import {getAllSchools} from '../redux/actions/school'
+import  Router  from 'next/router';
+import { loginStudent, loginStaff } from '../redux/actions/auth';
 
  
 class SignInPage extends Component {
     componentDidMount(){
        this.props.getSchools()
+       if (this.props.auth.isAuth) {
+          Router.push('/dashboard')
+       }
     }
    render() { 
+      const {schools, auth, loginStaff, loginStudent } = this.props
       return (
          <>
          <HomeHeader/>
-         <Signin schools={this.props.schools.schools}/>
+         <Signin loginStaff={loginStaff} loginStudent={loginStudent} schools={schools.schools}/>
       </>
       );
    }
@@ -22,11 +28,15 @@ class SignInPage extends Component {
  
 
 const mapStateToProps = state => ({
-   schools: state.schools
+   schools: state.schools,
+   auth:state.auth
 });
 
 const mapDispatchToProps = {
  getSchools:getAllSchools,
+ loginStudent: loginStudent,
+ loginStaff:loginStaff
+
 };
 
 
