@@ -8,7 +8,7 @@ import {
   url, school
 } from '../varables';
 import axios from 'axios'
-import {message} from 'antd'
+import {message,Result} from 'antd'
 
 export const createArm = (data) => {
  return dispatch => {

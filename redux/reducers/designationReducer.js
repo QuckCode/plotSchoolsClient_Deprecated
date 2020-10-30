@@ -1,55 +1,55 @@
 import {
-  CREATE_DEPARTMENT_BEGIN,
-  CREATE_DEPARTMENT_SUCCESS,
-  CREATE_DEPARTMENT_ERROR,
-  FETCH_ALL_DEPARTMENT_BEGIN,
-  FETCH_ALL_DEPARTMENT_SUCCESS,
-  FETCH_ALL_DEPARTMENT_ERROR
+  CREATE_DESIGNATION_BEGIN,
+  CREATE_DESIGNATION_SUCCESS,
+  CREATE_DESIGNATION_ERROR,
+  FETCH_ALL_DESIGNATION_BEGIN,
+  FETCH_ALL_DESIGNATION_SUCCESS,
+  FETCH_ALL_DESIGNATION_ERROR
   } from '../varables'
   
   const initialState = {
-    departments: [],
+    designations: [],
     loading:false,
     error:null,
   };
   
-  export const departmentReducer = (state = initialState, action) => {
+  export const designationReducer = (state = initialState, action) => {
     switch (action.type) {
-      case CREATE_DEPARTMENT_BEGIN:
+      case CREATE_DESIGNATION_BEGIN:
         return {
           ...state,
           loading:true
         };
-        case CREATE_DEPARTMENT_SUCCESS:
+        case CREATE_DESIGNATION_SUCCESS:
           return {
             ...state,
             loading:false,
         };
-        case CREATE_DEPARTMENT_ERROR:
+        case CREATE_DESIGNATION_ERROR:
           return {
             ...state,
             loading:false,
             error:action.payload.error
         };
-        case FETCH_ALL_DEPARTMENT_BEGIN:
+        case FETCH_ALL_DESIGNATION_BEGIN:
           return {
             ...state,
             loading:true,
-            departments: [],
+            designations: [],
   
           };
-          case FETCH_ALL_DEPARTMENT_SUCCESS:
+          case FETCH_ALL_DESIGNATION_SUCCESS:
             return {
               ...state,
               loading:false,
-              departments: action.payload.departments,
+              designations: action.payload.designations,
           };
-          case FETCH_ALL_DEPARTMENT_ERROR:
+          case FETCH_ALL_DESIGNATION_ERROR:
             return {
               ...state,
               loading:false,
               error:action.payload.error,
-              departments: []
+              designations: []
           };
       default:
         return {...state};
