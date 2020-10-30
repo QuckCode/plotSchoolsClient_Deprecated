@@ -16,11 +16,11 @@ export const createSubject = (data) => {
    return axios.post(`${url}/subject`,data)
    .then(({data})=>{
         message.success("Created subject", 10)
-       setTimeout( ()=>dispatch(createSubjectSuccess()),1000)
+         setTimeout( ()=>dispatch(createSubjectSuccess()),1000)
    })
    .catch((error)=>{
-       console.log(error.response)
-        message.error("PLease an error occurred")
+      console.log(error.response)
+      message.error("PLease an error occurred")
       dispatch(createSubjectError(error.response))
    })
  };
