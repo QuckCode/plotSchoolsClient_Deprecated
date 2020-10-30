@@ -32,7 +32,7 @@ export function redirectUser(ctx, location) {
 class MyApp extends App {
 
 
-  static async getInitialProps({ Component, ctx, req }) {
+  static async getInitialProps({ Component, ctx, req, res }) {
     let pageProps = {};
     const userAgent = ctx.req ? ctx.req.headers['user-agent']  : navigator.userAgent;
     let ie = false;
@@ -43,6 +43,8 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+
+    // res.setHeader("Access-Control-Allow-Origin", "*");
     
     pageProps.query = ctx.query;
     pageProps.ieBrowser = ie;

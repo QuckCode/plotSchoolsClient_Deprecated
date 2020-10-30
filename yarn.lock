@@ -4137,6 +4137,13 @@ fbjs@^0.8.15:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
+fetch-base64@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/fetch-base64/-/fetch-base64-2.1.2.tgz#460e581c823633aade6fa7fc8dc3f2cdb1da15c4"
+  integrity sha512-APL3vK1yYXUZ5spJFmojP/xXepjpsJUy/4oCijsvOlHBm9lEJtqOHgFJD8AMP/Rlr/1DlGxLc5InA0SqFf05zA==
+  dependencies:
+    mime-types "^2.1.17"
+
 figgy-pudding@^3.5.1:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.2.tgz#b4eee8148abb01dcf1d1ac34367d59e12fa61d6e"
@@ -5545,7 +5552,7 @@ mime-db@1.44.0:
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.45.0.tgz#cceeda21ccd7c3a745eba2decd55d4b73e7879ea"
   integrity sha512-CkqLUxUk15hofLoLyljJSrukZi8mAtgd+yE5uO4tqRZsdsAJKv0O+rFMhVDRJgozy+yG6md5KwuXhD4ocIoP+w==
 
-mime-types@~2.1.24:
+mime-types@^2.1.17, mime-types@~2.1.24:
   version "2.1.27"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.27.tgz#47949f98e279ea53119f5722e0f34e529bec009f"
   integrity sha512-JIhqnCasI9yD+SsmkquHBxTSEuZdQX5BuQnS2Vc7puQQQ+8yiP5AY5uWhpdv4YL4VM5c6iliiYWPgJ/nJQLp7w==
