@@ -8,6 +8,9 @@ import {
   Trash,
 } from 'react-feather';
 import RegisterDepartment from '../../components/Department/RegisterDepartment';
+import { connect } from 'react-redux';
+import { createDepartment } from '../../redux/actions/department';
+import { useEffect } from 'react';
 
 const Title = Typography.Title
 
@@ -45,10 +48,10 @@ const menu = (
   </Menu>
 );
 
-const RegisterDepartmentPage = () =>{
+const RegisterDepartmentPage = props =>{
   return (
         <Card 
-        title="Create New School"
+        title="Create New Department"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -57,12 +60,18 @@ const RegisterDepartmentPage = () =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-            <Content>
-             <RegisterDepartment/>
-            </Content>
+             <RegisterDepartment department={props.department} createDepartment={props.createDepartment}/>
           </div>
        </Card>
   )
 };
 
-export default RegisterDepartmentPage;
+const mapStateToProps = state => ({
+ department:state.departments
+});
+
+const mapDispatchToProps = {
+  createDepartment:createDepartment
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage);

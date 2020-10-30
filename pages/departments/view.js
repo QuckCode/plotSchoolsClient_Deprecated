@@ -1,6 +1,5 @@
 
 import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from 'antd';
-import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -11,6 +10,9 @@ import {
 } from 'react-feather';
 import StaffTable from '../../components/Staff/StaffTable';
 import DepartmentTable from '../../components/Department/DepartmentTable';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getAllDepartments } from '../../redux/actions/department';
 
 const Title = Typography.Title
 
@@ -47,10 +49,16 @@ const menu = (
   </Menu>
 );
 
-const RegisterStaffPage = () =>{
+const ViewDepartmentPage = ({department, getAllDepartments}) =>{
+  useEffect(() => {
+    getAllDepartments()
+     return () => {
+        getAllDepartments()
+     }
+    }, [])
   return (
         <Card 
-          title="View  Staffs"
+          title="View  Departments"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -58,11 +66,20 @@ const RegisterStaffPage = () =>{
         }
         bodyStyle={{ padding: 0 , height:'100%'}}
         className="mb-10"> 
-            <Content>
-               <DepartmentTable/>
-            </Content>
+              <div className="p-4">
+                  <DepartmentTable department= {department}/>
+              </div>
        </Card>
   )
 };
 
-export default RegisterStaffPage;
+
+const mapStateToProps = state => ({
+  department:state.departments
+ });
+ 
+ const mapDispatchToProps = {
+   getAllDepartments:getAllDepartments
+ };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewDepartmentPage);

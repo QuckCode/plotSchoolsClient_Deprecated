@@ -3,7 +3,7 @@ import { Table, Button , Icon, Avatar} from 'antd';
 import { useAppState } from '../shared/AppProvider';
 
 
-const DepartmentTable= ()=>{
+const DepartmentTable= ({department})=>{
    const [tableHeight, setTableHeight] = React.useState(0)
    const [state] = useAppState()
    const columns = [
@@ -26,26 +26,17 @@ const DepartmentTable= ()=>{
     },
   ];
   
-  const data = [];
-  for (let i = 0; i < 4; i++) {
-    data.push({
-      key: i,
-      name: `Edrward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
-    });
-  }
-  console.log(state.mobile)
   React.useEffect(() => {
     setTableHeight(window.innerHeight-280)
   }, []);
    return(
      
     <Table 
-     columns={columns}    
+     columns={columns}   
+     loading={department.loading} 
      bordered
      size="default"
-       pagination={false} dataSource={data} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
+       pagination={true}  dataSource={department.departments} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
    )
 }
   
