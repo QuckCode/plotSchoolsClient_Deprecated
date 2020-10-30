@@ -78,6 +78,7 @@ const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
   );
 };
 
+
 const mapStateToProps = state => ({
   auth:state.auth
 });

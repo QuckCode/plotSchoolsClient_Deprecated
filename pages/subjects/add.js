@@ -11,6 +11,7 @@ import {
 import {connect} from 'react-redux';
 import AddSubject from '../../components/Subject/AddSubject';
 import { createSubject } from '../../redux/actions/subject';
+import { TOKEN_LOCATION } from '../../redux/varables';
 
 const Title = Typography.Title
 

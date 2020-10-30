@@ -48,7 +48,7 @@ const menu = (
   </Menu>
 );
 
-const RegisterStaffPage = ({getAllStudents,student}) =>{
+const ViewStaffPage = ({getAllStudents,student}) =>{
  React.useEffect(() => {
     getAllStudents()
     return () => {
@@ -80,4 +80,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
  getAllStudents:getAllStudents
 };
-export default connect(mapStateToProps,mapDispatchToProps)(RegisterStaffPage);
+export default connect(mapStateToProps,mapDispatchToProps)(ViewStaffPage);

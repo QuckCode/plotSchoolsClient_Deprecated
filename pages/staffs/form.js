@@ -39,7 +39,7 @@ const StaffFormPage = (props) =>{
 
 const printPDF =()=> {
   const printArea = document.getElementById("formStaff");
-  html2canvas(printArea, {useCORS:true}).then(canvas => {
+  html2canvas(printArea, {useCORS:true,logging: true, imageTimeout:20000}).then(canvas => {
     let img = new Image();
     img.src = canvas.toDataURL('image/png');
     img.onload = function () {
@@ -96,9 +96,9 @@ const printPDF =()=> {
                 <Row className=" rowForm flexRow">
                        <span className="textForm labelForm" > Sex: </span>
                       <div>
-                      <input type='checkbox'></input>
+                      <input className="checkbox" disabled type='checkbox'></input>
                       <span className="textForm" style={{marginLeft:10}} > Male  </span>
-                      <input type='checkbox' style={{marginLeft:40}}></input>
+                      <input className="checkbox" di type='checkbox' style={{marginLeft:40}}></input>
                       <span className="textForm" style={{marginLeft:10}} > Female  </span>
                       </div>
                 </Row>

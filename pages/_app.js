@@ -15,7 +15,7 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 import {Provider} from 'react-redux';
-import { wrapper } from '../redux/store';
+import { wrapper,initStore } from '../redux/store';
 import { TOKEN_LOCATION } from '../redux/varables';
 
 
@@ -30,6 +30,8 @@ export function redirectUser(ctx, location) {
 
 
 class MyApp extends App {
+
+
   static async getInitialProps({ Component, ctx, req }) {
     let pageProps = {};
     const userAgent = ctx.req ? ctx.req.headers['user-agent']  : navigator.userAgent;

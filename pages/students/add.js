@@ -71,9 +71,7 @@ const RegisterStudentPage = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-            <Content>
              <RegisterStudent student={props.student} createStudent= {props.createStudent} classes={props.classes} arm={props.arm}/>
-            </Content>
           </div>
        </Card>
   )

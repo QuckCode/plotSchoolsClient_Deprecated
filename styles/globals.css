@@ -30,7 +30,7 @@ a {
 }
 
 #formStaff{
-  padding: 100px;
+  padding: 10px;
 }
 .banner{
   width:100%;
@@ -49,7 +49,7 @@ a {
 .textForm{
   font-family: Roboto;
   font-weight: bolder;
-  font-size:x-large;
+  font-size:large;
   color: #000;
 }
 .rowForm{
@@ -70,4 +70,27 @@ a {
 
 .labelForm{
   width: 20%;
+}
+
+.checkbox {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 17px;
+  visibility: hidden;
+  transform: scale(1.5);
+  content: " ";
+  background-color: #fff;
+  display: inline-block;
+  margin-left: 10px;
+  padding-bottom: 5px;
+  color: #fff;
+  width: 22px;
+  height: 25px;
+  visibility: visible;
+  border: 2px solid #00BFF0;
+  padding-left: 3px;
+  border-radius: 5px;
+  /* appearance: none; */
 }

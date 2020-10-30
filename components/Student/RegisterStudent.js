@@ -17,9 +17,6 @@ class RegistrationStudent extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
-    image:"",
-    takePassport :false,
-    valid:false,
     lga:[],
     stateNig:nigeriaData.map((x)=>x.state),
     arms:[]
@@ -117,42 +114,6 @@ class RegistrationStudent extends React.Component {
     const {loading}= student
     return (
       <Form onSubmit={this.handleSubmit}>
-            {/* <div style={{
-              justifyContent:'center',
-              alignItems:'center',
-              display:'flex',
-              flexDirection:'column',
-              marginBottom:15
-            }}>
-                {  this.state.image?
-                      <img src= {this.state.image}  style= {{width:200, height:200}}/>
-                    : (this.state.takePassport ?
-                 <Webcam audio={false} height={200}  ref={this.webcamRef} screenshotFormat="image/jpeg" width={250} videoConstraints={videoConstraints} />
-                  :
-                  <Image style={{fontSize:50,color:'#000' }} size={200} strokeWidth={1}/> )}
-               <div>
-                 <Button onClick= {this.setTakePassport} style={{margin:5}}>
-                    <Icon type='camera' /> { !this.state.takePassport? "Take a Passport":"Capture Passport"  }
-                  </Button>
-                 <Upload 
-                 showUploadList = {false}
-                 onChange={this.handleUpload}
-                 beforeUpload = {(file) => {
-                    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-                      if (!isJPG) {message.error('You can only upload JPG or PNG file!'); 
-                      this.setState({valid:false})
-                      return false;
-                      } else{ this.setState({valid:true})
-                       return true }}} > 
-                   <Button  style={{margin:5}}>
-                    <Icon type="upload" /> Upload Passport
-                  </Button>
-                 </Upload>
-                 <Button onClick= {this.deleteImage} style={{margin:5}}>
-                    <Icon type='delete' />  Delete Image
-                  </Button>
-               </div>
-            </div> */}
         <FormItem  required  {...formItemLayout} label="Admission date">
             {form.getFieldDecorator('admissionDate', {rules: [ {required: true,message: 'Please input  your admission date'}] })(<DatePicker format="YYYY/MM/DD"/>)}
         </FormItem>
@@ -170,7 +131,7 @@ class RegistrationStudent extends React.Component {
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Gender">
            {form.getFieldDecorator('gender', { initialValue: "", rules: [ {required: true,message: 'Please input  Gender'}] })(
-            <Select style={{ width: 120 }}>
+            <Select>
               <Option value={""}>Please Select a gender</Option>
               <Option value={1}>Male</Option>
               <Option value={2}>Female</Option>
@@ -179,7 +140,7 @@ class RegistrationStudent extends React.Component {
         </FormItem>
         <FormItem  required  {...formItemLayout} label="State">
         {form.getFieldDecorator('state', {  initialValue: "",rules: [ {required: true,message: 'Please input  State'}] })(
-            <Select onChange= {this.handleStateChange}  style={{ width: 320 }}>
+            <Select onChange= {this.handleStateChange} >
               <Option value={''}>Select Your State</Option>
               {
                 this.state.stateNig.map(d=>(
@@ -191,7 +152,7 @@ class RegistrationStudent extends React.Component {
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Local Government">
         {form.getFieldDecorator('lga', { initialValue: "",rules: [ {required: true,message: 'Please input  Local government area'}] })(
-            <Select style={{ width: 320 }}>
+            <Select>
               <Option value={''}>Select Your Local Government</Option>
               {
                 this.state.lga.map(d=>(
@@ -203,7 +164,7 @@ class RegistrationStudent extends React.Component {
         </FormItem>
         <FormItem    {...formItemLayout} label="Class">
         {form.getFieldDecorator('classN', {initialValue:"", rules: [ {required: true,message: 'Please input  Class'}]})(
-            <Select onChange={this.handleClassChange} style={{ width: 320 }}>
+            <Select onChange={this.handleClassChange}>
               <Option value={""}>Select Your Class</Option>
               {
                 classes.classes.map(d=>{
@@ -215,7 +176,7 @@ class RegistrationStudent extends React.Component {
         </FormItem>
         <FormItem   {...formItemLayout} label="Arm">
         {form.getFieldDecorator('arm', {initialValue:'',rules: [ {required: true,message: 'Please input  Arm'}] })(
-            <Select  style={{ width: 320 }}>
+            <Select>
               <Option value={''}>Select Your Arm</Option>
               {
                 this.state.arms.map(d=>{
