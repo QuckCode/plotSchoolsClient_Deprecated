@@ -51,6 +51,7 @@ export const classesReducer = (state = initialState, action) => {
             error:action.payload.error,
             classes: []
         };
+        
     default:
       return {...state};
   }
