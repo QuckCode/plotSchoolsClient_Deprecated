@@ -5,6 +5,9 @@ import {
   FETCH_ALL_SUBJECTS_BEGIN,
   FETCH_ALL_SUBJECTS_SUCCESS,
   FETCH_ALL_SUBJECTS_ERROR,
+  FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_BEGIN,
+  FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_SUCCESS,
+  FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_ERROR,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -17,11 +20,13 @@ export const createSubject = (data) => {
    .then(({data})=>{
         message.success("Created subject", 10)
          setTimeout( ()=>dispatch(createSubjectSuccess()),1000)
+         return Promise.resolve()
    })
-   .catch((error)=>{
-      console.log(error.response)
+   .catch(({response})=>{
+      console.log(response.data)
       message.error("PLease an error occurred")
-      dispatch(createSubjectError(error.response))
+      dispatch(createSubjectError(response.data))
+      return Promise.resolve(response.data)
    })
  };
 
@@ -51,9 +56,11 @@ export const getAllSubjects = (schoolID) => {
     .then(({data})=>{
        console.log(data)
           dispatch(getAllSubjectSuccess(data))
+          return Promise.resolve()
     })
-    .catch((error)=>{
-       dispatch(getAllSubjectError(error.response))
+    .catch(({response})=>{
+       dispatch(getAllSubjectError(response.data))
+       return Promise.reject(response.data)
     })
   };
 };
@@ -75,3 +82,37 @@ const getAllSubjectError= error=>({
      error
   }
 })
+
+export const getCurrentClassSubjects = (classId) => {
+  return dispatch => {
+    dispatch( getCurrentClassSubjectsBegin())
+    return axios.get(`${url}/class/subject/${classId}`)
+    .then(({data})=>{
+          dispatch(getCurrentClassSubjectsSuccess(data))
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(getCurrentClassSubjectsError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+};
+
+const getCurrentClassSubjectsBegin= ()=>({
+  type:FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_BEGIN
+})
+
+const getCurrentClassSubjectsSuccess= (currentClassSubjects)=>({
+  type:FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_SUCCESS,
+  payload:{
+    currentClassSubjects
+  }
+})
+
+const getCurrentClassSubjectsError= error=>({
+  type:FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_ERROR,
+  payload:{
+     error
+  }
+})
+
