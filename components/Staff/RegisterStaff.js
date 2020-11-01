@@ -21,103 +21,23 @@ class RegistrationStaff extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    console.log(this.props.form)
+    this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.createStaff({...values, dob:values.dob._d, employmentDate:values.employmentDate._d, school:school})
       }
     });
   };
 
-  capture = () => {
-    if(!this.webcamRef.current) return  message.error("Please delete the current image")
-    else{
-      const imageSrc = this.webcamRef.current.getScreenshot();
-     this.setState({image:imageSrc})
-    }
-  }
-  
-  setTakePassport= ()=>{
-    if(!this.state.takePassport)return  this.setState({takePassport:!this.state.takePassport})
-    else{
-      this.capture()
-      this.setState({takePassport:!this.state.takePassport})
-    }
-  }
-  handleUpload= (info)=>{
-    let fileList = [...info.fileList];
-    fileList = fileList.slice(-1);
-    fileList.forEach( (file, index)=>{
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        file.base64 = e.target.result;
-        if(this.state.valid) this.setState({image:e.target.result})
-      };
-      reader.readAsDataURL(file.originFileObj);
-    });
-    // console.log(fileList)
-    // this.setState({ fileList });
-
-  }
-
-    deleteImage= ()=>{
-      if(!this.state.image) return
-      else{
-        this.setState({image:""})
-      }
-    }
-     onFinish = (values) => {
-        console.log('Success:', values);
-      };
-    
-      onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-      };
-    
 
   render() {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const videoConstraints = { width: 500, height: 500,facingMode: "user"};
-    const {form, staff} = this.props
+    const {form, staff, departments, designations} = this.props
     return (
       <div className="p-4">
       <Form onSubmit={this.handleSubmit}>
-            {/* <div style={{
-              justifyContent:'center',
-              alignItems:'center',
-              display:'flex',
-              flexDirection:'column',
-              marginBottom:15
-            }}>
-                {  this.state.image?
-                      <img src= {this.state.image}  style= {{width:200, height:200}}/>
-                    : (this.state.takePassport ?
-                 <Webcam audio={false} height={200}  ref={this.webcamRef} screenshotFormat="image/jpeg" width={250} videoConstraints={videoConstraints} />
-                  :
-                  <Image style={{fontSize:50,color:'#000' }} size={200} strokeWidth={1}/> )}
-               <div>
-                 <Button onClick= {this.setTakePassport} style={{margin:5}}>
-                    <Icon type='camera' /> { !this.state.takePassport? "Take a Passport":"Capture Passport"  }
-                  </Button>
-                 <Upload 
-                 showUploadList = {false}
-                 onChange={this.handleUpload}
-                 beforeUpload = {(file) => {
-                    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-                      if (!isJPG) {message.error('You can only upload JPG or PNG file!'); 
-                      this.setState({valid:false})
-                      return false;
-                      } else{ this.setState({valid:true})
-                       return true }}} > 
-                   <Button  style={{margin:5}}>
-                    <Icon type="upload" /> Upload Passport
-                  </Button>
-                 </Upload>
-                 <Button onClick= {this.deleteImage} style={{margin:5}}>
-                    <Icon type='delete' />  Delete Image
-                  </Button>
-               </div>
-            </div> */}
           <FormItem name="firstName"   required {...formItemLayout} label="First Name">
           {form.getFieldDecorator('firstName', {rules: [ {required: true,message: 'Please input  First Name'}] })(<Input />)}
         </FormItem>
@@ -149,16 +69,26 @@ class RegistrationStaff extends React.Component {
         {form.getFieldDecorator('employmentDate', {rules: [ {required: true,message: 'Please input Employment Date'}] })(<DatePicker showToday={false} />)}
         </FormItem>
         <FormItem name="designation"  required  {...formItemLayout} label="Designation">
-        {form.getFieldDecorator('designation', {initialValue:""})(
+        {form.getFieldDecorator('designation', {initialValue:"", rules: [ {required: true,message: 'Please input designation'}]})(
             <Select>
-              <Option value={""}>Select Your Class</Option>
+              <Option value={""}>Select Your Designation</Option> 
+              {
+                 designations.map(value=>(
+                  <Option key={value._id} value={value._id}>{value.name}</Option> 
+                 ))
+              }
             </Select>
            )}
         </FormItem>
         <FormItem name="department"   required  {...formItemLayout} label="Department">
-        {form.getFieldDecorator('department', {initialValue:""})(
+        {form.getFieldDecorator('department', {initialValue:"", rules: [ {required: true,message: 'Please input department'}]})(
             <Select>
-              <Option value={""}>Select Your Class</Option>
+              <Option value={""}>Select Your Department</Option>
+              {
+                 departments.map(value=>(
+                  <Option key={value._id} value={value._id}>{value.name}</Option> 
+                 ))
+              }
             </Select>
            )}
         </FormItem>
