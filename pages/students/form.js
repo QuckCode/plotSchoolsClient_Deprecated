@@ -101,9 +101,9 @@ const printPDF =()=> {
                 <Row className=" rowForm flexRow">
                        <span className="textForm labelForm" > Sex: </span>
                       <div>
-                      <input type='checkbox'></input>
+                      <input disabled className="checkbox" type='checkbox'></input>
                       <span className="textForm" style={{marginLeft:10}} > Male  </span>
-                      <input type='checkbox' style={{marginLeft:40}}></input>
+                      <input disabled className="checkbox"  type='checkbox' style={{marginLeft:40}}></input>
                       <span className="textForm" style={{marginLeft:10}} > Female  </span>
                       </div>
                 </Row>

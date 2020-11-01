@@ -23,7 +23,6 @@ const MainHeader = ({
 ) => {
   const [state, dispatch] = useAppState();
   const [notifications] = useState(MockNotifications);
-  console.log(user)
   return (
     <DashHeader>
       <Header>

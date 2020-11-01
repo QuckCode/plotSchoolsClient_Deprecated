@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
@@ -11,7 +11,8 @@ import {
 } from 'react-feather';
 import { createStaff, getAllStaffs } from '../../redux/actions/staff';
 import { connect } from 'react-redux';
-
+import { getAllDesignations } from '../../redux/actions/designation';
+import { getAllDepartments } from '../../redux/actions/department';
 const Title = Typography.Title
 
 const Content = styled.div`
@@ -49,6 +50,10 @@ const menu = (
 );
 
 const RegisterStaffPage = (props) =>{
+  useEffect(()=>{
+    props.getAllDepartments()
+    props.getAllDesignations()
+  },[])
   return (
         <Card 
         title="Create New Staff"
@@ -63,7 +68,7 @@ const RegisterStaffPage = (props) =>{
         className="mb-4"> 
           <div className="p-4">
             <Content>
-            <RegisterStaff staff={props.staff} createStaff={props.createStaff}/>
+               <RegisterStaff designations={props.designations.designations} departments= {props.departments.departments} staff={props.staff} createStaff={props.createStaff}/>
             </Content>
           </div>
        </Card>
@@ -71,12 +76,16 @@ const RegisterStaffPage = (props) =>{
 };
 
 const mapStateToProps = state => ({
-  staff:state.staff
+  staff:state.staff,
+  designations:state.designation,
+  departments:state.departments
 });
 
 const mapDispatchToProps = {
   createStaff: createStaff,
-  getAllStaff:getAllStaffs
+  getAllStaff:getAllStaffs,
+  getAllDesignations:getAllDesignations,
+  getAllDepartments:getAllDepartments
 };
 
 

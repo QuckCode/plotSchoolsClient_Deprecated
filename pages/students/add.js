@@ -13,6 +13,8 @@ import { getAllClasses } from '../../redux/actions/classes';
 import { getAllArms } from '../../redux/actions/arm';
 import {connect} from 'react-redux'
 import { createStudent } from '../../redux/actions/student';
+import { getAllDesignations } from '../../redux/actions/designation';
+import { getAllDepartments } from '../../redux/actions/department';
 
 const Title = Typography.Title
 
@@ -54,10 +56,14 @@ const RegisterStudentPage = (props) =>{
   React.useEffect(() => {
     props.getAllClasses()
     props.getAllArms()
+    props.getAllDesignations()
+    props.getAllDepartments()
     return () => {
         // Anything in here is fired on component unmount.
         props.getAllClasses()
         props.getAllArms()
+        props.getAllDesignations()
+        props.getAllDepartments()
     }
 }, [])
   return (

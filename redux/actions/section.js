@@ -67,7 +67,7 @@ const getAllSectionSuccess= (sections)=>({
 })
 
 const getAllSectionError= error=>({
-  type:FETCH_ALL_SCHOOLS_ERROR,
+  type:FETCH_ALL_SECTION_ERROR,
   payload:{
      error
   }
