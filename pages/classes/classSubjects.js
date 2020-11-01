@@ -177,7 +177,7 @@ const ClassesSubjectsPage = (props) =>{
   )
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
+const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
     store.dispatch(getAllSection())
     store.dispatch(getAllClasses())
