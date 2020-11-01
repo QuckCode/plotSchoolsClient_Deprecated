@@ -7,7 +7,13 @@ import {
   FETCH_ALL_SUBJECTS_ERROR,
   FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_BEGIN,
   FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_ERROR,
-  FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_SUCCESS
+  FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_SUCCESS,
+  ADD_CLASS_SUBJECT_BEGIN,
+  ADD_CLASS_SUBJECT_ERROR,
+  ADD_CLASS_SUBJECT_SUCCESS,
+  REMOVE_CLASS_SUBJECT_BEGIN,
+  REMOVE_CLASS_SUBJECT_ERROR,
+  REMOVE_CLASS_SUBJECT_SUCCESS
 } from '../varables'
 
 const initialState = {
@@ -74,6 +80,38 @@ export const subjectsReducer = (state = initialState, action) => {
             error:action.payload.error,
             currentClassSubjects: []
         };
+        case ADD_CLASS_SUBJECT_BEGIN:
+          return {
+            ...state,
+            loading:true
+          };
+          case ADD_CLASS_SUBJECT_SUCCESS:
+            return {
+              ...state,
+              loading:false,
+          };
+          case ADD_CLASS_SUBJECT_ERROR:
+            return {
+              ...state,
+              loading:false,
+              error:action.payload.error
+          };
+          case REMOVE_CLASS_SUBJECT_BEGIN:
+            return {
+              ...state,
+              loading:true
+            };
+            case REMOVE_CLASS_SUBJECT_SUCCESS:
+              return {
+                ...state,
+                loading:false,
+            };
+            case REMOVE_CLASS_SUBJECT_ERROR:
+              return {
+                ...state,
+                loading:false,
+                error:action.payload.error
+            };
     default:
       return {...state};
   }

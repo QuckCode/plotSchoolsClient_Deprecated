@@ -8,6 +8,12 @@ import {
   FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_BEGIN,
   FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_SUCCESS,
   FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_ERROR,
+  ADD_CLASS_SUBJECT_BEGIN,
+  ADD_CLASS_SUBJECT_ERROR,
+  ADD_CLASS_SUBJECT_SUCCESS,
+  REMOVE_CLASS_SUBJECT_BEGIN,
+  REMOVE_CLASS_SUBJECT_SUCCESS,
+  REMOVE_CLASS_SUBJECT_ERROR,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -48,13 +54,80 @@ const createSubjectBegin= ()=>({
   }
  })
 
+ export const addSubjects = (data) => {
+  return dispatch => {
+    dispatch(addSubjectsBegin())
+     return axios.post(`${url}/class/subject/add`,data)
+      .then(({data})=>{
+
+          dispatch(addSubjectsSuccess())
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(addSubjectsError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+ 
+ };
+ 
+ 
+ const addSubjectsBegin= ()=>({
+   type:ADD_CLASS_SUBJECT_BEGIN,
+  })
+  
+  const addSubjectsSuccess= ()=>({
+   type:ADD_CLASS_SUBJECT_SUCCESS,
+  })
+  
+  const addSubjectsError= error=>({
+   type:  ADD_CLASS_SUBJECT_ERROR,
+   payload:{
+      error
+   }
+  })
+ 
+
+
+  export const removeSubject = (data) => {
+    return dispatch => {
+      dispatch(removeSubjectBegin())
+      return axios.post(` ${url}/class/subject/remove`,data)
+      .then(()=>{
+            dispatch(removeSubjectSuccess())
+            return Promise.resolve()
+      })
+      .catch(err=>{
+        console.log(err)
+        dispatch(removeSubjectError())
+        return Promise.reject()
+     })
+    };
+   
+   };
+   
+   
+   const removeSubjectBegin= ()=>({
+     type:REMOVE_CLASS_SUBJECT_BEGIN,
+    })
+    
+    const removeSubjectSuccess= ()=>({
+     type:REMOVE_CLASS_SUBJECT_SUCCESS,
+    })
+    
+    const removeSubjectError= error=>({
+     type:  REMOVE_CLASS_SUBJECT_ERROR,
+     payload:{
+        error
+     }
+    })
+   
 
 export const getAllSubjects = (schoolID) => {
   return dispatch => {
     dispatch( getAllSubjectBegin())
     return axios.get(`${url}/subject/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllSubjectSuccess(data))
           return Promise.resolve()
     })

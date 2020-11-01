@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const FetchStaffForm = ({form, sections, onLoadSubject, classes,disable}) => {
+const FetchStaffForm = ({form, sections, onLoadSubject, onSave, classes,disable}) => {
    
   const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
   const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
@@ -24,6 +24,7 @@ const  handleSubmit = e => {
     form.setFieldsValue({'class':''})
     setClasses(classes.filter(x=>x.sectionId==e))
  }
+
 
   return (
     <div className="p-4">
@@ -53,8 +54,11 @@ const  handleSubmit = e => {
          )}
       </FormItem>
       <FormItem  {...tailFormItemLayout}>
-        <Button disabled= {disable} type="primary" htmlType="submit">
+        <Button style={{margin:2}} disabled= {disable} type="primary" htmlType="submit">
           Load Subject
+        </Button>
+        <Button   onClick= {onSave} disabled= {!disable} type="primary" >
+           Save Changes 
         </Button>
       </FormItem>
     </Form>
