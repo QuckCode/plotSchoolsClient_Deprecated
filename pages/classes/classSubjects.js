@@ -173,7 +173,7 @@ const ClassesSubjectsPage = (props) =>{
           loadedSubject ?
           (
         <Row gutter={15}>
-          <Col span={12}>
+          <Col style={{marginTop:10}} span={12} lg={12} sm={24}  xs={24}  md={24}>
           <List
              bordered
              dataSource={subjects}
@@ -196,7 +196,7 @@ const ClassesSubjectsPage = (props) =>{
                )}
              />
           </Col>
-          <Col span={12}>
+          <Col style={{marginTop:10}}  span={12} lg={12} sm={24}  xs={24}  md={24}>
           <List
             
              bordered
