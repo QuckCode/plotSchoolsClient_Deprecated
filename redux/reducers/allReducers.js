@@ -9,6 +9,9 @@ import { sectionReducer } from './sectionReducer';
 import { staffReducer } from './staffReducer';
 import {studentReducer} from './studentReducer'
 import { subjectsReducer } from './subjectReducer';
+import { testReducer } from './testReducer';
+import {behaviourReducer} from './behaviourReducer'
+import { skillReducer } from './skillReducer';
 
 export const allReducers = combineReducers({
   departments:departmentReducer,
@@ -20,5 +23,8 @@ export const allReducers = combineReducers({
   staff:staffReducer,
   subject:subjectsReducer,
   auth:authReducer,
-  designation:designationReducer
+  designation:designationReducer,
+  test:testReducer,
+  behavior:behaviourReducer,
+  skill:skillReducer
 });
