@@ -50,7 +50,7 @@ const menu = (
 const RegisterDepartmentPage = props =>{
   return (
         <Card 
-        title="Create New Department"
+        title="Create New Designations"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />

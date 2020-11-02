@@ -60,7 +60,7 @@ const ViewDesignationPage = ({designation, getAllDesignations}) =>{
     }, [])
   return (
         <Card 
-          title="View  Departments"
+          title="View  Designation"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
