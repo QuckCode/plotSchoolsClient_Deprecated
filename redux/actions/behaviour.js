@@ -12,7 +12,7 @@ import axios from 'axios'
 export const createBehaviour = (data) => {
  return dispatch => {
    dispatch(createBehaviourBegin())
-   return axios.post(`${url}/test`,data)
+   return axios.post(`${url}/behaviour`,data)
    .then(({data})=>{
          setTimeout( ()=>dispatch(createBehaviourSuccess()),1000)
          return Promise.resolve()
@@ -46,7 +46,7 @@ const createBehaviourBegin= ()=>({
  export const getAllBehaviour = (schoolID) => {
   return dispatch => {
     dispatch( getAllBehaviourBegin())
-    return axios.get(`${url}/test/${school}`)
+    return axios.get(`${url}/behaviour/${school}`)
     .then(({data})=>{
           dispatch(getAllBehaviourSuccess(data))
     })

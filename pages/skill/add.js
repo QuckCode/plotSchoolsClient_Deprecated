@@ -13,6 +13,7 @@ import RegisterTestType from '../../components/Test/RegisterTestType';
 import { createTest } from '../../redux/actions/test';
 import  {connect} from 'react-redux'
 import { createSkill } from '../../redux/actions/skill';
+import RegisterSkillType from '../../components/Skill/RegisterSkillType';
 
 
 const Title = Typography.Title
@@ -65,7 +66,7 @@ const SkillAddPage = ({ createSkill, skill}) =>{
         className="mb-4"> 
           <div className="p-4">
             <Content>
-
+               <RegisterSkillType createSkill={createSkill} loading={skill.loading} />
             </Content>
           </div>
        </Card>

@@ -36,14 +36,14 @@ export const behaviourReducer = (state = initialState, action) => {
         return {
           ...state,
           loading:true,
-          tests: [],
+          behaviors : [],
 
         };
         case FETCH_ALL_BEHAVIOUR_SUCCESS:
           return {
             ...state,
             loading:false,
-            tests: action.payload.behaviors,
+            behaviors: action.payload.behaviors,
         };
         case FETCH_ALL_BEHAVIOUR_ERROR:
           return {
