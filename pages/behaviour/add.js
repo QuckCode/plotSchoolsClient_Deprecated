@@ -11,6 +11,7 @@ import {
 } from 'react-feather';
 import  {connect} from 'react-redux'
 import { createBehaviour } from '../../redux/actions/behaviour';
+import RegisterBehaviourType from '../../components/Behaviour/RegisterBehaviourType';
 
 
 const Title = Typography.Title
@@ -63,7 +64,7 @@ const BehaviorAddPage = ({ createBehaviour, behavior}) =>{
         className="mb-4"> 
           <div className="p-4">
             <Content>
-            
+             <RegisterBehaviourType behavior={behavior} createBehaviour={createBehaviour}/>
             </Content>
           </div>
        </Card>
