@@ -3,15 +3,16 @@ import { Table, Button , Icon, Avatar} from 'antd';
 import { useAppState } from '../shared/AppProvider';
 
 
-const BehaviourTable= ({behaviour})=>{
+const BehaviourTable= ({behaviour,getAllBehaviour})=>{
+  console.log(behaviour)
    const [tableHeight, setTableHeight] = React.useState(0)
    const [state] = useAppState()
    const columns = [
     {
-      title: 'Department',
+      title: 'Behavior',
       width: state.mobile?100:150,
       dataIndex: 'name',
-      key: 'name',
+      key: '_id',
     },
     {
       title: 'Action',
@@ -33,13 +34,13 @@ const BehaviourTable= ({behaviour})=>{
      
     <Table 
      columns={columns}   
-     loading={test.loading} 
+     loading={behaviour.loading} 
      bordered
      size="default"
-       pagination={true}  dataSource={test.tests} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
+       pagination={true}  dataSource={behaviour.behaviors} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
    )
 }
   
  
  
-export default TestTable ;
+export default BehaviourTable ;

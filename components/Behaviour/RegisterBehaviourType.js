@@ -4,7 +4,7 @@ import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 
 
-const  RegistrationBehaviourType = ({form, createTest, loading})=> {
+const  RegistrationBehaviourType = ({form, createBehaviour, loading})=> {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     console.log(form)
@@ -14,7 +14,7 @@ const  RegistrationBehaviourType = ({form, createTest, loading})=> {
          e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-               createTest({...values, school:school})
+               createBehaviour({...values, school:school})
                .then(()=>{
                   form.resetFields()
                   Modal.success({
@@ -31,7 +31,7 @@ const  RegistrationBehaviourType = ({form, createTest, loading})=> {
             }
           });
       }}>
-        <FormItem {...formItemLayout} label="Test/ Exam">
+        <FormItem {...formItemLayout} label="Behaviour">
         {form.getFieldDecorator('name', {rules: [ {required: true,message: 'Please Input  Department'}] })(<Input />)}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
