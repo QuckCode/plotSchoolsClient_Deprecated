@@ -11,19 +11,17 @@ const TestTable= ({test})=>{
       title: 'Department',
       width: state.mobile?100:150,
       dataIndex: 'name',
-      key: 'name',
+      key: '_id',
     },
     {
       title: 'Maximum Max Obtainable',
       width: state.mobile?100:150,
       dataIndex: 'marksObtainable',
-      key: 'marksObtainable',
     },
     {
       title: 'Parentage Of Total Score',
       width: state.mobile?100:150,
       dataIndex: 'parentageOfTotal',
-      key: '_id',
     },
     {
       title: 'Action',
