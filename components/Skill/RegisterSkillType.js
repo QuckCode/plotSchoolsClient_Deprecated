@@ -4,7 +4,7 @@ import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 
 
-const  RegistrationTestType = ({form, createTest, loading})=> {
+const  RegistrationSkillType = ({form, createSkill, loading})=> {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     console.log(form)
@@ -14,13 +14,13 @@ const  RegistrationTestType = ({form, createTest, loading})=> {
          e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-               createTest({...values, school:school})
+               createSkill({...values, school:school})
                .then(()=>{
                   form.resetFields()
                   Modal.success({
-                    title:"Create new test successfully"
+                    title:"Create new  successfully"
                   })
-                  form.resetFields(['name','marksObtainable','parentageOfTotal'])
+                  form.resetFields(['name'])
                })
                .catch(err=>{
                 Modal.error({
@@ -31,16 +31,8 @@ const  RegistrationTestType = ({form, createTest, loading})=> {
             }
           });
       }}>
-        <FormItem {...formItemLayout} label="Test/ Exam">
-        {form.getFieldDecorator('name', {rules: [ {required: true,message: 'Please Input  Department'}] })(<Input />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Mark Obtainable">
-        {form.getFieldDecorator('marksObtainable',  {  initialValue: 0, rules: [ {required: true,message: 'Please Input  Department'}] })(<InputNumber />)}
-        </FormItem>
-        <FormItem {...formItemLayout} label="Parentage Of Total">
-        {form.getFieldDecorator('parentageOfTotal', { initialValue: 0,rules: [ {required: true,message: 'Please Input The '}] })(
-          <InputNumber min={1} max={100} formatter={value => `${value}%`} parser={value => value.replace('%', '')}/>
-        )}
+        <FormItem {...formItemLayout} label="Skill">
+        {form.getFieldDecorator('name', {rules: [ {required: true,message: 'Please Input  Skill'}] })(<Input />)}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button  disabled={loading} type="primary" htmlType="submit">
@@ -52,4 +44,4 @@ const  RegistrationTestType = ({form, createTest, loading})=> {
     );
   }
 
-export default  Form.create()(RegistrationTestType);
+export default  Form.create()(RegistrationSkillType);
