@@ -5,6 +5,16 @@ import {
   FETCH_ALL_SKILL_BEGIN,
   FETCH_ALL_SKILL_ERROR,
   FETCH_ALL_SKILL_SUCCESS,
+  FETCH_ALL_SKILL_IN_CURRENT_SECTION_BEGIN,
+  FETCH_ALL_SKILL_IN_CURRENT_SECTION_ERROR,
+  FETCH_ALL_SKILL_IN_CURRENT_SECTION_SUCCESS,
+  ADD_SECTION_SKILL_BEGIN,
+  ADD_SECTION_SKILL_SUCCESS,
+  ADD_SECTION_SKILL_ERROR,
+  REMOVE_SECTION_SKILL_BEGIN,
+  REMOVE_SECTION_SKILL_SUCCESS,
+  REMOVE_SECTION_SKILL_ERROR,
+
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -75,3 +85,106 @@ const getAllSkillError= error=>({
      error
   }
 })
+
+
+
+export const getCurrentSectionSkill = (sectionId) => {
+  return dispatch => {
+    dispatch(getCurrentSectionSkillBegin())
+    return axios.get(`${url}/section/skill/${sectionId}`)
+    .then(({data})=>{
+          dispatch(getCurrentSectionSkillSuccess(data))
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+      console.log(response)
+       dispatch(getCurrentSectionSkillError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+};
+
+const getCurrentSectionSkillBegin= ()=>({
+  type:FETCH_ALL_SKILL_IN_CURRENT_SECTION_BEGIN
+})
+
+const getCurrentSectionSkillSuccess= (currentSectionSkills)=>({
+  type:FETCH_ALL_SKILL_IN_CURRENT_SECTION_SUCCESS,
+  payload:{
+    currentSectionSkills
+  }
+})
+
+const getCurrentSectionSkillError= error=>({
+  type:FETCH_ALL_SKILL_IN_CURRENT_SECTION_ERROR,
+  payload:{
+     error
+  }
+})
+
+
+export const addSectionSkill = (data) => {
+  return dispatch => {
+    dispatch(addSectionSkillBegin())
+     return axios.post(`${url}/section/skill/add`,data)
+      .then(({data})=>{
+          dispatch(addSectionSkillSuccess())
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(addSectionSkillError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+ 
+ };
+ 
+ 
+ const addSectionSkillBegin= ()=>({
+   type:ADD_SECTION_SKILL_BEGIN,
+  })
+  
+  const addSectionSkillSuccess= ()=>({
+   type:ADD_SECTION_SKILL_SUCCESS,
+  })
+  
+  const addSectionSkillError= error=>({
+   type: ADD_SECTION_SKILL_ERROR,
+   payload:{
+      error
+   }
+  })
+ 
+
+
+  export const removeSectionSkill = (data) => {
+    return dispatch => {
+      dispatch(removeSectionSkillBegin())
+      return axios.post(` ${url}/section/skill/remove`,data)
+      .then(()=>{
+            dispatch(removeSectionSkillSuccess())
+            return Promise.resolve()
+      })
+      .catch(err=>{
+        dispatch(removeSectionSkillError(err.response.data))
+        return Promise.reject(err.response.data)
+     })
+    };
+   
+   };
+   
+   
+   const removeSectionSkillBegin= ()=>({
+     type:REMOVE_SECTION_SKILL_BEGIN,
+    })
+    
+    const removeSectionSkillSuccess= ()=>({
+     type:REMOVE_SECTION_SKILL_SUCCESS,
+    })
+    
+    const removeSectionSkillError= error=>({
+     type: REMOVE_SECTION_SKILL_ERROR,
+     payload:{
+        error
+     }
+    })
