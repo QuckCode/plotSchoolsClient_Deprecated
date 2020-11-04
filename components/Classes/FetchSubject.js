@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const FetchStaffForm = ({form, sections, onLoadSubject, onSave, classes,disable}) => {
+const FetchSubjectForm = ({form, sections, onLoadSubject, onSave, classes,disable}) => {
    
   const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
   const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
@@ -68,4 +68,4 @@ const  handleSubmit = e => {
  
 
 
-export default   Form.create()(FetchStaffForm);
+export default   Form.create()(FetchSubjectForm);
