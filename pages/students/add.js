@@ -56,14 +56,10 @@ const RegisterStudentPage = (props) =>{
   React.useEffect(() => {
     props.getAllClasses()
     props.getAllArms()
-    props.getAllDesignations()
-    props.getAllDepartments()
     return () => {
         // Anything in here is fired on component unmount.
         props.getAllClasses()
         props.getAllArms()
-        props.getAllDesignations()
-        props.getAllDepartments()
     }
 }, [])
   return (
