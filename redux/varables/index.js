@@ -109,6 +109,9 @@ export const CREATE_TEST_ERROR="CREATE_TEST_ERROR"
 export const FETCH_ALL_TEST_BEGIN="FETCH_ALL_TEST_BEGIN"
 export const FETCH_ALL_TEST_ERROR="FETCH_ALL_TEST_ERROR"
 export const FETCH_ALL_TEST_SUCCESS="FETCH_ALL_TEST_SUCCESS"
+export const FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_BEGIN="FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_BEGIN"
+export const FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS="FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS"
+export const FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_ERROR="FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_ERROR"
 
 //Behaviour
 export const CREATE_BEHAVIOUR_BEGIN="CREATE_BEHAVIOUR_BEGIN"
@@ -129,7 +132,7 @@ export const REMOVE_SECTION_BEHAVIOUR_ERROR="REMOVE_SECTION_BEHAVIOUR_ERROR"
 
 
 ///parts
-export const url ="https://plotapi-tets.herokuapp.com"	
-export const school= `5f9183cad035174e94992476`
+export const url ="http://localhost:4000"
+export const school= `5f8c7ee1b9776e05f105a6db`
 export const student= 'student'
 export const staff= 'staff'

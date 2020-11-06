@@ -48,7 +48,6 @@ export const getAllStudents = (schoolID) => {
     dispatch( getAllStudentsBegin())
     return axios.get(`${url}/student/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllStudentsSuccess(data))
     })
     .catch((error)=>{

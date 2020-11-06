@@ -16,10 +16,8 @@ export const createDepartment = (data) => {
    dispatch(createDepartmentBegin())
    return axios.post(`${url}/department`,data)
    .then(({data})=>{
-       setTimeout( ()=>{
          dispatch(createDepartmentSuccess(data))
-          return Promise.resolve()
-       },1000)
+          return Promise.resolve((data))
    })
    .catch(({response})=>{
       dispatch(createDepartmentError(response.data))

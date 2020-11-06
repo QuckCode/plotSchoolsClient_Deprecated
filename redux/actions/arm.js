@@ -22,7 +22,7 @@ export const createArm = (data) => {
    })
    .catch((error)=>{
         message.error("Please an error occurred")
-      dispatch(createArmError(error.response))
+        dispatch(createArmError(error.response))
    })
  };
 };
@@ -48,7 +48,6 @@ export const getAllArms = (schoolID) => {
     dispatch( getAllArmsBegin())
     return axios.get(`${url}/arm/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllArmsSuccess(data))
     })
     .catch((error)=>{

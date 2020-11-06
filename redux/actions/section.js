@@ -46,7 +46,6 @@ export const getAllSection = (schoolID) => {
     dispatch( getAllSectionBegin())
     return axios.get(`${url}/section/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllSectionSuccess(data))
     })
     .catch((error)=>{

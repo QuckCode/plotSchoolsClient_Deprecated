@@ -48,9 +48,8 @@ export const getAllDesignations = (schoolID) => {
     dispatch( getAllDesignationsBegin())
     return axios.get(`${url}/designation/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllDesignationsSuccess(data))
-          return Promise.resolve()
+          return Promise.resolve((data))
     })
     .catch(({response})=>{
        dispatch(getAllDesignationsError(response.data))

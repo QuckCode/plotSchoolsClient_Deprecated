@@ -23,11 +23,10 @@ export const createBehaviour = (data) => {
    dispatch(createBehaviourBegin())
    return axios.post(`${url}/behaviour`,data)
    .then(({data})=>{
-         setTimeout( ()=>dispatch(createBehaviourSuccess()),1000)
-         return Promise.resolve()
+         dispatch(createBehaviourSuccess())
+         return Promise.resolve((data))
    })
    .catch(({response})=>{
-      console.log(response.data)
       dispatch(createBehaviourError(response.data))
       return Promise.reject(response.data)
    })
@@ -92,7 +91,6 @@ export const getCurrentSectionBehaviour = (sectionId) => {
           return Promise.resolve()
     })
     .catch(({response})=>{
-      console.log(response)
        dispatch(getCurrentSectionBehaviourError(response.data))
        return Promise.reject(response.data)
     })

@@ -98,7 +98,6 @@ const createSubjectBegin= ()=>({
             return Promise.resolve()
       })
       .catch(err=>{
-        console.log(err)
         dispatch(removeSubjectError())
         return Promise.reject()
      })

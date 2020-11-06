@@ -12,15 +12,19 @@ import {message} from 'antd'
 
 export const createClasses = (data) => {
  return dispatch => {
-   dispatch(createClassesBegin())
-   return axios.post(`${url}/class`,data)
-   .then(({data})=>{
-        message.success("Created Class", 10)
-       setTimeout( ()=>dispatch(createClassesSuccess(data)),1000)
-   })
-   .catch((error)=>{
-        message.error("Please an error occurred")
-      dispatch(createClassesError(error.response))
+   new Promise((resolve, reject)=>{
+    dispatch(createClassesBegin())
+    return axios.post(`${url}/class`,data)
+    .then(({data})=>{
+           message.success("Created Class", 10)
+           dispatch(createClassesSuccess(data))
+           resolve(data)
+    })
+    .catch((error)=>{
+         message.error("Please an error occurred")
+       dispatch(createClassesError(error.response.data))
+         reject(err.response.data)
+    })
    })
  };
 };
@@ -49,10 +53,11 @@ export const getAllClasses = (schoolID) => {
           dispatch(getAllClassesSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllClassesError(error.response))
+       dispatch(getAllClassesError(error.response.data))
+       return resolve(error.response.data)
+
     })
-  };
-};
+  }}
 
 const getAllClassesBegin= ()=>({
   type:FETCH_ALL_CLASSES_BEGIN

@@ -12,8 +12,7 @@ export const getAllSchools = (data) => {
     dispatch( getAllSchoolBegin())
     return axios.get(`${url}/schools`)
     .then(({data})=>{
-       console.log(data)
-          dispatch(getAllSchoolSuccess(data))
+          dispatch(getAllSchoolSuccess((data)))
     })
     .catch((error)=>{
        dispatch(getAllSchoolError(error.response))
