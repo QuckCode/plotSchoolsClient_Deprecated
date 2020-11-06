@@ -2,22 +2,13 @@
 import { Card, Divider, Row, Typography, Button,Checkbox, Menu, Dropdown, Form , Select, List, Col, Modal} from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
-import {
-  Edit,MoreHorizontal,
-  Printer,
-  Save,
-  Trash,
-} from 'react-feather';
-import { getAllClasses } from '../../redux/actions/classes';
+import {Edit,MoreHorizontal,Printer,Save,Trash,} from 'react-feather';
 import {connect} from 'react-redux'
 import {useEffect, useState} from 'react'
 import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
 import FetchSection from '../../components/Section/FetchSection';
-import { getAllBehaviour , getCurrentSectionBehaviour, removeSectionBehaviour , addSectionBehaviour} from '../../redux/actions/behaviour';
-
-const FormItem = Form.Item;
-const Option = Select.Option;
+import { getAllSkill, getCurrentSectionSkill, addSectionSkill, removeSectionSkill } from '../../redux/actions/skill';
 
 const Title = Typography.Title
 
@@ -54,7 +45,7 @@ const menu = (
   </Menu>
 );
 
-const SectionBehaviourPage = (props) =>{
+const SectionSkillPage = (props) =>{
   useEffect(() => {
       props.getAllSection()
       return ()=>{
@@ -62,27 +53,30 @@ const SectionBehaviourPage = (props) =>{
       }
   }, [])
 
-  const [loadedBehaviour, setLoadedBehaviour] = useState(false)
+  const [loadedSkill, setLoadedSkill] = useState(false)
   const [disableButton , setDisabledButton ] = useState(false)
   const [sectionId, setSectionId] = useState("")
   const [sectionName, setSectionName] = useState("")
-  const [addBehaviourList, setAddBehaviourList] = useState([])
-  const [removeBehaviourList, setRemoveBehaviourList] = useState([])
+  const [addSkillList, setAddSkillList] = useState([])
+  const [removeSkillList, setRemoveSkillList] = useState([])
 
 
-  const loadBehaviour= (value)=>{
-     props.getAllBehaviour()
+  const loadSkill= (value)=>{
+     props.getAllSkill()
      .then(()=>{
-       setSectionId(props.sections.section.find(x=>x._id===value.section)._id)
-       setSectionName(props.sections.section.find(x=>x._id===value.section).section)
-      props.getCurrentSectionBehaviour(sectionId)
+         setSectionId(props.sections.section.find(x=>x._id===value.section)._id)
+         setSectionName(props.sections.section.find(x=>x._id===value.section).section)
+        props.getCurrentSectionSkill(sectionId)
        .then(()=>{
            setDisabledButton(true)
-           setLoadedBehaviour(true)
+           setLoadedSkill(true)
  
        })
        .catch((err)=>{
-          console.log(err)
+        return Modal.error({
+          title:err.title,
+          content:err.message
+        })
 
        })
      })
@@ -94,37 +88,37 @@ const SectionBehaviourPage = (props) =>{
      })
  }
 
- const addSectionBehaviour= (e)=>{
+ const addSectionSkill= (e)=>{
    if(e.target.checked){
-     if(!addBehaviourList.includes(e.target.value)){
-      return  setAddBehaviourList([...addBehaviourList,e.target.value])
+     if(!addSkillList.includes(e.target.value)){
+      return  setAddSkillList([...addSkillList,e.target.value])
      }
    }
-   return setAddBehaviourList(addBehaviourList.filter(x => x!==e.target.value))
+   return setAddSkillList(addSkillList.filter(x => x!==e.target.value))
  }
 
 
- const removeSectionBehaviour= (e)=>{
+ const removeSectionSkill= (e)=>{
   if(e.target.checked){
-    if(!removeBehaviourList.includes(e.target.value)){
-     return  setRemoveBehaviourList([...removeBehaviourList,e.target.value])
+    if(!removeSkillList.includes(e.target.value)){
+     return  setRemoveSkillList([...removeSkillList,e.target.value])
     }
   }
-  return setRemoveBehaviourList(removeBehaviourList.filter(x => x!==e.target.value))
+  return setRemoveSkillList(removeSkillList.filter(x => x!==e.target.value))
  }
 
-  const  saveRemovedBehaviour = ()=>{
-   props.removeSectionBehaviour({
+  const  saveRemovedSkill = ()=>{
+   props.removeSectionSkill({
       sectionId:sectionId,
-      behaviour:removeBehaviourList
+      skills:removeSkillList
     })
     .then(()=>{
       Modal.success({
-        title:"Removed Behaviour"  
+        title:"Removed Skill"  
       })
-      props.getAllBehaviour()
-      props.getCurrentSectionBehaviour(sectionId)
-      setRemoveBehaviourList([])
+      props.getAllSkill()
+      props.getCurrentSectionSkill(sectionId)
+      setRemoveSkillList([])
     })
     .catch(err=>{
       Modal.error({
@@ -134,18 +128,18 @@ const SectionBehaviourPage = (props) =>{
     })
   }
 
-  const saveAddedBehaviour = ()=>{
-    props.addSectionBehaviour({
+  const saveAddedSkill = ()=>{
+    props.addSectionSkill({
       sectionId:sectionId,
-      behaviour:addBehaviourList
+      skills:addSkillList
     })
     .then(()=>{
       Modal.success({
-        title:"Save Behaviour"  
+        title:"Save Skill"  
       })
-      props.getAllBehaviour()
-      props.getCurrentSectionBehaviour(sectionId)
-      setAddBehaviourList([])
+      props.getAllSkill()
+      props.getCurrentSectionSkill(sectionId)
+      setAddSkillList([])
     })
     .catch(err=>{
       Modal.error({
@@ -157,11 +151,11 @@ const SectionBehaviourPage = (props) =>{
 
 
   
- const { behaviors, currentSectionBehaviour, loading} = props.behaviour
+ const { skills, currentSectionSkills, loading} = props.skill
   return (
      <div>
         <Card 
-          title="Section Behaviour"
+          title="Section Skill"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -171,34 +165,34 @@ const SectionBehaviourPage = (props) =>{
         className="mb-10"> 
          <div className="p-4">
          <Content>
-               <FetchSection type="Behaviour"  onSave= {()=>{
-                 setLoadedBehaviour(false)
+               <FetchSection type="Skills  "  onSave= {()=>{
+                 setLoadedSkill(false)
                  setDisabledButton(false)}
-                 } disable= {disableButton} loading={loading} sections={props.sections.section}  onLoad= {loadBehaviour} />
+                 } disable= {disableButton} loading={loading} sections={props.sections.section}  onLoad= {loadSkill} />
          </Content>
          {
-          loadedBehaviour ?
+          loadedSkill ?
           (
         <Row gutter={15}>
           <Col style={{marginTop:10}} span={12} lg={12} sm={24}  xs={24}  md={24}>
           <List
              bordered
-             dataSource={behaviors}
+             dataSource={skills}
              header= {
                <div>
-                <Typography.Title level={4}> All School Behaviors</Typography.Title>
+                <Typography.Title level={4}> All School Skills</Typography.Title>
                </div>
              }
 
              footer = {
               <div>
-                 <Button onClick={saveAddedBehaviour}   disabled= {addBehaviourList.length==0 } type="primary" >  Add Subjects </Button>
+                 <Button  onClick={saveAddedSkill}  disabled= {addSkillList.length==0 } type="primary" >  Add Subjects </Button>
                </div>
              }
-             loading={props.behaviour.loading}
+             loading={props.skill.loading}
              renderItem={item => (
                <List.Item>
-                  <Checkbox onChange={addSectionBehaviour} key={item._id} value= {item._id}> {item.name}</Checkbox>
+                  <Checkbox onChange={addSectionSkill} key={item._id} value= {item._id}> {item.name}</Checkbox>
                </List.Item>
                )}
              />
@@ -209,19 +203,19 @@ const SectionBehaviourPage = (props) =>{
              bordered
              header= {
                <div>
-                <Typography.Title level={4}> {sectionName} Behaviors</Typography.Title>
+                <Typography.Title level={4}> {sectionName} Skills </Typography.Title>
                </div>
              }
              footer = {
               <div>
-                 <Button onClick={saveRemovedBehaviour} disabled= {removeBehaviourList.length==0} type='danger' >  Remove  Subjects </Button>
+                 <Button onClick={saveRemovedSkill} disabled= {removeSkillList.length==0} type='danger' >  Remove  Subjects </Button>
                </div>
              }
-             dataSource={currentSectionBehaviour}
+             dataSource={currentSectionSkills}
              loading={loading}
              renderItem={item => (
                <List.Item>
-                 <Checkbox onChange= {removeSectionBehaviour} key={item._id}  value={item._id}> {item.name}</Checkbox>
+                 <Checkbox onChange= {removeSectionSkill} key={item._id}  value={item._id}> {item.name}</Checkbox>
                </List.Item>
                )}
              />
@@ -254,17 +248,15 @@ const getServerSideProps = wrapper.getServerSideProps(
 
 const mapStateToProps = state => ({
   sections: state.section,
-  behaviour:state.behavior,
-
+  skill:state.skill,
 });
 
 const mapDispatchToProps = {
   getAllSection:getAllSection,
-  getAllBehaviour:getAllBehaviour,
-  getCurrentSectionBehaviour:getCurrentSectionBehaviour,
-  addSectionBehaviour:addSectionBehaviour,
-  removeSectionBehaviour:removeSectionBehaviour
-
+  getAllSkill:getAllSkill,
+  getCurrentSectionSkill:getCurrentSectionSkill,
+  addSectionSkill:addSectionSkill,
+  removeSectionSkill:removeSectionSkill
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(SectionBehaviourPage)
+export default  connect(mapStateToProps, mapDispatchToProps)(SectionSkillPage)
