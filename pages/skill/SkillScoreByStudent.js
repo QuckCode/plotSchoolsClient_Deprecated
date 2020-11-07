@@ -126,13 +126,13 @@ const TestAddPage = (props) =>{
           <div className="p-2">
               <TestScoreFormSubject    getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
               {
-                !hiddenTable ?(
+                hiddenTable
+                ?(
+                  <></>
+                ):(
                   <Table size='small' scroll={true} footer={()=>(
                      <Button type="primary"> Submit  Student Score </Button>
                    )} pagination={false} bordered columns={columns} dataSource={props.testBySubject.students} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
-                )
-                :(
-                  <></>
                 )
               }
           </div>
@@ -167,7 +167,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 )
 
 const mapDispatchToProps = {
-  getStudentTestScore:getStudentTestScore
+ 
 };
 
 

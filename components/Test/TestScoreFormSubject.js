@@ -29,7 +29,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
          e.preventDefault();
           form.validateFields((err, values) => {
             if (!err) {
-              getStudentTestScore(values)
+              getStudentTestScore(values,tests )
               .then(x=>{
                 Modal.success({
                    title:"Found student successfully"
