@@ -16,7 +16,7 @@ import { getAllSubjects} from '../../redux/actions/subject';
 import {getAllArms} from '../../redux/actions/arm'
 import {getStudentTestScore} from '../../redux/actions/test'
 import  {connect} from 'react-redux'
-import TestScoreFormSubject from '../../components/Test/TestScoreFormSubject';
+import TestScoreForm from '../../components/Test/TestScoreForm';
 import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
@@ -59,6 +59,9 @@ const menu = (
   </Menu>
 );
 const TestAddPage = (props) =>{
+  const handleScoreChange= (e)=>{
+    console.log(e.target.value)
+  }
   const [test,setTest] = useState({})
   const [state] = useAppState()
   const [tableHeight, setTableHeight] = React.useState(0)
@@ -93,7 +96,6 @@ const TestAddPage = (props) =>{
       key: 'score',
       width:state.mobile?150:150,
       render: (x, c) =>{
-        console.log(c.hasScore || x!==0)
         return ( 
         <div style={{ textAlign: "center"}}>
               <InputNumber  min={0}  max={20} type="danger" style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
@@ -105,7 +107,6 @@ const TestAddPage = (props) =>{
 
   const getStudentTestScore =(value, tests)=> {
     setTest(tests.find((x)=>x._id===value.testId))
-    setHiddenTable(false)
     return props.getStudentTestScore(value)
   }
   React.useEffect(() => {
@@ -124,7 +125,7 @@ const TestAddPage = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-              <TestScoreFormSubject    getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
+              <TestScoreForm  getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
               {
                 hiddenTable
                 ?(
@@ -142,7 +143,7 @@ const TestAddPage = (props) =>{
 };
 
 const mapStateToProps = state => ({
-    // testBySubject : state.test.testBySubject
+    testBySubject : state.test.testBySubject
 });
 
 

@@ -94,7 +94,6 @@ export const getStudentTestScore = (value) => {
            return Promise.resolve((data))
     })
     .catch((error)=>{
-      console.log(error)
        dispatch(getStudentTestScoreError(error.response.data))
        return Promise.reject(error.response.data)
     })

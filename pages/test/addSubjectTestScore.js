@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, InputNumber, Button } from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, Input, Button, Modal, Form } from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -60,9 +60,28 @@ const menu = (
 );
 const TestAddPage = (props) =>{
   const [test,setTest] = useState({})
+  const [className,setClassName] = useState("")
   const [state] = useAppState()
   const [tableHeight, setTableHeight] = React.useState(0)
   const [hiddenTable, setHiddenTable] = useState(true)
+  const [dataSource, setDataSource] = useState(props.testBySubject.students)
+
+
+  useEffect(()=>{
+    if(props.testBySubject.students.length==0){
+      setHiddenTable(true)
+    }
+    setDataSource(props.testBySubject.students)
+  },[props.testBySubject.students])
+
+  const handleScoreChange= (e, c)=>{
+    console.log(e.target.max)
+    let scoreIndex = dataSource.findIndex(x=>x.userId==c.userId)
+    let scoreList = [...dataSource]
+    scoreList[scoreIndex] = {...scoreList[scoreIndex], score:parseInt(e.target.value)}
+    setDataSource(scoreList)
+  }
+
   const columns = [
     {
       title: 'Admission Number',
@@ -93,10 +112,9 @@ const TestAddPage = (props) =>{
       key: 'score',
       width:state.mobile?150:150,
       render: (x, c) =>{
-        console.log(c.hasScore || x!==0)
         return ( 
         <div style={{ textAlign: "center"}}>
-              <InputNumber  min={0}  max={20} type="danger" style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
+              <Input type="number" onChange={(e)=>handleScoreChange(e,c)}  min={0}  max={test.marksObtainable? test.marksObtainable :0}  style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
         </div>
       )
      }
@@ -105,8 +123,12 @@ const TestAddPage = (props) =>{
 
   const getStudentTestScore =(value, tests)=> {
     setTest(tests.find((x)=>x._id===value.testId))
-    setHiddenTable(false)
+    value.subjectName=props.subject.subjects.find((x)=>x._id===value.subjectId).name
     return props.getStudentTestScore(value)
+    .then(x=>{
+      setHiddenTable(false)
+    })
+
   }
   React.useEffect(() => {
     setTableHeight(window.innerHeight-280)
@@ -129,7 +151,7 @@ const TestAddPage = (props) =>{
                 !hiddenTable ?(
                   <Table size='small' scroll={true} footer={()=>(
                      <Button type="primary"> Submit  Student Score </Button>
-                   )} pagination={false} bordered columns={columns} dataSource={props.testBySubject.students} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
+                   )} pagination={false} bordered columns={columns} dataSource={dataSource} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
                 )
                 :(
                   <></>
