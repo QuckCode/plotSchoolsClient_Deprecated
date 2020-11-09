@@ -6,7 +6,7 @@ import { useAppState } from '../shared/AppProvider';
 const FormItem = Form.Item;
 const Option = Select.Option
 
-const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, subjects, getStudentTestScore})=> {
+const  TestScoreFormSubject = ({form,disable,handleSaveChange, sections,classes,arms, tests, subjects, getStudentTestScore})=> {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const [classList , setClassList] = useState([])
@@ -46,7 +46,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
       }}>
         <FormItem style={{width:"70%"}} {...formItemLayout} label="Section">
         {form.getFieldDecorator('sectionId', {  initialValue: "",rules: [ {required: true,message: 'Please select a section'}] })(
-          <Select onChange={handleSectionChange}>
+          <Select disabled={disable} onChange={handleSectionChange}>
              <Option value={""}>   Please select an section </Option>
                {
                  sections.map(x=>(
@@ -58,7 +58,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
         </FormItem>
         <FormItem style={{width:"70%"}} {...formItemLayout} label="Class">
         {form.getFieldDecorator('classId', { initialValue: "",rules: [ {required: true,message: 'Please select a class'}] })(
-          <Select onChange={handleClassChange}>
+          <Select disabled={disable} onChange={handleClassChange}>
              <Option value={""}>  Please select an class </Option>
                {
                  classList.map(x=>(
@@ -70,7 +70,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
         </FormItem>
         <FormItem style={{width:"70%"}} {...formItemLayout} label="Arm">
         {form.getFieldDecorator('armId', { initialValue: "", rules: [ {required: true,message: 'Please select a arm'}] })(
-          <Select>
+          <Select disabled={disable}>
              <Option value={""}>  Please select an arm </Option>
                {
                  armList.map(x=>(
@@ -83,7 +83,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
         </FormItem>
         <FormItem style={{width:"70%"}} {...formItemLayout} label="Test/Exam">
         {form.getFieldDecorator('testId', { initialValue: "",rules: [ {required: true,message: 'Please select a test/exam'}] })(
-          <Select>
+          <Select disabled={disable}>
              <Option value={""}>  Please select an test/exam </Option>
              {
                  tests.map(x=>(
@@ -95,7 +95,7 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
         </FormItem>
         <FormItem style={{width:"70%"}} {...formItemLayout} label="Subject">
         {form.getFieldDecorator('subjectId', { initialValue: "",rules: [ {required: true,message: 'Please select a subject'}] })(
-          <Select>
+          <Select disabled={disable}>
              <Option value={""}>  Please select an subject </Option>
              {
                  subjects.map(x=>(
@@ -106,8 +106,11 @@ const  TestScoreFormSubject = ({form,clientTest, sections,classes,arms, tests, s
         )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button  type="primary" htmlType="submit">
+          <Button  disabled={disable} type="primary" htmlType="submit">
             Load Student
+          </Button>
+          <Button onClick={handleSaveChange} style={{margin:10}}  disabled={!disable} type="primary">
+             Save Changes
           </Button>
         </FormItem>
       </Form>

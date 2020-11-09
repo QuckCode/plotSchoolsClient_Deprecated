@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, InputNumber, Button } from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table, Tag,Input, Divider, Col,Avatar, InputNumber, Button , Pagination, Popconfirm} from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -14,13 +14,14 @@ import { getAllClasses} from '../../redux/actions/classes';
 import { getAllSection} from '../../redux/actions/section';
 import { getAllSubjects} from '../../redux/actions/subject';
 import {getAllArms} from '../../redux/actions/arm'
-import {getStudentTestScore} from '../../redux/actions/test'
+import {getAllStudentAndSubject} from '../../redux/actions/test'
 import  {connect} from 'react-redux'
 import TestScoreForm from '../../components/Test/TestScoreForm';
 import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
+const { Search } = Input;
 
 
 const Title = Typography.Title
@@ -59,59 +60,69 @@ const menu = (
   </Menu>
 );
 const TestAddPage = (props) =>{
-  const handleScoreChange= (e)=>{
-    console.log(e.target.value)
-  }
   const [test,setTest] = useState({})
   const [state] = useAppState()
   const [tableHeight, setTableHeight] = React.useState(0)
   const [hiddenTable, setHiddenTable] = useState(true)
+
+  const [dataSource, setDataSource] = useState(props.testByStudent.students)
+
+
+  useEffect(()=>{
+    if(props.testByStudent.students.length==0){
+      setHiddenTable(true)
+    }
+    setDataSource(props.testByStudent.students)
+  },[props.testByStudent.students])
+
+
+  
+  const onSearch = value => console.log(value);
+
+  const getStudentTestScore =(value, tests)=> {
+    setTest(tests.find((x)=>x._id===value.testId))
+    return props.getAllStudentAndSubject(value)
+    .then(err=>{
+      setHiddenTable(false)
+    })
+  }
+  React.useEffect(() => {
+    setTableHeight(window.innerHeight-280)
+  }, []);
+
+  const handleScoreChange= (e, c)=>{
+    if(((parseInt(e.target.value)!==NaN)&& !(parseInt(e.target.value)>e.target.max))){
+      let scoreIndex = dataSource.findIndex(x=>x.userId==c.userId)
+      let scoreList = [...dataSource]
+       let subjectIndex = scoreList[scoreIndex].studentTestScore.findIndex(x=>x.subjectId==c.subjectId)
+       scoreList[scoreIndex].studentTestScore[subjectIndex].score=parseInt(e.target.value)
+      setDataSource(scoreList)
+    }
+    else{
+
+    }
+  }
   const columns = [
-    {
-      title: 'Admission Number',
-      dataIndex: 'admissionNumber',
-      key: 'admissionNumber',
-      width:state.mobile?150:150,
-    },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width:state.mobile?150:150,
-    },
-    {
-      title: 'Passport',
-      dataIndex: 'passport',
-      key: 'passport',
-      width:state.mobile?150:150,
-      render: (x) =>( 
-        <div style={{ textAlign: "center"}}>
-              <Avatar style={{width:30, height:30}} size='small' src={x} />
-        </div>
-      )
+      // width:state.mobile?100:100,
     },
     {
       title: `Score ${test.marksObtainable? String(test.marksObtainable) +'/' +String(100) :``}`,
       dataIndex: 'score',
       key: 'score',
-      width:state.mobile?150:150,
+      // width:state.mobile?100:100,
       render: (x, c) =>{
         return ( 
         <div style={{ textAlign: "center"}}>
-              <InputNumber  min={0}  max={20} type="danger" style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
+              <Input type="number" onChange={(e)=>handleScoreChange(e,c)}  min={0}  max={test.marksObtainable? test.marksObtainable :0}  style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
         </div>
       )
      }
     },
   ];
-
-  const getStudentTestScore =(value, tests)=> {
-    setTest(tests.find((x)=>x._id===value.testId))
-    return props.getStudentTestScore(value)
-  }
-  React.useEffect(() => {
-    setTableHeight(window.innerHeight-280)
-  }, []);
   
   return (
     <>
@@ -125,17 +136,54 @@ const TestAddPage = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-              <TestScoreForm  getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
+
               {
                 hiddenTable
                 ?(
-                  <></>
+                  <TestScoreForm  getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
                 ):(
-                  <Table size='small' scroll={true} footer={()=>(
-                     <Button type="primary"> Submit  Student Score </Button>
-                   )} pagination={false} bordered columns={columns} dataSource={props.testBySubject.students} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
+                   <div>
+                     <Row gutter={[48,0]}>
+                      <Col xs={24} lg={9} style={{paddingBottom:20}} span={9} >
+                         <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
+                      </Col>
+                      <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
+                           <Pagination simple defaultCurrent={1} total={dataSource.length*10} />
+                      </Col>
+                      <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
+                         <Typography.Text strong level={4}> Student 1 of {dataSource.length} </Typography.Text>
+                      </Col>
+                     </Row>
+                     <Divider/>
+                     
+                     <Row gutter={[48, 48]}>
+                      <Col span={16}>
+                         <Typography.Text strong level={4}> Name Of Student: {dataSource[0]? dataSource[0].name :""}  </Typography.Text>
+                         <br/>
+                         <br/>
+                         <Typography.Text strong level={4}> Admission Number: {dataSource[0]? dataSource[0].admissionNumber:""}  </Typography.Text>
+                      </Col>
+                      <Col span={7}>
+                           <Avatar style={{width:100, height:100}} shape="square" size="large"  src={dataSource[0]? dataSource[0].passport:""}/>
+                      </Col>
+                     </Row>
+                     <Row gutter={[48, 48]}>
+                      <Col xs={24} lg={12}  span={12}>
+                      <Table size='small' footer={()=>(
+                          <Popconfirm placement="topLeft" title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
+                              <Button type="primary"> Submit  Student Score </Button>
+                        </Popconfirm>
+                        )} pagination={false} bordered columns={columns} dataSource={dataSource.length>0?dataSource[0].studentTestScore:[] }   />
+
+                      </Col>          
+                     </Row>
+
+                   </div>
                 )
               }
+              <Row>
+              { hiddenTable? ( <></>) : (<Button style={{margin:10}} icon="arrow-left" onClick={()=>setHiddenTable(true)}> Go Back To Form</Button>) } 
+              </Row>
           </div>
        </Card>
     </>
@@ -143,7 +191,7 @@ const TestAddPage = (props) =>{
 };
 
 const mapStateToProps = state => ({
-    testBySubject : state.test.testBySubject
+    testByStudent : state.test.testByStudent
 });
 
 
@@ -168,7 +216,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 )
 
 const mapDispatchToProps = {
- 
+ getAllStudentAndSubject
 };
 
 

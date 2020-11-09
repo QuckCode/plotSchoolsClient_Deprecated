@@ -24,7 +24,6 @@ const  TestScoreForm = ({form,clientTest, sections,classes,arms, tests, subjects
  }
 
     return (
-      <div className="p-2">
       <Form onSubmit= {(e)=>{
          e.preventDefault();
           form.validateFields((err, values) => {
@@ -99,7 +98,6 @@ const  TestScoreForm = ({form,clientTest, sections,classes,arms, tests, subjects
           </Button>
         </FormItem>
       </Form>
-      </div>
     );
   }
 

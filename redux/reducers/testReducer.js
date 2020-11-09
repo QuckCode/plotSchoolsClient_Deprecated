@@ -8,6 +8,9 @@ import {
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_BEGIN,
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS,
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_ERROR,
+  FETCH_All_STUDENT_TEST_BEGIN,
+  FETCH_All_STUDENT_TEST_SUCCESS,
+  FETCH_All_STUDENT_TEST_ERROR,
 } from '../varables'
 
 const initialState = {
@@ -17,7 +20,12 @@ const initialState = {
   currentClassTests: [],
   testBySubject:{
     subject:{},
-    students:[]
+    students:[],
+    loading:true
+  },
+  testByStudent:{
+    students:[],
+    loading:true
   }
 };
 
@@ -67,6 +75,7 @@ export const testReducer = (state = initialState, action) => {
             testBySubject:{
               subject:{},
               students:[],
+              test:{}
             }
         };
         case FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS:
@@ -75,7 +84,8 @@ export const testReducer = (state = initialState, action) => {
             error:{},
             testBySubject:{
               subject:action.payload.subject,
-              students:action.payload.students
+              students:action.payload.students,
+              test:action.payload.test
             }
         };
         case FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_ERROR:
@@ -85,7 +95,36 @@ export const testReducer = (state = initialState, action) => {
             error:action.payload.error,
             testBySubject:{
               subject:{},
-              students:[]
+              students:[],
+              test:{}
+            }
+        };
+        case FETCH_All_STUDENT_TEST_BEGIN:
+          return {
+            ...state,
+            loading:false,
+            testByStudent:{
+              students:[],
+              loading:true
+            }
+        };
+        case FETCH_All_STUDENT_TEST_SUCCESS:
+          return {
+            ...state,
+            loading:false,
+            testByStudent:{
+              students:action.payload.students,
+              loading:false
+            }
+        };
+        case FETCH_All_STUDENT_TEST_ERROR:
+          return {
+            ...state,
+            loading:false,
+            error:action.payload.error,
+            testByStudent:{
+              students:[],
+              loading:false
             }
         };
     default:

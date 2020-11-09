@@ -8,6 +8,9 @@ import {
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_BEGIN,
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_ERROR,
   FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS,
+  FETCH_All_STUDENT_TEST_BEGIN,
+  FETCH_All_STUDENT_TEST_ERROR,
+  FETCH_All_STUDENT_TEST_SUCCESS,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -108,7 +111,8 @@ const getStudentTestScoreSuccess= (data)=>({
   type:FETCH_STUDENT_TEST_SCORE_BY_SUBJECT_SUCCESS,
   payload:{
    students:data.students,
-   subject:data.subject
+   subject:data.subject,
+   test:data.test
   }
 })
 
@@ -119,3 +123,36 @@ const getStudentTestScoreError= error=>({
   }
 })
 
+
+export const getAllStudentAndSubject = (value) => {
+  return dispatch => {
+    dispatch( getAllStudentAndSubjectBegin())
+    return axios.post(`${url}/student/arm/subject/score/all`, {...value})
+    .then(({data})=>{
+          dispatch(getAllStudentAndSubjectSuccess(data))
+           return Promise.resolve((data))
+    })
+    .catch((error)=>{
+       dispatch(getAllStudentAndSubjectError(error.response.data))
+       return Promise.reject(error.response.data)
+    })
+  };
+};
+
+const getAllStudentAndSubjectBegin = ()=>({
+  type:FETCH_All_STUDENT_TEST_BEGIN
+})
+
+const getAllStudentAndSubjectSuccess= (data)=>({
+  type:FETCH_All_STUDENT_TEST_SUCCESS,
+  payload:{
+   students:data
+  }
+})
+
+const getAllStudentAndSubjectError= error=>({
+  type:FETCH_All_STUDENT_TEST_ERROR,
+  payload:{
+     error
+  }
+})

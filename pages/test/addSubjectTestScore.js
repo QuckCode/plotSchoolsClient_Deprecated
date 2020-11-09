@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, Input, Button, Modal, Form } from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table,Avatar, Input, Button, Popconfirm, Modal, Icon } from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -21,7 +21,8 @@ import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
-
+import axios from 'axios'
+import { url } from '../../redux/varables';
 
 const Title = Typography.Title
 
@@ -60,7 +61,6 @@ const menu = (
 );
 const TestAddPage = (props) =>{
   const [test,setTest] = useState({})
-  const [className,setClassName] = useState("")
   const [state] = useAppState()
   const [tableHeight, setTableHeight] = React.useState(0)
   const [hiddenTable, setHiddenTable] = useState(true)
@@ -75,11 +75,30 @@ const TestAddPage = (props) =>{
   },[props.testBySubject.students])
 
   const handleScoreChange= (e, c)=>{
-    console.log(e.target.max)
-    let scoreIndex = dataSource.findIndex(x=>x.userId==c.userId)
-    let scoreList = [...dataSource]
-    scoreList[scoreIndex] = {...scoreList[scoreIndex], score:parseInt(e.target.value)}
-    setDataSource(scoreList)
+    if(((parseInt(e.target.value)!==NaN)&& !(parseInt(e.target.value)>e.target.max))){
+      let scoreIndex = dataSource.findIndex(x=>x.userId==c.userId)
+      let scoreList = [...dataSource]
+      scoreList[scoreIndex] = {...scoreList[scoreIndex], score:parseInt(e.target.value), hasScore:true}
+      setDataSource(scoreList)
+    }
+    else{
+
+    }
+  }
+
+  const handleScoreSheetSubmit= ()=>{
+    axios.post(`${url}/student/subject/score/save`,{test:props.testBySubject.test,subject:props.testBySubject.subject,students: dataSource } )
+    .then((data)=>{
+         Modal.success({
+          title:"Save students records successfully "
+        })
+    })
+    .catch(err=>{
+       Modal.error({
+        title:err.title,
+        content:err.message
+      })
+    })
   }
 
   const columns = [
@@ -130,6 +149,9 @@ const TestAddPage = (props) =>{
     })
 
   }
+
+
+
   React.useEffect(() => {
     setTableHeight(window.innerHeight-280)
   }, []);
@@ -146,17 +168,19 @@ const TestAddPage = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-              <TestScoreFormSubject    getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
               {
                 !hiddenTable ?(
                   <Table size='small' scroll={true} footer={()=>(
-                     <Button type="primary"> Submit  Student Score </Button>
+                    <Popconfirm placement="topLeft" title={"Are you sure you want to submit this student score sheet"} onConfirm={handleScoreSheetSubmit} okText="Yes" cancelText="No">
+                          <Button type="primary"> Submit  Student Score </Button>
+                    </Popconfirm>
                    )} pagination={false} bordered columns={columns} dataSource={dataSource} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
                 )
                 :(
-                  <></>
+                  <TestScoreFormSubject disable={!hiddenTable}  handleSaveChange={()=>setHiddenTable(true)}   getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
                 )
-              }
+             }
+             { !hiddenTable? ( <Button style={{margin:10}} icon="arrow-left" onClick={()=>setHiddenTable(true)}> Go Back To Form</Button>) : (<></>) } 
           </div>
        </Card>
     </>
