@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag,Input, Divider, Col,Avatar, InputNumber, Button , Pagination, Popconfirm} from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table,Input, Divider, Col,Avatar, Modal, Button , Pagination, Popconfirm} from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {
@@ -21,6 +21,8 @@ import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
+import axios from 'axios';
+import {url} from '../../redux/varables'
 const { Search } = Input;
 
 
@@ -61,10 +63,8 @@ const menu = (
 );
 const TestAddPage = (props) =>{
   const [test,setTest] = useState({})
-  const [state] = useAppState()
-  const [tableHeight, setTableHeight] = React.useState(0)
   const [hiddenTable, setHiddenTable] = useState(true)
-
+ const [position, setPosition] = useState(1)
   const [dataSource, setDataSource] = useState(props.testByStudent.students)
 
 
@@ -86,9 +86,6 @@ const TestAddPage = (props) =>{
       setHiddenTable(false)
     })
   }
-  React.useEffect(() => {
-    setTableHeight(window.innerHeight-280)
-  }, []);
 
   const handleScoreChange= (e, c)=>{
     if(((parseInt(e.target.value)!==NaN)&& !(parseInt(e.target.value)>e.target.max))){
@@ -107,13 +104,11 @@ const TestAddPage = (props) =>{
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      // width:state.mobile?100:100,
     },
     {
       title: `Score ${test.marksObtainable? String(test.marksObtainable) +'/' +String(100) :``}`,
       dataIndex: 'score',
       key: 'score',
-      // width:state.mobile?100:100,
       render: (x, c) =>{
         return ( 
         <div style={{ textAlign: "center"}}>
@@ -123,7 +118,22 @@ const TestAddPage = (props) =>{
      }
     },
   ];
-  
+
+  const onConfirm = ()=>{
+   axios.post(`${url}/student/score/save`, {student: dataSource[position-1]})
+   .then(data=>{
+    Modal.success({
+      title:"Save Student Data Successfully "
+    })
+   })
+   .catch(err=>{
+    Modal.error({
+      title:err.title,
+      content:err.message
+    })
+   })
+  }
+
   return (
     <>
       <Card 
@@ -148,7 +158,7 @@ const TestAddPage = (props) =>{
                          <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
                       </Col>
                       <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
-                           <Pagination simple defaultCurrent={1} total={dataSource.length*10} />
+                           <Pagination onChange={(e)=>setPosition(e)} simple defaultCurrent={1} total={dataSource.length*10} />
                       </Col>
                       <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
                          <Typography.Text strong level={4}> Student 1 of {dataSource.length} </Typography.Text>
@@ -158,22 +168,22 @@ const TestAddPage = (props) =>{
                      
                      <Row gutter={[48, 48]}>
                       <Col span={16}>
-                         <Typography.Text strong level={4}> Name Of Student: {dataSource[0]? dataSource[0].name :""}  </Typography.Text>
+                         <Typography.Text strong level={4}> Name Of Student: {dataSource[position-1]? dataSource[position-1].name :""}  </Typography.Text>
                          <br/>
                          <br/>
-                         <Typography.Text strong level={4}> Admission Number: {dataSource[0]? dataSource[0].admissionNumber:""}  </Typography.Text>
+                         <Typography.Text strong level={4}> Admission Number: {dataSource[position-1]? dataSource[position-1].admissionNumber:""}  </Typography.Text>
                       </Col>
                       <Col span={7}>
-                           <Avatar style={{width:100, height:100}} shape="square" size="large"  src={dataSource[0]? dataSource[0].passport:""}/>
+                           <Avatar style={{width:100, height:100}} shape="square" size="large"  src={dataSource[position-1]? dataSource[position-1].passport:""}/>
                       </Col>
                      </Row>
                      <Row gutter={[48, 48]}>
                       <Col xs={24} lg={12}  span={12}>
                       <Table size='small' footer={()=>(
-                          <Popconfirm placement="topLeft" title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
+                          <Popconfirm placement="topLeft" onConfirm={onConfirm} title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
                               <Button type="primary"> Submit  Student Score </Button>
                         </Popconfirm>
-                        )} pagination={false} bordered columns={columns} dataSource={dataSource.length>0?dataSource[0].studentTestScore:[] }   />
+                        )} pagination={false} bordered columns={columns} dataSource={dataSource.length>0?dataSource[position-1].studentTestScore:[] }   />
 
                       </Col>          
                      </Row>
