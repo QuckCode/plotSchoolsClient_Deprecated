@@ -9,14 +9,11 @@ import {
   Save,
   Trash,
 } from 'react-feather';
-import { getAllTest} from '../../redux/actions/test';
 import { getAllClasses} from '../../redux/actions/classes';
 import { getAllSection} from '../../redux/actions/section';
-import { getAllSubjects} from '../../redux/actions/subject';
 import {getAllArms} from '../../redux/actions/arm'
-import {getStudentTestScore} from '../../redux/actions/test'
+import {getAllSkill} from '../../redux/actions/skill'
 import  {connect} from 'react-redux'
-import TestScoreFormSubject from '../../components/Test/TestScoreFormSubject';
 import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
@@ -58,7 +55,7 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
-const TestAddPage = (props) =>{
+const SkillScore = (props) =>{
   const [test,setTest] = useState({})
   const [state] = useAppState()
   const [tableHeight, setTableHeight] = React.useState(0)
@@ -103,11 +100,7 @@ const TestAddPage = (props) =>{
     },
   ];
 
-  const getStudentTestScore =(value, tests)=> {
-    setTest(tests.find((x)=>x._id===value.testId))
-    setHiddenTable(false)
-    return props.getStudentTestScore(value)
-  }
+
   React.useEffect(() => {
     setTableHeight(window.innerHeight-280)
   }, []);
@@ -115,7 +108,7 @@ const TestAddPage = (props) =>{
   return (
     <>
       <Card 
-        title="Add Test Score By Subject"
+        title="Add Skill Score"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -124,17 +117,7 @@ const TestAddPage = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-              <TestScoreFormSubject    getStudentTestScore={getStudentTestScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} tests={props.test.tests} subjects= {props.subject.subjects}/>
-              {
-                hiddenTable
-                ?(
-                  <></>
-                ):(
-                  <Table size='small' scroll={true} footer={()=>(
-                     <Button type="primary"> Submit  Student Score </Button>
-                   )} pagination={false} bordered columns={columns} dataSource={props.testBySubject.students} scroll={{ x: state.mobile?600:600, y: tableHeight }}   />
-                )
-              }
+           
           </div>
        </Card>
     </>
@@ -148,10 +131,9 @@ const mapStateToProps = state => ({
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-   await store.dispatch(getAllTest())
+   await store.dispatch(getAllSkill())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())
-   await store.dispatch(getAllSubjects())
    await store.dispatch(getAllClasses())
    let propStore =  await store.getState()
     return {
@@ -159,8 +141,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
        section:propStore.section,
        classes:propStore.classes,
        arm:propStore.arm,
-       subject:propStore.subject,
-       test:propStore.test
+       skill:propStore.skill
       }
     }
   }
@@ -171,4 +152,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestAddPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SkillScore);

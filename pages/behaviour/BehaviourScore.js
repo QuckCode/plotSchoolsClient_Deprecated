@@ -15,7 +15,6 @@ import { getAllSubjects} from '../../redux/actions/subject';
 import {getAllArms} from '../../redux/actions/arm'
 import {getAllBehaviour} from '../../redux/actions/behaviour'
 import  {connect} from 'react-redux'
-import TestScoreFormSubject from '../../components/Test/TestScoreFormSubject';
 import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
@@ -101,6 +100,8 @@ const BehaviourScore = (props) =>{
      }
     },
   ];
+
+
   React.useEffect(() => {
     setTableHeight(window.innerHeight-280)
   }, []);
@@ -134,7 +135,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
    await store.dispatch(getAllBehaviour())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())
-   await store.dispatch(getAllSubjects())
    await store.dispatch(getAllClasses())
    let propStore =  await store.getState()
     return {
@@ -142,8 +142,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
        section:propStore.section,
        classes:propStore.classes,
        arm:propStore.arm,
-       subject:propStore.subject,
-       behaviour:propStore.behaviour
+       behaviour:propStore.behavior
       }
     }
   }
