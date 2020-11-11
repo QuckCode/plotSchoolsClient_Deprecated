@@ -135,7 +135,7 @@ export const REMOVE_SECTION_BEHAVIOUR_ERROR="REMOVE_SECTION_BEHAVIOUR_ERROR"
 
 
 ///parts
-export const url ="http://localhost:4000"
-export const school= `5f8c7ee1b9776e05f105a6db`
+export const url ="https://plotapi-tets.herokuapp.com"	
+export const school= `5f9183cad035174e94992476`
 export const student= 'student'
 export const staff= 'staff'
