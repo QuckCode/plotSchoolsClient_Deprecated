@@ -14,7 +14,9 @@ import {
   REMOVE_SECTION_SKILL_BEGIN,
   REMOVE_SECTION_SKILL_SUCCESS,
   REMOVE_SECTION_SKILL_ERROR,
-
+  FETCH_All_SKILL_SCORE_BEGIN,
+  FETCH_All_SKILL_SCORE_SUCCESS,
+  FETCH_All_SKILL_SCORE_ERROR,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -188,3 +190,39 @@ export const addSectionSkill = (data) => {
         error
      }
     })
+
+
+    export const fetchStudentSkillScore = (data) => {
+      return dispatch => {
+        dispatch(fetchStudentSkillScoreBegin())
+        return axios.post(` ${url}/student/arm/skill/score`,data)
+        .then((data)=>{
+              dispatch(fetchStudentSkillScoreSuccess(data))
+              return Promise.resolve()
+        })
+        .catch(err=>{
+          dispatch(fetchStudentSkillScoreError(err.response.data))
+          return Promise.reject(err.response.data)
+       })
+      };
+     
+     };
+     
+     
+     const fetchStudentSkillScoreBegin= ()=>({
+       type:FETCH_All_SKILL_SCORE_BEGIN,
+      })
+      
+      const fetchStudentSkillScoreSuccess= (skillScores)=>({
+       type:FETCH_All_SKILL_SCORE_SUCCESS,
+       payload:{
+         skillScores,
+       }
+      })
+      
+      const fetchStudentSkillScoreError= error=>({
+       type: FETCH_All_SKILL_SCORE_ERROR,
+       payload:{
+          error
+       }
+      })

@@ -14,6 +14,9 @@ import {
   REMOVE_SECTION_BEHAVIOUR_BEGIN,
   REMOVE_SECTION_BEHAVIOUR_SUCCESS,
   REMOVE_SECTION_BEHAVIOUR_ERROR,
+  FETCH_All_BEHAVIOUR_SCORE_BEGIN,
+  FETCH_All_BEHAVIOUR_SCORE_ERROR,
+  FETCH_All_BEHAVIOUR_SCORE_SUCCESS,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -181,3 +184,39 @@ export const addSectionBehaviour = (data) => {
         error
      }
     })
+
+
+    export const fetchStudentBehaviourScore = (data) => {
+      return dispatch => {
+        dispatch(fetchStudentBehaviourScoreBegin())
+        return axios.post(` ${url}/student/arm/behaviour/score`,data)
+        .then(({data})=>{
+              dispatch(fetchStudentBehaviourScoreSuccess(data))
+              return Promise.resolve()
+        })
+        .catch(err=>{
+          dispatch(fetchStudentBehaviourScoreError(err.response.data))
+          return Promise.reject(err.response.data)
+       })
+      };
+     
+     };
+     
+     
+     const fetchStudentBehaviourScoreBegin= ()=>({
+       type:FETCH_All_BEHAVIOUR_SCORE_BEGIN,
+      })
+      
+      const fetchStudentBehaviourScoreSuccess= (behaviourScores)=>({
+       type:FETCH_All_BEHAVIOUR_SCORE_SUCCESS,
+       payload:{
+         behaviourScores,
+       }
+      })
+      
+      const fetchStudentBehaviourScoreError= error=>({
+       type: FETCH_All_BEHAVIOUR_SCORE_ERROR,
+       payload:{
+          error
+       }
+      })

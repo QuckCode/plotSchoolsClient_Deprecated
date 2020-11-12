@@ -118,7 +118,7 @@ const BehaviourScore = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-           
+            
           </div>
        </Card>
     </>

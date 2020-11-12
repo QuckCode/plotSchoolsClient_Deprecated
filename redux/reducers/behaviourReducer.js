@@ -13,14 +13,21 @@ import {
   ADD_SECTION_BEHAVIOUR_SUCCESS,
   REMOVE_SECTION_BEHAVIOUR_BEGIN,
   REMOVE_SECTION_BEHAVIOUR_SUCCESS,
-  REMOVE_SECTION_BEHAVIOUR_ERROR
+  REMOVE_SECTION_BEHAVIOUR_ERROR,
+  FETCH_All_BEHAVIOUR_SCORE_BEGIN,
+  FETCH_All_BEHAVIOUR_SCORE_ERROR,
+  FETCH_All_BEHAVIOUR_SCORE_SUCCESS
 } from '../varables'
 
 const initialState = {
   behaviors: [],
   loading:false,
   error:null,
-  currentSectionBehaviour: []
+  currentSectionBehaviour: [],
+  behaviourScoreByStudent:{
+    loading:false,
+    behaviourScores:[]
+  }
 };
 
 export const behaviourReducer = (state = initialState, action) => {
@@ -113,7 +120,33 @@ export const behaviourReducer = (state = initialState, action) => {
               ...state,
               loading:false,
               error:action.payload.error,
-          }  
+          };
+          case  FETCH_All_BEHAVIOUR_SCORE_BEGIN:
+            return {
+              ...state,
+              loading:true,
+              behaviourScoreByStudent:{
+                loading:true,
+                behaviourScores:[]
+              }
+          };
+          case  FETCH_All_BEHAVIOUR_SCORE_SUCCESS:
+            return {
+              ...state,
+              behaviourScoreByStudent:{
+                loading:false,
+                behaviourScores:action.payload.behaviourScores
+              }
+          };
+          case  FETCH_All_BEHAVIOUR_SCORE_ERROR:
+            return {
+              ...state,
+              error:action.payload.error,
+              behaviourScoreByStudent:{
+                loading:false,
+                behaviourScores:[]
+              }
+          };
     default:
       return {...state};
   }

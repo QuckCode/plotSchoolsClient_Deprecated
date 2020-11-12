@@ -17,7 +17,7 @@ import  {connect} from 'react-redux'
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
-
+import SkillScoreForm from '../../components/Skill/SkillScoreForm';
 
 const Title = Typography.Title
 
@@ -114,7 +114,7 @@ const SkillScoreByStudent = (props) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-2">
-           
+             <SkillScoreForm sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} /> 
           </div>
        </Card>
     </>

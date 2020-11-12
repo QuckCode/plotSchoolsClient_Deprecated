@@ -13,14 +13,21 @@ import {
   ADD_SECTION_SKILL_SUCCESS,
   REMOVE_SECTION_SKILL_BEGIN,
   REMOVE_SECTION_SKILL_SUCCESS,
-  REMOVE_SECTION_SKILL_ERROR
+  REMOVE_SECTION_SKILL_ERROR,
+  FETCH_All_SKILL_SCORE_BEGIN,
+  FETCH_All_SKILL_SCORE_ERROR,
+  FETCH_All_SKILL_SCORE_SUCCESS
 } from '../varables'
 
 const initialState = {
   skills: [],
   loading:false,
   error:null,
-  currentSectionSkills: []
+  currentSectionSkills: [],
+  skillScore:{
+    loading:false,
+    skillScores:[]
+  }
 };
 
 export const skillReducer = (state = initialState, action) => {
@@ -112,7 +119,32 @@ export const skillReducer = (state = initialState, action) => {
               ...state,
               loading:false,
               error:action.payload.error,
-          }
+          };
+          case FETCH_All_SKILL_SCORE_BEGIN:
+            return {
+              ...state,
+              skillScore:{
+                loading:true,
+                skillScores:[]
+              }
+          };
+          case FETCH_All_SKILL_SCORE_SUCCESS:
+            return {
+              ...state,
+              skillScore:{
+                loading:false,
+                skillScores:action.payload.skillScores
+              }
+          };
+          case FETCH_All_SKILL_SCORE_ERROR:
+            return {
+              ...state,
+              error:action.payload.error,
+              skillScore:{
+                loading:false,
+                skillScores:[]
+              }
+          }; 
     default:
       return {...state};
   }
