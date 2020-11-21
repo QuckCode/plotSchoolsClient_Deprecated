@@ -54,7 +54,7 @@ const menu = (
   </Menu>
 );
 
-const Overview = ({staff}) => {
+const Overview = ({staffs, classes ,students}) => {
   return (
     <div>
       <Row gutter={16}>
@@ -62,7 +62,7 @@ const Overview = ({staff}) => {
           <StatCard
             type="fill"
             title="Students"
-            value={staff}
+            value={students}
             icon={<User size={20} strokeWidth={1} />}
             color={theme.primaryColor}
             clickHandler={() => message.info('Campaign stat button clicked')}
@@ -72,7 +72,7 @@ const Overview = ({staff}) => {
           <StatCard
             type="fill"
             title="Staff"
-            value={230}
+            value={staffs}
             icon={<User size={20} strokeWidth={1} />}
             color={theme.darkColor}
             clickHandler={() => message.info('Customers stat button clicked')}
@@ -82,7 +82,7 @@ const Overview = ({staff}) => {
           <StatCard
             type="fill"
             title="Classes"
-            value={323}
+            value={classes}
             icon={<Icon type="team" style={{margin:0, color:'rgba(255, 255,255 ,1)',fontSize: '20px' }}  />}
             color={theme.warningColor}
             clickHandler={() => message.info('Queries stat button clicked')}

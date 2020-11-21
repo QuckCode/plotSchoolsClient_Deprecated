@@ -1,23 +1,20 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, InputNumber, Button } from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, Input, Button, Modal, Pagination, Popconfirm, Select } from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
-import {
-  Edit,MoreHorizontal,
-  Printer,
-  Save,
-  Trash,
-} from 'react-feather';
+import {Edit,MoreHorizontal,Printer,Save, Trash,} from 'react-feather';
 import { getAllClasses} from '../../redux/actions/classes';
 import { getAllSection} from '../../redux/actions/section';
-import { getAllSkill} from '../../redux/actions/skill';
 import {getAllArms} from '../../redux/actions/arm'
+import {getAllBehaviour,fetchStudentBehaviourScore} from '../../redux/actions/behaviour'
 import  {connect} from 'react-redux'
+import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
-import SkillScoreForm from '../../components/Skill/SkillScoreForm';
+import BehaviourScoreForm from '../../components/Behaviour/BehaviourScoreForm';
+
 
 const Title = Typography.Title
 
@@ -27,6 +24,8 @@ const Content = styled.div`
   min-width: 300px;,
   backgroundColor:'#f0f0f0'
 `;
+const Search = Input.Search
+const Option = Select.Option
 
 const menu = (
   <Menu>
@@ -54,58 +53,76 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
-const SkillScoreByStudent = (props) =>{
-  const [test,setTest] = useState({})
+const BehaviourScoreByStudent = (props) =>{
   const [state] = useAppState()
-  const [tableHeight, setTableHeight] = React.useState(0)
   const [hiddenTable, setHiddenTable] = useState(true)
+  const [position, setPosition] = useState(1)
+  const [dataSource, setDataSource] = useState(props.behaviourScoreByStudent.behaviourScores)
+
+  const handleScoreChange= (e, c)=>{
+    console.log(e,c)
+  }
   const columns = [
-    {
-      title: 'Admission Number',
-      dataIndex: 'admissionNumber',
-      key: 'admissionNumber',
-      width:state.mobile?150:150,
-    },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width:state.mobile?150:150,
     },
     {
-      title: 'Passport',
-      dataIndex: 'passport',
-      key: 'passport',
-      width:state.mobile?150:150,
-      render: (x) =>( 
-        <div style={{ textAlign: "center"}}>
-              <Avatar style={{width:30, height:30}} size='small' src={x} />
-        </div>
-      )
-    },
-    {
-      title: `Score ${test.marksObtainable? String(test.marksObtainable) +'/' +String(100) :``}`,
+      title: `Score`,
       dataIndex: 'score',
       key: 'score',
-      width:state.mobile?150:150,
       render: (x, c) =>{
-        console.log(c.hasScore || x!==0)
         return ( 
         <div style={{ textAlign: "center"}}>
-              <InputNumber  min={0}  max={20} type="danger" style={{background: (x!==0 || c.hasScore)?'white' :"#f5222dcc"}} value={x}/>
+             <Select  value={x} defaultValue="0" className={x==0? "ant-select-selection-search":"test"} style={{ width: 120}} >
+                  <Option style={{background:'#fecd34'}} value={0}>No Score</Option>
+                  <Option value={1}>Very Poor</Option>
+                  <Option value={2}>Poor</Option>
+                  <Option value={3}> Good </Option>
+                  <Option value={4}>Very Good</Option>
+                  <Option value={5}>Excellent</Option>
+             </Select>  
         </div>
       )
      }
     },
   ];
-  React.useEffect(() => {
-    setTableHeight(window.innerHeight-280)
-  }, []);
+ 
+  useEffect(()=>{
+    if(props.behaviourScoreByStudent.behaviourScores.length==0){
+      setHiddenTable(true)
+    }
+    setDataSource(props.behaviourScoreByStudent.behaviourScores)
+  },[props.behaviourScoreByStudent.behaviourScores])
   
+ const  getStudentBehaviourScore = (value)=>{
+   return props.fetchStudentBehaviourScore(value)
+   .then(x=>{
+     setHiddenTable(false)
+    return Modal.success({
+      title:"Successfully  Found Users "
+    })
+   })
+   .catch(err=>{
+    return Modal.error({
+      title:err.title,
+      content:err.message
+    })
+   })
+  }
+
+  const onSearch = ()=>{
+
+  }
+
+  const onConfirm = ()=>{
+
+  }
   return (
     <>
       <Card 
-        title="Add Skill Score By Students"
+        title="Add Behaviour Score By Students"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -113,22 +130,69 @@ const SkillScoreByStudent = (props) =>{
         }
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
-          <div className="p-2">
-             <SkillScoreForm sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms} /> 
-          </div>
+             <div className="p-2">
+
+     {
+     hiddenTable
+     ?(
+       <BehaviourScoreForm getScore={getStudentBehaviourScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms}/>
+     ):(
+        <div>
+          <Row gutter={[48,0]}>
+           <Col xs={24} lg={9} style={{paddingBottom:20}} span={9} >
+              <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
+           </Col>
+           <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
+                <Pagination onChange={(e)=>setPosition(e)} simple defaultCurrent={1} total={dataSource.length*10} />
+           </Col>
+           <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
+              <Typography.Text strong level={4}> Student 1 of {dataSource.length} </Typography.Text>
+           </Col>
+          </Row>
+          <Divider/>
+          
+          <Row gutter={[48, 48]}>
+           <Col span={16}>
+              <Typography.Text strong level={4}> Name Of Student: {dataSource[position-1]? dataSource[position-1].name :""}  </Typography.Text>
+              <br/>
+              <br/>
+              <Typography.Text strong level={4}> Admission Number: {dataSource[position-1]? dataSource[position-1].admissionNumber:""}  </Typography.Text>
+           </Col>
+           <Col span={7}>
+                <Avatar style={{width:100, height:100}} shape="square" size="large"  src={dataSource[position-1]? dataSource[position-1].passport:""}/>
+           </Col>
+          </Row>
+          <Row gutter={[48, 48]}>
+           <Col xs={24} lg={12}  span={12}>
+           <Table size='small' footer={()=>(
+               <Popconfirm placement="topLeft" onConfirm={onConfirm} title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
+                   <Button type="primary"> Submit  Student Score </Button>
+             </Popconfirm>
+             )} pagination={false} bordered columns={columns} dataSource={dataSource.length>0?dataSource[position-1].behaviours:[] }   />
+   
+           </Col>          
+          </Row>
+   
+        </div>
+     )
+   }
+  <Row>
+ { hiddenTable? ( <></>) : (<Button style={{margin:10}} icon="arrow-left" onClick={()=>setHiddenTable(true)}> Go Back To Form</Button>) } 
+ </Row>
+</div>
        </Card>
     </>
   )
 };
 
 const mapStateToProps = state => ({
-    // testBySubject : state.test.testBySubject
+    behaviourScoreByStudent : state.behavior.behaviourScoreByStudent
 });
 
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-   await store.dispatch(getAllSkill())
+   await store.dispatch(getAllBehaviour())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())
    await store.dispatch(getAllClasses())
@@ -138,15 +202,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
        section:propStore.section,
        classes:propStore.classes,
        arm:propStore.arm,
-       skill:propStore.skill
+       behaviour:propStore.behavior
       }
     }
   }
 )
 
 const mapDispatchToProps = {
- 
+  fetchStudentBehaviourScore
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillScoreByStudent);
+export default connect(mapStateToProps, mapDispatchToProps)(BehaviourScoreByStudent);

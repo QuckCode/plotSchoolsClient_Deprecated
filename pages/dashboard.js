@@ -2,25 +2,32 @@ import  React from 'react'
 import Head from 'next/head';
 import Overview from '../components/Overview';
 import { wrapper } from '../redux/store';
-const DashboardPage = ({student, classes,scratchCard, staff}) => {
-  console.log(staff)
+import { getAllClasses } from '../redux/actions/classes';
+import { getAllStudents } from '../redux/actions/student';
+import { getAllStaffs } from '../redux/actions/staff';
+
+
+const DashboardPage = ({students, classes,scratchCard, staffs}) => {
   return  (
   
   <>    
-    <Overview student={student} classes={classes} scratchCard={scratchCard} staff={staff}/> 
+    <Overview  students={students} classes={classes} scratchCard={scratchCard} staffs={staffs}/> 
   </>
 )
   }
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
-    
+    await store.dispatch(getAllClasses())
+    await store.dispatch(getAllStudents())
+    await store.dispatch(getAllStaffs())
+    let propStore =  await store.getState()  
     return {
       props:{
-         student:100,
-         classes:5,
+         students:propStore.student.students.length,
+         classes:propStore.classes.classes.length,
          scratchCard:100,
-         staff:10
+         staffs:propStore.staff.staffs.length
       }
     }
   }
