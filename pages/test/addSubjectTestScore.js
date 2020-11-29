@@ -24,6 +24,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { url } from '../../redux/varables';
 
+
 const Title = Typography.Title
 
 const Content = styled.div`
@@ -156,10 +157,11 @@ const TestAddPage = (props) =>{
     setTableHeight(window.innerHeight-280)
   }, []);
   
+
   return (
     <>
       <Card 
-        title="Add Test Score By Subject"
+        title={`Add Test Score By Subject  ${props.testBySubject.students} `}
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
