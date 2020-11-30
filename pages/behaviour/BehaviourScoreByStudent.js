@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, Input, Button, Modal, Pagination, Popconfirm, Select } from 'antd';
+import { Card,Row, Typography,  Menu, Dropdown, Table, Tag, Divider, Col,Avatar, Input, Button, Modal, Pagination, Popconfirm, Select,Spin } from 'antd';
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
 import {Edit,MoreHorizontal,Printer,Save, Trash,} from 'react-feather';
@@ -57,11 +57,24 @@ const BehaviourScoreByStudent = (props) =>{
   const [state] = useAppState()
   const [hiddenTable, setHiddenTable] = useState(true)
   const [position, setPosition] = useState(1)
+  const [loading, setLoading] = useState(false)
   const [dataSource, setDataSource] = useState(props.behaviourScoreByStudent.behaviourScores)
 
   const handleScoreChange= (e, c)=>{
-    console.log(e,c)
+    if(e==0){
+      let scoreIndex = dataSource[position-1].behaviours.findIndex( (a)=>a._id===c._id)
+      let  scoreList = dataSource.slice()
+      scoreList[position-1].behaviours[scoreIndex] = {...scoreList[position-1].behaviours[scoreIndex], score:parseInt(e), hasScore:false}
+      setDataSource(scoreList)
+      return
+    }
+      let scoreIndex = dataSource[position-1].behaviours.findIndex( (a)=>a._id===c._id)
+      let  scoreList = dataSource.slice()
+      scoreList[position-1].behaviours[scoreIndex] = {...scoreList[position-1].behaviours[scoreIndex], score:parseInt(e), hasScore:true}
+      setDataSource(scoreList)
+     return
   }
+
   const columns = [
     {
       title: 'Name',
@@ -75,7 +88,7 @@ const BehaviourScoreByStudent = (props) =>{
       render: (x, c) =>{
         return ( 
         <div style={{ textAlign: "center"}}>
-             <Select  value={x} defaultValue="0" className={x==0? "ant-select-selection-search":"test"} style={{ width: 120}} >
+             <Select  value={x} defaultValue="0" onChange={ (e)=>handleScoreChange(e,c)} className={x==0? "ant-select-selection-search":"test"} style={{ width: 120}} >
                   <Option style={{background:'#fecd34'}} value={0}>No Score</Option>
                   <Option value={1}>Very Poor</Option>
                   <Option value={2}>Poor</Option>
@@ -143,7 +156,13 @@ const BehaviourScoreByStudent = (props) =>{
               <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
            </Col>
            <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
-                <Pagination onChange={(e)=>setPosition(e)} simple defaultCurrent={1} total={dataSource.length*10} />
+                <Pagination onChange={(e)=> {
+                  setLoading(true)
+                  setTimeout(()=>{
+                    setLoading(false)
+                  }, 1000);
+                  setPosition(e)
+                  }} simple defaultCurrent={1} total={dataSource.length*10} />
            </Col>
            <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
               <Typography.Text strong level={4}> Student 1 of {dataSource.length} </Typography.Text>
@@ -151,6 +170,7 @@ const BehaviourScoreByStudent = (props) =>{
           </Row>
           <Divider/>
           
+          <Spin spinning={loading} >
           <Row gutter={[48, 48]}>
            <Col span={16}>
               <Typography.Text strong level={4}> Name Of Student: {dataSource[position-1]? dataSource[position-1].name :""}  </Typography.Text>
@@ -172,6 +192,7 @@ const BehaviourScoreByStudent = (props) =>{
    
            </Col>          
           </Row>
+           </Spin>
    
         </div>
      )
