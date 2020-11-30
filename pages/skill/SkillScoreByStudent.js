@@ -172,7 +172,7 @@ const SkillScoreByStudent = (props) =>{
                   }} simple defaultCurrent={1} total={dataSource.length*10} />
            </Col>
            <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
-              <Typography.Text strong level={4}> Student 1 of {dataSource.length} </Typography.Text>
+              <Typography.Text strong level={4}> Student  {position} of {dataSource.length} </Typography.Text>
            </Col>
           </Row>
           <Divider/>
