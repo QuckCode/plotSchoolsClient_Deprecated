@@ -116,9 +116,14 @@ const SidebarContent = ({
             );
 
           if (hasChildren)
+          
             return (
               <SubMenu
                 key={getKey(route.name, index)}
+                className={
+                  route.children.some(link => link.path===pathname) ? 'ant-menu-item-selected' : ''
+                }
+             
                 title={
                   <span>
                     {sidebarIcons && (
