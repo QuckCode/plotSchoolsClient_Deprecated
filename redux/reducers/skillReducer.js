@@ -24,7 +24,7 @@ const initialState = {
   loading:false,
   error:null,
   currentSectionSkills: [],
-  skillScore:{
+  skillScoreByStudent:{
     loading:false,
     skillScores:[]
   }
@@ -123,7 +123,7 @@ export const skillReducer = (state = initialState, action) => {
           case FETCH_All_SKILL_SCORE_BEGIN:
             return {
               ...state,
-              skillScore:{
+              skillScoreByStudent:{
                 loading:true,
                 skillScores:[]
               }
@@ -131,7 +131,7 @@ export const skillReducer = (state = initialState, action) => {
           case FETCH_All_SKILL_SCORE_SUCCESS:
             return {
               ...state,
-              skillScore:{
+              skillScoreByStudent:{
                 loading:false,
                 skillScores:action.payload.skillScores
               }
@@ -140,7 +140,7 @@ export const skillReducer = (state = initialState, action) => {
             return {
               ...state,
               error:action.payload.error,
-              skillScore:{
+              skillScoreByStudent:{
                 loading:false,
                 skillScores:[]
               }

@@ -196,7 +196,7 @@ export const addSectionSkill = (data) => {
       return dispatch => {
         dispatch(fetchStudentSkillScoreBegin())
         return axios.post(` ${url}/student/arm/skill/score`,data)
-        .then((data)=>{
+        .then(({data})=>{
               dispatch(fetchStudentSkillScoreSuccess(data))
               return Promise.resolve()
         })
