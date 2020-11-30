@@ -9,6 +9,7 @@ import Head from 'next/head';
 import NProgress from 'nprogress';
 import Page from '../components/Page';
 import Router from 'next/router';
+import {getCookieFromReq} from '../lib/helpers'
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
