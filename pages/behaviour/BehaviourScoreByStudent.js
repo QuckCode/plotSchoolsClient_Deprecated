@@ -151,6 +151,7 @@ const BehaviourScoreByStudent = (props) =>{
        <BehaviourScoreForm getScore={getStudentBehaviourScore} sections= {props.section.section} classes= {props.classes.classes} arms={props.arm.arms}/>
      ):(
         <div>
+        <Spin spinning={loading} size="large" >
           <Row gutter={[48,0]}>
            <Col xs={24} lg={9} style={{paddingBottom:20}} span={9} >
               <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
@@ -169,8 +170,6 @@ const BehaviourScoreByStudent = (props) =>{
            </Col>
           </Row>
           <Divider/>
-          
-          <Spin spinning={loading} >
           <Row gutter={[48, 48]}>
            <Col span={16}>
               <Typography.Text strong level={4}> Name Of Student: {dataSource[position-1]? dataSource[position-1].name :""}  </Typography.Text>
@@ -193,7 +192,6 @@ const BehaviourScoreByStudent = (props) =>{
            </Col>          
           </Row>
            </Spin>
-   
         </div>
      )
    }

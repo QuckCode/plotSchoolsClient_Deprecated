@@ -62,7 +62,7 @@ const createBehaviourBegin= ()=>({
           dispatch(getAllBehaviourSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllBehaviourError(error.response.data))
+       dispatch(getAllBehaviourError(error))
     })
   };
 };
