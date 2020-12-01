@@ -5,7 +5,8 @@ import {connect} from 'react-redux'
 import { useEffect } from 'react';
 import {getAllSchools} from '../redux/actions/school'
 import  Router  from 'next/router';
-import { loginStudent, loginStaff } from '../redux/actions/auth';
+import { postLogin } from '../services/restService';
+// import { loginStudent, loginStaff } from '../redux/actions/auth';
 
  
 class SignInPage extends Component {
@@ -14,12 +15,22 @@ class SignInPage extends Component {
           Router.push('/dashboard')
        }
     }
+     
+    loginStaff= (regNumber, password)=>{
+      //  console.log({regNumber, password})
+       postLogin("/login/staff",{regNumber, password})
+    }
+
+    loginStudent= (regNumber, password)=>{
+      postLogin("/login/student",{admissionNumber:regNumber, password})
+
+    }
    render() { 
-      const {schools, auth, loginStaff, loginStudent } = this.props
+      const {schools, auth } = this.props
       return (
          <>
          <HomeHeader/>
-         <Signin loginStaff={loginStaff} loginStudent={loginStudent} schools={schools.schools}/>
+         <Signin loginStaff={this.loginStaff} loginStudent={this.loginStudent} schools={schools.schools}/>
       </>
       );
    }
@@ -33,9 +44,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
  getSchools:getAllSchools,
- loginStudent: loginStudent,
- loginStaff:loginStaff
-
 };
 
 

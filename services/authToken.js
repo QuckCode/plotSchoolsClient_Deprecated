@@ -1,15 +1,19 @@
 import jwt from 'jsonwebtoken'
+import Cookie from "js-cookie";
+import Router from "next/router";
+const TOKEN_STORAGE_KEY = "plot.authToken";
 
 
 export class AuthToken {
 
+  static async storeToken(token) {
+    Cookie.set(TOKEN_STORAGE_KEY, token);
+    // await Router.push("/dashboard");
+  }
+
   constructor(token) {
     // we are going to default to an expired decodedToken
-    this.decodedToken = {
-      user:{},
-     isAuth:false,
-     userType:""
-    }
+    this.decodedToken = {}
 
     // then try and decode the jwt using jwt-decode
     try {

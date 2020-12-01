@@ -18,7 +18,7 @@ const Content = styled.div`
   backgroundColor:'#f0f0f0'
 `;
 
-const Signin = ({ form, schools, loginStaff, loginStudent }) => {
+const Signin = ({ form, schools, loginStaff, loginStudent ,}) => {
   const [schoolName, setSchoolName] = useState([])
   useEffect(()=>{
     setSchoolName(schools.reduce((a, o) => (a.push(o.name), a), []))   
@@ -49,9 +49,9 @@ const Signin = ({ form, schools, loginStaff, loginStudent }) => {
           form.validateFields((err, values) => {
             if (!err) {
               //  console.log(loginStaff, loginStudent, values.userType)
-                  form.resetFields()
+                  // form.resetFields()
                if(values.userType==0){
-                 loginStaff({regNumber:values.regNumber, password:values.password})
+                 loginStaff(values.regNumber, values.password)
                }
 
                if(values.userType==1){
@@ -59,7 +59,7 @@ const Signin = ({ form, schools, loginStaff, loginStudent }) => {
                }
 
                if(values.userType==2){
-                 loginStudent({admissionNumber:values.regNumber, password:values.password})
+                 loginStudent(values.regNumber,values.password)
                }
             }
           });
