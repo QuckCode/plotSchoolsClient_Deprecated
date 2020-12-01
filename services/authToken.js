@@ -8,7 +8,7 @@ export class AuthToken {
 
   static async storeToken(token) {
     Cookie.set(TOKEN_STORAGE_KEY, token);
-    // await Router.push("/dashboard");
+    await Router.push("/dashboard");
   }
 
   constructor(token) {
