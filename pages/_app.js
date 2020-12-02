@@ -18,16 +18,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 import {Provider} from 'react-redux';
 import { wrapper,initStore } from '../redux/store';
 import { TOKEN_LOCATION } from '../redux/varables';
-
-
-export function redirectUser(ctx, location) {
-  if (ctx.req) {
-    ctx.res.writeHead(302, { Location: location });
-    ctx.res.end();
-  } else {
-    Router.push(location);
-  }
-}
+import { AuthToken } from '../services/authToken';
 
 
 class MyApp extends App {
@@ -49,7 +40,7 @@ class MyApp extends App {
     
     pageProps.query = ctx.query;
     pageProps.ieBrowser = ie;
-    console.log(ctx)
+    // console.log(ctx)
       return { pageProps };
   }
 

@@ -13,6 +13,7 @@ import { createStaff, getAllStaffs } from '../../redux/actions/staff';
 import { connect } from 'react-redux';
 import { getAllDesignations } from '../../redux/actions/designation';
 import { getAllDepartments } from '../../redux/actions/department';
+import { PrivateRoute } from '../../components/PrivateRoute';
 const Title = Typography.Title
 
 const Content = styled.div`
@@ -89,4 +90,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterStaffPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterStaffPage));

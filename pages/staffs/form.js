@@ -3,7 +3,6 @@ import { Card, Divider, Row, Typography, Button, Col,Modal } from 'antd';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-
 import {
   Printer,
   Download,
@@ -11,6 +10,7 @@ import {
   Mail,
   MapPin
 } from 'react-feather';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Text = Typography.Text
 
@@ -122,4 +122,4 @@ const printPDF =()=> {
 };
 
 
-export default StaffFormPage;
+export default  PrivateRoute(StaffFormPage);

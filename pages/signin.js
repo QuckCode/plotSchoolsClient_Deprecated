@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 import {getAllSchools} from '../redux/actions/school'
 import  Router  from 'next/router';
 import { postLogin } from '../services/restService';
+import { NotPrivateRoute } from '../components/NotPrivateRoute';
 // import { loginStudent, loginStaff } from '../redux/actions/auth';
-
  
 class SignInPage extends Component {
     componentDidMount(){
@@ -49,4 +49,4 @@ const mapDispatchToProps = {
 
 
 
-export default   connect(mapStateToProps, mapDispatchToProps)(SignInPage);
+export default  NotPrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SignInPage));

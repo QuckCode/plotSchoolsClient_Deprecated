@@ -1,17 +1,38 @@
+import { Modal } from "antd";
 import axios, { AxiosRequestConfig } from "axios";
+import Router  from "next/router";
 import { AuthToken } from "./authToken";
 
 
 
 export const postLogin = async ( path,userData)=> {
- await post(path, userData)
+  return await post(path, userData)
  .then(({data})=>{
    AuthToken.storeToken(data.token)
    let authToken = new AuthToken(data.token)
-   console.log(authToken)
+   if(authToken.decodedToken.userType==="staff"){
+     console.log(authToken.decodedToken.userType)
+   }
+   if(authToken.decodedToken.userType==="student"){
+    console.log(authToken.decodedToken.userType)
+  }
+  Router.push('/dashboard')
+  return   Modal.success({
+    title:"Login Successfully",
+  })
  })
  .catch(err=>{
-
+   if(err.response){
+     return   Modal.error({
+       title:err.response.data.title,
+       content:err.response.data.message
+     })
+   }
+   else{
+    return   Modal.error({
+      title:err.message,
+    })
+   }
  })
 };
 

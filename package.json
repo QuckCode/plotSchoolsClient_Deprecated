@@ -61,6 +61,7 @@
     "redux-thunk": "^2.3.0",
     "reqwest": "2.0.5",
     "styled-components": "4.2.0",
+    "swr": "^0.3.9",
     "xhr2": "0.1.4",
     "yarn": "^1.22.10"
   }

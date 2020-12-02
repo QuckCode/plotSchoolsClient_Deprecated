@@ -12,6 +12,7 @@ import StaffTable from '../../components/Staff/StaffTable';
 import { getAllStaffs } from '../../redux/actions/staff';
 import { connect } from 'react-redux';
 import React from 'react'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -84,4 +85,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(FetchStaffPage);
+export default   PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(FetchStaffPage));
