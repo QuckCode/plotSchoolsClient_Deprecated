@@ -267,4 +267,4 @@ const mapDispatchToProps = {
 
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(SectionBehaviourPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SectionBehaviourPage))

@@ -9,6 +9,7 @@ import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
 import FetchSection from '../../components/Section/FetchSection';
 import { getAllSkill, getCurrentSectionSkill, addSectionSkill, removeSectionSkill } from '../../redux/actions/skill';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -259,4 +260,4 @@ const mapDispatchToProps = {
   removeSectionSkill:removeSectionSkill
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(SectionSkillPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SectionSkillPage))

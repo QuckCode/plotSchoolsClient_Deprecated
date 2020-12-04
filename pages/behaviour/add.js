@@ -80,4 +80,4 @@ const mapDispatchToProps = {
   createBehaviour:createBehaviour
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BehaviorAddPage);
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(BehaviorAddPage));

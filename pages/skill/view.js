@@ -81,4 +81,4 @@ const mapStateToProps = state => ({
    getAllSkill:getAllSkill
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillViewPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SkillViewPage));

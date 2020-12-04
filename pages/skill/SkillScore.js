@@ -152,4 +152,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillScore);
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SkillScore));

@@ -239,4 +239,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillScoreByStudent);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SkillScoreByStudent));

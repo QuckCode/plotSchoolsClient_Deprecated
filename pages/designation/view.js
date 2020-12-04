@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { getAllDepartments } from '../../redux/actions/department';
 import { getAllDesignations } from '../../redux/actions/designation';
 import DesignationTable from '../../components/Designation/DesignationTable';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -84,4 +85,4 @@ const mapStateToProps = state => ({
    getAllDesignations:getAllDesignations
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewDesignationPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ViewDesignationPage));

@@ -14,6 +14,7 @@ import { createTest } from '../../redux/actions/test';
 import  {connect} from 'react-redux'
 import { createSkill } from '../../redux/actions/skill';
 import RegisterSkillType from '../../components/Skill/RegisterSkillType';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -82,4 +83,4 @@ const mapDispatchToProps = {
   createSkill:createSkill
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillAddPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SkillAddPage));

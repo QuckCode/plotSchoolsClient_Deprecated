@@ -15,6 +15,7 @@ import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
 import { getAllSubjects , getCurrentClassSubjects, addSubjects, removeSubject} from '../../redux/actions/subject';
 import FetchSubjectForm  from '../../components/Classes/FetchSubject'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -261,4 +262,4 @@ const mapDispatchToProps = {
   removeSubject :removeSubject
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage));

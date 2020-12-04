@@ -261,4 +261,4 @@ const mapDispatchToProps = {
   removeSubject :removeSubject
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage)
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage));

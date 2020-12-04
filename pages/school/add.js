@@ -65,4 +65,4 @@ const RegisterParentPage = () =>{
   )
 };
 
-export default RegisterParentPage;
+export default PrivateRoute(RegisterParentPage);

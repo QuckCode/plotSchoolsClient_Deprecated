@@ -82,4 +82,4 @@ const mapStateToProps = state => ({
    getAllDepartments:getAllDepartments
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewDepartmentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ViewDepartmentPage));

@@ -73,4 +73,4 @@ const mapDispatchToProps = {
 createDesignation : createDesignation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage));

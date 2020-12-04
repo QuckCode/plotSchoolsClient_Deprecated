@@ -11,6 +11,7 @@ import RegisterDepartment from '../../components/Department/RegisterDepartment';
 import { connect } from 'react-redux';
 import { createDepartment } from '../../redux/actions/department';
 import { useEffect } from 'react';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -74,4 +75,4 @@ const mapDispatchToProps = {
   createDepartment:createDepartment
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage));

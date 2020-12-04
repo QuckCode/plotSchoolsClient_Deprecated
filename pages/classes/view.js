@@ -84,4 +84,4 @@ const mapDispatchToProps = {
  getAllClasses: getAllClasses
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ViewClassesPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ViewClassesPage));

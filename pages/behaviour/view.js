@@ -13,6 +13,7 @@ import { getAllDepartments, getAllTest } from '../../redux/actions/test';
 import { getAllBehaviour } from '../../redux/actions/behaviour';
 import RegisterBehaviourType from '../../components/Behaviour/RegisterBehaviourType';
 import BehaviourTable from '../../components/Behaviour/BehaviorTable';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -83,4 +84,4 @@ const mapStateToProps = state => ({
    getAllBehaviour:getAllBehaviour
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BehaviourViewPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(BehaviourViewPage));
