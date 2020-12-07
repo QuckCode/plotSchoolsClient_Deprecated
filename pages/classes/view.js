@@ -16,6 +16,8 @@ import ClassTable from '../../components/Classes/ClassTable';
 import { getAllClasses } from '../../redux/actions/classes';
 import {connect} from 'react-redux'
 import {useEffect} from 'react'
+import { PrivateRoute } from '../../components/PrivateRoute';
+
 const Title = Typography.Title
 
 const Content = styled.div`

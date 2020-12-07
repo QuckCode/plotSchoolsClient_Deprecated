@@ -3,6 +3,7 @@ import { Card, Divider, Row, Typography, Button, Col,Modal } from 'antd';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 import {
   Printer,
@@ -25,4 +26,4 @@ const StudentCapturePage = (props) =>{
 };
 
 
-export default StudentCapturePage;
+export default PrivateRoute(StudentCapturePage);

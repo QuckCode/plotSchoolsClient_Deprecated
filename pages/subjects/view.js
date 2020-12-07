@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import React from 'react'
 import { getAllSubjects } from '../../redux/actions/subject';
 const Title = Typography.Title
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Content = styled.div`
   z-index: 0;
@@ -81,4 +82,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
  getAllSubjects:getAllSubjects
 };
-export default connect(mapStateToProps,mapDispatchToProps)(RegisterStaffPage);
+
+export default PrivateRoute(connect(mapStateToProps,mapDispatchToProps)(RegisterStaffPage));

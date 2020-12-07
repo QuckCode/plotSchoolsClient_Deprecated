@@ -8,6 +8,7 @@ import {
   Trash,
 } from 'react-feather';
 import RegistrationSchool from '../../components/RegisterSchool';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 

@@ -11,7 +11,7 @@ import {
 import {connect} from 'react-redux';
 import AddSubject from '../../components/Subject/AddSubject';
 import { createSubject } from '../../redux/actions/subject';
-import { TOKEN_LOCATION } from '../../redux/varables';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -77,4 +77,4 @@ const mapDispatchToProps = {
   createSubject:createSubject
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddSubjectPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(AddSubjectPage));

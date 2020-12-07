@@ -13,6 +13,7 @@ import ArmTable from '../../components/Arm/ArmTable';
 import { getAllArms } from '../../redux/actions/arm';
 import {connect} from 'react-redux'
 import React from 'react'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -81,4 +82,4 @@ const mapDispatchToProps = {
  getAllArms:getAllArms
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ViewArmPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ViewArmPage))

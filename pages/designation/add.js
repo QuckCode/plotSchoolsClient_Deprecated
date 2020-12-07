@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { createDesignation } from '../../redux/actions/designation';
 import RegisterDesignation from '../../components/Designation/RegisterDesignation';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 

@@ -15,6 +15,7 @@ import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
 import FetchSection from '../../components/Section/FetchSection';
 import { getAllBehaviour , getCurrentSectionBehaviour, removeSectionBehaviour , addSectionBehaviour} from '../../redux/actions/behaviour';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const FormItem = Form.Item;
 const Option = Select.Option;

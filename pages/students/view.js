@@ -13,6 +13,8 @@ import StudentTable from '../../components/Student/StudentTable';
 import { getAllStudents } from '../../redux/actions/student';
 import { connect } from 'react-redux';
 import React from 'react'
+import { PrivateRoute } from '../../components/PrivateRoute';
+
 const Title = Typography.Title
 
 const Content = styled.div`
@@ -80,4 +82,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
  getAllStudents:getAllStudents
 };
-export default connect(mapStateToProps,mapDispatchToProps)(ViewStaffPage);
+export default PrivateRoute(connect(mapStateToProps,mapDispatchToProps)(ViewStaffPage));

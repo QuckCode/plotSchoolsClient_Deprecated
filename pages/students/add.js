@@ -15,6 +15,7 @@ import {connect} from 'react-redux'
 import { createStudent } from '../../redux/actions/student';
 import { getAllDesignations } from '../../redux/actions/designation';
 import { getAllDepartments } from '../../redux/actions/department';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -91,4 +92,4 @@ const mapDispatchToProps = {
   createStudent:createStudent
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterStudentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterStudentPage));

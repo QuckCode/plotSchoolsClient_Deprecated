@@ -232,4 +232,4 @@ const mapDispatchToProps = {
 };
 
 
-export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(BehaviourScoreByStudent));
+export default connect(mapStateToProps, mapDispatchToProps)(BehaviourScoreByStudent);

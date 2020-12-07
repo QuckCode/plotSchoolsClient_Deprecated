@@ -14,6 +14,7 @@ import {connect} from 'react-redux'
 import { getAllClasses } from '../../redux/actions/classes';
 import { useEffect } from 'react';
 import { createArm } from '../../redux/actions/arm';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -87,4 +88,4 @@ const mapDispatchToProps = {
  createArm: createArm
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(RegisterArmPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterArmPage))

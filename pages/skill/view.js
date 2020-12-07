@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getAllSkill } from '../../redux/actions/skill';
 import SkillsTable from '../../components/Skill/SkillTable';
-
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
