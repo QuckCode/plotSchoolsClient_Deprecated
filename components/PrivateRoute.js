@@ -17,7 +17,7 @@ export function PrivateRoute(WrappedComponent) {
       // if the token is expired, that means the user is no longer (or never was) authenticated
       // and if we allow the request to continue, they will reach a page they should not be at.
        
-      if (await auth.isExpired()){
+      if (await AuthToken.isExpired(ctx)){
          await AuthToken.removeToken()
          return redirectToLogin(ctx.res)
       } 

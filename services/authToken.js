@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Cookie from "js-cookie";
 import Router from "next/router";
 import { redirectToLogin } from './redirectService';
+import { YAxis } from 'react-vis';
 const TOKEN_STORAGE_KEY = "plot.authToken";
 
 
@@ -27,7 +28,9 @@ export class AuthToken {
 
   static async isAuth (ctx) {
     if(ctx.req){
+
       if (ctx.req.headers.cookie) {
+        console.log(ctx.req.headers.cookie)
          return  this.getStoredToken(ctx) ? true :false
       } else {
          return  false
@@ -44,7 +47,31 @@ export class AuthToken {
       }
     }
   }
+  
+  static decodedToken (token){
+    try {
+      if (token)  return jwt.decode(token);
+    } catch (e) {
+      return null
+    }
+  }
 
+  static expiresAt(exp){
+      return new Date(exp);
+  }
+
+
+ static isExpired(ctx){
+   if(this.getStoredToken(ctx)!==null){
+      let token = this.getStoredToken(ctx)
+      let decodedToken= this.decodedToken(token)
+      if(decodedToken){
+        return new Date() > this.expiresAt(decodedToken.exp);
+      }
+     return false
+   }
+   return false
+ }
 
   constructor(token) {
     // we are going to default to an expired decodedToken
