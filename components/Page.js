@@ -32,19 +32,7 @@ const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
   const isNotDashboard = NonDashboardRoutes.includes(router.pathname);
 
   useEffect(() => {
-    // let userData= localStorage.getItem(TOKEN_LOCATION)
-    // if(userData){
-    //    let user= jwt.decode(userData,'BIU_WEB_APP')
-    //     loginSuccess( user, user.userType )
-    //     setLoading(false);
-    // }
-    // else {
-    //   if(!isNotDashboard){
-    //     router.push('/')
-    //     setLoading(false);
-    //   }
       setLoading(false);
-    // }
   }, [loading]);
 
   return (
