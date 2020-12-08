@@ -1,6 +1,8 @@
 import { Modal } from "antd";
 import axios, { AxiosRequestConfig } from "axios";
 import Router  from "next/router";
+import { loginSuccess } from "../redux/actions/auth";
+import { initStore } from "../redux/store";
 import { AuthToken } from "./authToken";
 
 
@@ -11,10 +13,10 @@ export const postLogin = async ( path,userData)=> {
    AuthToken.storeToken(data.token)
    let authToken = new AuthToken(data.token)
    if(authToken.decodedToken.userType==="staff"){
-     console.log(authToken.decodedToken.userType)
+     initStore().dispatch(loginSuccess(authToken.decodedToken, authToken.decodedToken.userType))
    }
    if(authToken.decodedToken.userType==="student"){
-    console.log(authToken.decodedToken.userType)
+    initStore().dispatch(loginSuccess(authToken.decodedToken, authToken.decodedToken.userType))
   }
   Router.push('/dashboard')
   return   Modal.success({

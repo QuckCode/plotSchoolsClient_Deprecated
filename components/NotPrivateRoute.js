@@ -2,6 +2,8 @@ import { NextPageContext } from "next";
 import React, { Component } from "react";
 import { AuthToken } from "../services/authToken";
 import { redirectToLogin , redirectBack} from "../services/redirectService";
+import {wrapper, initStore} from '../redux/store'
+import { loginSuccess } from "../redux/actions/auth";
 
 
 export function NotPrivateRoute(WrappedComponent) {
@@ -15,6 +17,9 @@ export function NotPrivateRoute(WrappedComponent) {
       // and if we allow the request to continue, they will reach a page they should not be at.
        
        if(await AuthToken.isAuth(ctx)){
+         let token = AuthToken.getStoredToken(ctx);
+         let users= AuthToken.decodedToken(token)
+         ctx.store.dispatch(loginSuccess(users, users.userType))
          return redirectBack(ctx)
        }
     

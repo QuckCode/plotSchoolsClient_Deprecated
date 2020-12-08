@@ -1,7 +1,10 @@
 import { NextPageContext } from "next";
 import React, { Component } from "react";
-import { AuthToken } from "../services/authToken";
+import { initStore,wrapper } from "../redux/store";
+import { AuthToken, TOKEN_STORAGE_KEY } from "../services/authToken";
 import { redirectToLogin } from "../services/redirectService";
+import Cookies from 'js-cookie';
+import { loginSuccess } from "../redux/actions/auth";
 
 
 export function PrivateRoute(WrappedComponent) {
@@ -13,14 +16,22 @@ export function PrivateRoute(WrappedComponent) {
     static async getInitialProps(ctx) {
       // create AuthToken
       const auth = await AuthToken.fromNext(ctx);
+      
       const initialProps = { auth };
       // if the token is expired, that means the user is no longer (or never was) authenticated
       // and if we allow the request to continue, they will reach a page they should not be at.
-       
       if (await AuthToken.isExpired(ctx)){
          await AuthToken.removeToken()
          return redirectToLogin(ctx.res)
       } 
+      else{
+        if(AuthToken.getStoredToken(ctx)!==undefined){
+           let token = AuthToken.getStoredToken(ctx)
+           let users = AuthToken.decodedToken(token)
+           ctx.store.dispatch(loginSuccess(users, users.userType))
+        }
+      }
+
       if (WrappedComponent.getInitialProps) {
         const wrappedProps = await WrappedComponent.getInitialProps(initialProps);
         // make sure our `auth: AuthToken` is always returned

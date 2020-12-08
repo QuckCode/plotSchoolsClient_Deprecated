@@ -3,7 +3,7 @@ import Cookie from "js-cookie";
 import Router from "next/router";
 import { redirectToLogin } from './redirectService';
 import { YAxis } from 'react-vis';
-const TOKEN_STORAGE_KEY = "plot.authToken";
+export const TOKEN_STORAGE_KEY = "plot.authToken";
 
 
 export class AuthToken {
