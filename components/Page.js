@@ -16,7 +16,9 @@ import routes from '../lib/routes';
 
 
 const { Content } = Layout;
- let  NonDashboardRoutes = []
+ let  NonDashboardRoutes = [
+   "/departments/edit/[id]"
+ ]
  routes.forEach((x)=>{
    if (x.path) {
       NonDashboardRoutes.push(x.path)
@@ -33,8 +35,7 @@ const { Content } = Layout;
 const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
   const [loading, setLoading] = useState(true);
   const [state] = useAppState();
-  const isNotDashboard = !NonDashboardRoutes.includes(router.pathname);
-
+  let  isNotDashboard = !NonDashboardRoutes.includes(router.pathname);
   useEffect(() => {
       setLoading(false);
   }, [loading]);
