@@ -47,7 +47,6 @@ export const getAllDepartments = (schoolID) => {
     dispatch( getAllDepartmentsBegin())
     return axios.get(`${url}/department/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllDepartmentsSuccess(data))
           return Promise.resolve()
     })

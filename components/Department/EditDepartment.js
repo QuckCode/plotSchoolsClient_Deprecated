@@ -12,6 +12,7 @@ const  EditDepartment = ({form, createDepartment, department})=> {
     const [departmentName, setDepartmentName] = useState("")
 
    const onPress= ()=>{
+     console.log(departmentName)
      Router.back()
    }
 
