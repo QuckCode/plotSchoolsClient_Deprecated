@@ -7,7 +7,7 @@ import {getAllSchools} from '../redux/actions/school'
 import  Router  from 'next/router';
 import { postLogin } from '../services/restService';
 import { NotPrivateRoute } from '../components/NotPrivateRoute';
-// import { loginStudent, loginStaff } from '../redux/actions/auth';
+import { loginSuccess } from '../redux/actions/auth';
  
 class SignInPage extends Component {
     componentDidMount(){
@@ -18,11 +18,11 @@ class SignInPage extends Component {
      
     loginStaff= (regNumber, password)=>{
       //  console.log({regNumber, password})
-       postLogin("/login/staff",{regNumber, password})
+       postLogin("/login/staff",{regNumber, password}, this.props.loginSuccess)
     }
 
     loginStudent= (regNumber, password)=>{
-      postLogin("/login/student",{admissionNumber:regNumber, password})
+      postLogin("/login/student",{admissionNumber:regNumber, password}, this.props.loginSuccess)
 
     }
    render() { 
@@ -43,7 +43,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
- getSchools:getAllSchools,
+ loginSuccess
 };
 
 

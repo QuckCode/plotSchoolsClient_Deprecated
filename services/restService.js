@@ -1,25 +1,21 @@
 import { Modal } from "antd";
 import axios, { AxiosRequestConfig } from "axios";
 import Router  from "next/router";
-import { loginSuccess } from "../redux/actions/auth";
 import { initStore } from "../redux/store";
 import { AuthToken } from "./authToken";
 
 
 
-export const postLogin = async ( path,userData)=> {
+export const postLogin = async ( path,userData , loginSuccess)=> {
+  console.log(loginSuccess);
   return await post(path, userData)
- .then(({data})=>{
+ .then( async ({data})=>{
    AuthToken.storeToken(data.token)
    let authToken = new AuthToken(data.token)
-   if(authToken.decodedToken.userType==="staff"){
-     initStore().dispatch(loginSuccess(authToken.decodedToken, authToken.decodedToken.userType))
-   }
-   if(authToken.decodedToken.userType==="student"){
-    initStore().dispatch(loginSuccess(authToken.decodedToken, authToken.decodedToken.userType))
-  }
-  Router.push('/dashboard')
-  return   Modal.success({
+   await loginSuccess(authToken.decodedToken, authToken.decodedToken.userType)
+   await Router.push('/dashboard')
+
+  return  Modal.success({
     title:"Login Successfully",
   })
  })
