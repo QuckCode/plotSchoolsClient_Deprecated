@@ -3,7 +3,7 @@ import axios from "axios"
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION, staff, student} from "../varables"
 import jwt from 'jsonwebtoken'
 import { AuthToken} from '../../services/authToken'
-import  Router  from "next/router"
+
 
 
 //Thunk to handle a successfull login 
