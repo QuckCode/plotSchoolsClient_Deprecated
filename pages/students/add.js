@@ -14,7 +14,7 @@ import { getAllArms } from '../../redux/actions/arm';
 import {connect} from 'react-redux'
 import { createStudent } from '../../redux/actions/student';
 import { getAllDesignations } from '../../redux/actions/designation';
-import { getAllDepartments } from '../../redux/actions/department';
+import { getAllDepartments } from '../../redux/department/department';
 import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title

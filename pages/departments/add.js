@@ -9,7 +9,7 @@ import {
 } from 'react-feather';
 import RegisterDepartment from '../../components/Department/RegisterDepartment';
 import { connect } from 'react-redux';
-import { createDepartment } from '../../redux/actions/department';
+import { createDepartment } from '../../redux/department/department';
 import { useEffect } from 'react';
 import { PrivateRoute } from '../../components/PrivateRoute';
 

@@ -8,11 +8,12 @@ import {
   Trash,
 } from 'react-feather';
 import { connect } from 'react-redux';
-import { createDepartment } from '../../../redux/actions/department';
 import { useEffect, useState } from 'react';
 import { PrivateRoute } from '../../../components/PrivateRoute';
 import EditDepartment from '../../../components/Department/EditDepartment';
 import Router  from 'next/router';
+import { editDepartment } from '../../../redux/actions/department';
+
 
 const Title = Typography.Title
 
@@ -57,6 +58,7 @@ const EditDepartmentPage = props =>{
       let index= props.department.departments.findIndex(x=>{
         return (x._id===props.query.id)
       })
+      let departmentId =  props.department.departments[index]._id
       setDepartment({...props.department.departments[index], loading:false})
     }
     else{
@@ -74,7 +76,7 @@ const EditDepartmentPage = props =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-             <EditDepartment department={department} createDepartment={props.createDepartment}/>
+             <EditDepartment department={department} createDepartment={props.createDepartment} editDepartment={props.editDepartment}/>
           </div>
        </Card>
   )
@@ -84,7 +86,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createDepartment:createDepartment
+  editDepartment:editDepartment
 
 };
 

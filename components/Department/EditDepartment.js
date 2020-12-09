@@ -6,13 +6,23 @@ import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 
 
-const  EditDepartment = ({form, createDepartment, department})=> {
+const  EditDepartment = ({form, createDepartment, department, editDepartment})=> {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const [departmentName, setDepartmentName] = useState("")
 
    const onPress= ()=>{
-     console.log(departmentName)
+      let  newDepartment = {department:department._id,...department,  name:departmentName}
+     editDepartment(newDepartment)
+     .then(data=>{
+        return Modal.success({
+          title:"Successful edit",
+          content:`Changed department name from ${department.name} to ${departmentName}`
+        })
+     })
+     .catch(err=>{
+
+     })
      Router.back()
    }
 
