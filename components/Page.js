@@ -17,7 +17,8 @@ import routes from '../lib/routes';
 
 const { Content } = Layout;
  let  NonDashboardRoutes = [
-   "/departments/edit/[id]"
+   "/departments/edit/[id]",
+   "/designation/edit/[id]"
  ]
  routes.forEach((x)=>{
    if (x.path) {

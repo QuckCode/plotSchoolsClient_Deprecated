@@ -48,7 +48,7 @@ const menu = (
   </Menu>
 );
 
-const RegisterDepartmentPage = props =>{
+const RegisterDesignationPage = props =>{
   return (
         <Card 
         title="Create New Designations"
@@ -74,4 +74,4 @@ const mapDispatchToProps = {
 createDesignation : createDesignation
 };
 
-export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage));
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterDesignationPage));
