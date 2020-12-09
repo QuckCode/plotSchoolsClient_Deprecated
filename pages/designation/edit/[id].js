@@ -8,9 +8,12 @@ import {
   Trash,
 } from 'react-feather';
 import { connect } from 'react-redux';
-import { createDesignation } from '../../../redux/actions/designation';
+import {  editDesignation} from '../../../redux/actions/designation';
 import RegisterDesignation from '../../../components/Designation/RegisterDesignation';
 import { PrivateRoute } from '../../../components/PrivateRoute';
+import { useState, useEffect } from 'react';
+import  Router  from 'next/router';
+import EditDesignation from '../../../components/Designation/EditDesignation';
 
 const Title = Typography.Title
 
@@ -48,7 +51,20 @@ const menu = (
   </Menu>
 );
 
-const EditDepartmentPage = props =>{
+const EditDesignationPage = props =>{
+   const [designation, setDesignation] = useState({loading:true, name:""})
+   useEffect(()=>{
+    if(props.query.id && props.designation.designations.length >0){
+      let index= props.designation.designations.findIndex(x=>{
+        return (x._id===props.query.id)
+      })
+      let designationId =  props.designation.designations[index]._id
+      setDesignation({...props.designation.designations[index], loading:false})
+    }
+    else{
+      Router.push("/designation/view")
+    }
+ }, [props.query.id])
   return (
         <Card 
         title="Edit Designations"
@@ -60,7 +76,7 @@ const EditDepartmentPage = props =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-             <RegisterDesignation designation={props.designation} createDesignation={props.createDesignation}/>
+             <EditDesignation  designation={designation} editDesignation={props.editDesignation} />
           </div>
        </Card>
   )
@@ -71,7 +87,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-// createDesignation : createDesignation
+// createDesignation : createDesignation,
+  editDesignation
 };
 
-export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(EditDepartmentPage));
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(EditDesignationPage));

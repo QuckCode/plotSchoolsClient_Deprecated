@@ -6,30 +6,44 @@ import { school } from '../../redux/varables';
 const FormItem = Form.Item;
 
 
-const  EditDesignation = ({form, department, editDesignation})=> {
+const  EditDesignation = ({form, designation, editDesignation})=> {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const [designationName, setDesignationName] = useState("")
 
    const onPress= ()=>{
-      alert("sjsj")
+      let newDesignation = {designation:designation._id, ...designation,name:designationName}
+      editDesignation(newDesignation)
+      .then(data=>{
+        return Modal.success({
+          title:"Successful edit",
+          content:`Changed department name from ${designation.name} to ${designationName}`
+        })
+     })
+     .catch(err=>{
+      return Modal.error({
+        title:err.title,
+        content:err.message
+      })
+     })
+      Router.back()
    }
 
     useEffect(()=>{
-        setDepartmentName(department.name)
-    },[department])
+        setDesignationName(designation.name)
+    },[designation])
     return (
-      <Spin spinning={department.loading}>
+      <Spin spinning={designation.loading}>
       <div className="p-4">
       <Form>
         <FormItem {...formItemLayout} label="Department">
        <Input onChange={(e)=>{
          setDesignationName(e.target.value)
-       }} value={departmentName} />
+       }} value={designationName} />
         </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button  onClick={onPress} type="primary" htmlType="submit">
-          { department.loading?   <Icon type="loading" />   : (<> </>) }   Save
+          { designation.loading?   <Icon type="loading" />   : (<> </>) }   Save
           </Button>
         </FormItem>
       </Form>

@@ -5,6 +5,9 @@ import {
   FETCH_ALL_DESIGNATION_BEGIN,
   FETCH_ALL_DESIGNATION_SUCCESS,
   FETCH_ALL_DESIGNATION_ERROR,
+  EDIT_DESIGNATION_BEGIN,
+  EDIT_DESIGNATION_SUCCESS,
+  EDIT_DESIGNATION_ERROR,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -41,6 +44,37 @@ const createDesignationError= error=>({
     error
  }
 })
+
+
+export const editDesignation = (data) => {
+  return dispatch => {
+    dispatch(editDesignationBegin())
+    return axios.post(`${url}/designation/edit`,data)
+    .then(({data})=>{
+          dispatch(editDesignationSuccess(data))
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(editDesignationError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+ };
+ 
+ const editDesignationBegin= ()=>({
+  type:EDIT_DESIGNATION_BEGIN
+ })
+ 
+ const editDesignationSuccess= ()=>({
+  type:EDIT_DESIGNATION_SUCCESS,
+ })
+ 
+ const editDesignationError= error=>({
+  type: EDIT_DESIGNATION_ERROR,
+  payload:{
+     error
+  }
+ })
 
 
 export const getAllDesignations = (schoolID) => {
