@@ -11,6 +11,10 @@ const DepartmentTable= ({department})=>{
     Router.push(`/departments/edit/${x._id}`)
   }
 
+  const deleteDepartment= (x)=>{
+    console.log(x)
+  }
+
    const columns = [
     {
       title: 'Department',
@@ -24,10 +28,15 @@ const DepartmentTable= ({department})=>{
       width: state.mobile?100:150,
       render: (x) =>{
         return (
-        <Button onClick={()=>openEditLink(x)}  type="primary" htmlType="submit">
-         <Icon type="edit" />
-         Edit
-      </Button>
+          <div>
+           <Button onClick={()=>openEditLink(x)}  type="primary" htmlType="submit">
+             <Icon type="edit" /> Edit
+           </Button>
+           <Button onClick={()=>deleteDepartment(x)}   style={{background:"red", color:'#fff', marginLeft:10}}>
+              <Icon type="delete" /> Delete
+          </Button>
+
+          </div>
         )
       }
     },
