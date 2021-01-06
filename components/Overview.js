@@ -5,7 +5,9 @@ import {
   Save,
   Trash,
   User,
-  CreditCard
+  CreditCard,
+  MessageCircle,
+  Home
 
 } from 'react-feather';
 import {
@@ -58,6 +60,46 @@ const Overview = ({staffs, classes ,students}) => {
   return (
     <div>
       <Row gutter={16}>
+      <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+            title="Current School term"
+            value={" First Term"}
+            icon={<Home size={20} strokeWidth={1} />}
+            color={theme.warningColor}
+            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+            title="Airtime balance"
+            value={"NGN 1000.00"}
+            icon={<CreditCard size={20} strokeWidth={1} />}
+            color={theme.primaryColor}
+            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+            title="Total message received"
+            value={"10"}
+            icon={<MessageCircle size={20} strokeWidth={1} />}
+            color={theme.darkColor}
+            clickHandler={() => message.info(`You have ${10} Message`)}
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+             title="School fees payment"
+            value={10}
+            icon={<CreditCard size={20} strokeWidth={1} />}
+            color={theme.errorColor}
+            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+          />
+        </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"

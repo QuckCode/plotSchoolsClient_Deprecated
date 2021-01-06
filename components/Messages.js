@@ -9,24 +9,23 @@ import {
   List,
   Menu,
   Row,
-  Select
+  Select,
+  Spin,
+  Alert
 } from 'antd';
 import {
-  CheckCircle,
-  Circle,
-  Heart,
   MessageCircle,
-  RefreshCcw,
-  Star,
-  User
+  User,
+  Inbox,
+  ExternalLink, Send, CreditCard
 } from 'react-feather';
 
-import MOCKMESSAGES from '../demos/mock/messages';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import format from 'date-fns/format';
 import styled from 'styled-components';
 import { useAppState } from './shared/AppProvider';
 import { useState } from 'react';
+import { capitalize } from '../lib/helpers';
 
 const { Sider } = Layout;
 const { Option } = Select;
@@ -41,13 +40,13 @@ const Fab = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Messages = ({ form } = props) => {
+const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, airtimeModal, setBulkModal, setAirtimeModal} = props) => {
   const [state] = useAppState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [replyBox, setBox] = useState(false);
   const [navigation, setNavigation] = useState(false);
   const [messages, setMessages] = useState(false);
-  const selectedMessage = MOCKMESSAGES[selectedIndex];
+  const selectedMessage = mockMessage[selectedIndex];
 
   const createMarkup = body => {
     return { __html: body };
@@ -62,100 +61,53 @@ const Messages = ({ form } = props) => {
       </div>
       <div className="px-4">
         <small>
-          <b>Mailboxes</b>
+          <b>Sms Box</b>
         </small>
       </div>
       <Menu mode="inline" className="mb-3 border-right-0">
-        <Menu.Item key="1">Inbox</Menu.Item>
-        <Menu.Item key="2">Sent mail</Menu.Item>
-        <Menu.Item key="3">Starred</Menu.Item>
-        <Menu.Item key="4">Drafts</Menu.Item>
-        <Menu.Item key="5">Trash</Menu.Item>
-      </Menu>
-
-      <div className="px-4">
-        <small>
-          <b>Tags</b>
-        </small>
-      </div>
-      <Menu mode="inline" className="border-0">
-        <Menu.Item key="1">
-          <Circle
-            size={10}
-            strokeWidth={1}
-            fill={'currentColor'}
-            className="mr-3 text-error"
-          />
-          Personal
+      <Menu.Item onClick={onTabChange} key="1" className={`${index =="1" ? "ant-menu-item-selected" :""}`}>
+             <a>
+               <span className="anticon"><Inbox strokeOpacity={1} size={16}/> </span>
+                    <span className="mr-auto">{capitalize("Inbox")}</span>
+            </a>
         </Menu.Item>
-        <Menu.Item key="2">
-          <Circle
-            size={10}
-            strokeWidth={1}
-            fill={'currentColor'}
-            className="mr-3 text-success"
-          />
-          Clients
+        <Menu.Item onClick={onTabChange} key="2" className={`${index =="2" ? "ant-menu-item-selected" :""}`} >
+             <a>
+               <span className="anticon"><ExternalLink  strokeOpacity={1} size={16}/> </span>
+                    <span className="mr-auto">{capitalize("Outbox")}</span>
+            </a>
         </Menu.Item>
-        <Menu.Item key="3">
-          <Circle
-            size={10}
-            strokeWidth={1}
-            fill={'currentColor'}
-            className="mr-3 text-normal"
-          />
-          Family
+        <Menu.Item onClick={ (e)=>{
+             onTabChange(e)
+             setAirtimeModal(false)
+             setBulkModal(true)
+          }} key="3" className={`${index =="3" ? "ant-menu-item-selected" :""}`} >
+             <a>
+               <span className="anticon"><Send  strokeOpacity={1} size={16}/> </span>
+                    <span className="mr-auto">{capitalize("Bulk SMS")}</span>
+            </a>
         </Menu.Item>
-        <Menu.Item key="4">
-          <Circle
-            size={10}
-            strokeWidth={1}
-            fill={'currentColor'}
-            className="mr-3 text-primary"
-          />
-          Friends
+        <Menu.Item  onClick={ (e)=>{
+             onTabChange(e)
+             setAirtimeModal(true)
+             setBulkModal(false)
+          }}  key="4"  className={`${index =="4" ? "ant-menu-item-selected" :""}`} >
+             <a>
+               <span className="anticon"><CreditCard strokeOpacity={1} size={16}/> </span>
+                    <span className="mr-auto">{capitalize("Buy Airtime")}</span>
+            </a>
         </Menu.Item>
       </Menu>
     </div>
   );
+   
 
   const messagesSidebar = (
-    <div
-      css={`
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        height: 100%;
-        overflow: hidden;
-        border-right: 1px solid rgba(0, 0, 0, 0.05);
-      `}
-    >
-      <Menu mode="horizontal" className="border-0 m-auto">
-        <Menu.Item key="read">
-          <a href="javascript:;">
-            <CheckCircle size={20} strokeWidth={1} />
-          </a>
-        </Menu.Item>
-        <Menu.Item key="favorite">
-          <a href="javascript:;">
-            <Heart size={20} strokeWidth={1} />
-          </a>
-        </Menu.Item>
-        <Menu.Item key="star">
-          <a href="javascript:;">
-            <Star size={20} strokeWidth={1} />
-          </a>
-        </Menu.Item>
-        <Menu.Item key="refresh">
-          <a href="javascript:;">
-            <RefreshCcw size={20} strokeWidth={1} />
-          </a>
-        </Menu.Item>
-      </Menu>
       <List
         className="scroll-y flex-1 bg-transparent px-3 py-1"
         itemLayout="horizontal"
-        dataSource={MOCKMESSAGES}
+        loading={loading}
+        dataSource={mockMessage}
         renderItem={(item, index) => (
           <List.Item
             onClick={() => setSelectedIndex(index)}
@@ -175,23 +127,65 @@ const Messages = ({ form } = props) => {
                     width: 100%;
                   `}
                 >
-                  <span>{item.from}</span>
+                  <span>{`${item.from  }\n`}</span>
                   <span className="mr-auto" />
+                  <br/>
                   <span>{distanceInWordsToNow(new Date(item.date))}</span>
                 </small>
               }
-              description={item.subject}
             />
           </List.Item>
         )}
+
       />
-    </div>
+      
   );
+
+  const modalSidebar = (
+    <List
+      className="scroll-y flex-1 bg-transparent px-3 py-1"
+      itemLayout="horizontal"
+      loading={loading}
+      dataSource={mockMessage}
+      renderItem={(item, index) => (
+        <List.Item
+          onClick={() => setSelectedIndex(index)}
+          style={{
+            backgroundColor: selectedIndex === index ? '#e6f7ff' : ''
+          }}
+          className={`${
+            selectedIndex === index ? '' : 'border-0'
+          } rounded border-0 p-3`}
+        >
+          <List.Item.Meta
+            avatar={item.avatar}
+            title={
+              <small
+                css={`
+                  display: flex;
+                  width: 100%;
+                `}
+              >
+                <span>{`${item.from  }\n`}</span>
+                <span className="mr-auto" />
+                <br/>
+                <span>{distanceInWordsToNow(new Date(item.date))}</span>
+              </small>
+            }
+          />
+        </List.Item>
+      )}
+
+    />
+    
+);
+
 
   return (
     <>
       <Layout className="fill-workspace rounded shadow-sm overflow-hidden">
         {!state.mobile && <Sider width={150}>{navigationSidebar}</Sider>}
+        
         <Drawer
           closable={false}
           width={150}
@@ -220,13 +214,19 @@ const Messages = ({ form } = props) => {
           `}
         >
           <div className={`${state.mobile ? 'px-1 py-3' : 'px-5 py-3'}`}>
-            <div
+            {
+             mockMessage.length !==0  ? (
+                <Spin
+               spinning={loading} 
+                delay={500}
+                >
+                 <div
               className="mb-3"
               css={`
                 display: flex;
               `}
             >
-              {selectedMessage.avatar}
+              {selectedMessage.avatar }
               <div className="pl-3">
                 <h6>{selectedMessage.from}</h6>
                 <small>
@@ -236,6 +236,25 @@ const Messages = ({ form } = props) => {
             </div>
             <h5 className="my-4">{selectedMessage.subject}</h5>
             <div dangerouslySetInnerHTML={createMarkup(selectedMessage.body)} />
+            <br/> <br/><br/>
+            <div >
+                <Button type="primary" onClick={() => setBox(!replyBox)}>
+                  Reply
+               </Button>
+            </div>
+            </Spin>)
+            : (
+            <div> 
+              <Alert
+                message="Error"
+                description="There user you do not have any message on our platform"
+                type="warning"
+                showIcon
+                 />
+            </div>  
+            )
+            }
+
 
             {state.mobile && (
               <Fab>
@@ -264,116 +283,47 @@ const Messages = ({ form } = props) => {
       </Layout>
 
       <Drawer
-        title="Compose"
-        width={720}
-        placement="right"
+        title="Compose Sms"
+        width={320}
+        placement="left"
         onClose={() => setBox(!replyBox)}
         maskClosable={false}
         visible={replyBox}
         style={{
-          height: 'calc(100% - 55px)',
+          height: 'calc(100% )',
           overflow: 'auto',
-          paddingBottom: 53
         }}
       >
         <Form layout="vertical" hideRequiredMark>
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={16}>
               <Form.Item label="Name">
                 {form.getFieldDecorator('name', {
                   rules: [{ required: true, message: 'please enter user name' }]
                 })(<Input placeholder="please enter user name" />)}
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label="Url">
-                {form.getFieldDecorator('url', {
-                  rules: [{ required: true, message: 'please enter url' }]
-                })(
-                  <Input
-                    style={{ width: '100%' }}
-                    addonBefore="http://"
-                    addonAfter=".com"
-                    placeholder="please enter url"
-                  />
-                )}
-              </Form.Item>
-            </Col>
+
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="Owner">
-                {form.getFieldDecorator('owner', {
-                  rules: [{ required: true, message: 'Please select an owner' }]
-                })(
-                  <Select placeholder="Please select an owner">
-                    <Option value="xiao">Xiaoxiao Fu</Option>
-                    <Option value="mao">Maomao Zhou</Option>
-                  </Select>
-                )}
+            <Col span={16}>
+              <Form.Item label="Name">
+                {form.getFieldDecorator('name', {
+                  rules: [{ required: true, message: 'please enter user name' }]
+                })(<Input placeholder="please enter user name" />)}
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label="Type">
-                {form.getFieldDecorator('type', {
-                  rules: [{ required: true, message: 'Please choose the type' }]
-                })(
-                  <Select placeholder="Please choose the type">
-                    <Option value="private">Private</Option>
-                    <Option value="public">Public</Option>
-                  </Select>
-                )}
-              </Form.Item>
-            </Col>
+
           </Row>
           <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="Approver">
-                {form.getFieldDecorator('approver', {
-                  rules: [
-                    { required: true, message: 'Please choose the approver' }
-                  ]
-                })(
-                  <Select placeholder="Please choose the approver">
-                    <Option value="jack">Jack Ma</Option>
-                    <Option value="tom">Tom Liu</Option>
-                  </Select>
-                )}
+            <Col span={16}>
+              <Form.Item label="Name">
+                {form.getFieldDecorator('name', {
+                  rules: [{ required: true, message: 'please enter user name' }]
+                })(<Input placeholder="please enter user name" />)}
               </Form.Item>
             </Col>
-            <Col span={12}>
-              <Form.Item label="DateTime">
-                {form.getFieldDecorator('dateTime', {
-                  rules: [
-                    { required: true, message: 'Please choose the dateTime' }
-                  ]
-                })(
-                  <DatePicker.RangePicker
-                    style={{ width: '100%' }}
-                    getPopupContainer={trigger => trigger.parentNode}
-                  />
-                )}
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={24}>
-              <Form.Item label="Description">
-                {form.getFieldDecorator('description', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'please enter url description'
-                    }
-                  ]
-                })(
-                  <Input.TextArea
-                    rows={4}
-                    placeholder="please enter url description"
-                  />
-                )}
-              </Form.Item>
-            </Col>
+
           </Row>
         </Form>
         <div
@@ -397,7 +347,7 @@ const Messages = ({ form } = props) => {
           >
             Cancel
           </Button>
-          <Button onClick={() => setBox(!replyBox)}>Submit</Button>
+          <Button onClick={() => setBox(!replyBox)}>Send</Button>
         </div>
       </Drawer>
     </>

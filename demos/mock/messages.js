@@ -2,136 +2,102 @@ import { Avatar } from 'antd';
 import subDays from 'date-fns/sub_days';
 import subHours from 'date-fns/sub_hours';
 import subMinutes from 'date-fns/sub_minutes';
+import { User } from 'react-feather';
+import { randomColor } from '../../lib/helpers';
+
 
 const now = Date.now();
-const mockMessages = [
+
+const mockData = 
+[
   {
-    from: 'Social',
-    date: now,
-    subject:
-      'Check out this weeks most popular website designs in the Milkyway!',
-    avatar: (
-      <Avatar
-        size="large"
-        style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-      >
-        S
-      </Avatar>
-    ),
-    body:
-      '<p>Hi John,</p><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p><p>Sincerely yours</p><p>Jane Doe</p>'
+      "linkId": "9b354379-0d2d-4da7-b307-3b3361326e21",
+      "text": "nnnnnnn",
+      "to": "20425",
+      "id": 523112,
+      "date": "2021-01-05T18:23:12.101Z",
+      "from": "+234903474740"
   },
   {
-    from: 'Promotions',
-    date: subMinutes(now, 12),
-    subject:
-      'eBook: The complete guide to creating Angularjs single page applications is here.',
-    avatar: <Avatar size="large" src="/static/images/face1.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
+      "linkId": "ccd86a15-85ee-4813-964e-596803d0bc22",
+      "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+      "to": "20425",
+      "id": 52315222,
+      "date": "2021-01-05T19:25:31.308Z",
+      "from": "+2348024968233"
   },
   {
-    from: 'Updates',
-    date: subMinutes(now, 25),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: (
-      <Avatar
-        size="large"
-        style={{
-          color: 'rgb(34, 245, 0)',
-          backgroundColor: 'rgb(207, 253, 219)'
-        }}
-      >
-        S
-      </Avatar>
-    ),
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Melissa Welch',
-    date: subHours(now, 2),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: <Avatar size="large" src="/static/images/face2.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Vincent Peterson',
-    date: subHours(now, 3),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: <Avatar size="large" src="/static/images/face3.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Pamela Wood',
-    date: subDays(now, 1),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: (
-      <Avatar
-        size="large"
-        style={{
-          color: 'rgb(143, 0, 245)',
-          backgroundColor: 'rgb(214, 207, 253)'
-        }}
-      >
-        S
-      </Avatar>
-    ),
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Tammy Carpenter',
-    date: subDays(now, 2),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: <Avatar size="large" src="/static/images/face4.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Emma Sullican',
-    date: subDays(now, 3),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: (
-      <Avatar
-        size="large"
-        style={{
-          color: 'rgb(245, 0, 0)',
-          backgroundColor: 'rgb(253, 207, 207)'
-        }}
-      >
-        S
-      </Avatar>
-    ),
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Andrea Brewer',
-    date: subDays(now, 4),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: <Avatar size="large" src="/static/images/face5.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  },
-  {
-    from: 'Sean Carpenter',
-    date: subDays(now, 5),
-    subject:
-      'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-    avatar: <Avatar size="large" src="/static/images/face1.jpg" />,
-    body:
-      '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\n\n        <p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.</p>\n\n        <blockquote>\n            <i>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.</i>\n        </blockquote>\n\n        <p>Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>\n\n        <p>You don’t need to see his identification … These aren’t the droids you’re looking for … He can go about his business … Move along.</p>\n        <small>Obi-Wan Kenobi, Jedi Knight</small>\n\n        <p>Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Fusce vulputate eleifend sapien. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus.</p>'
-  }
-];
+    "linkId": "9b354379-0d2d-4da7-b307-3b3361326e2e",
+    "text": "nnnnnnn",
+    "to": "20425",
+    "id": 52314222,
+    "date": "2021-01-05T18:23:12.101Z",
+    "from": "+23490347474"
+},
+{
+    "linkId": "ccd86a15-85ee-4813-964e-596803d0bc24",
+    "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+    "to": "20425",
+    "id": 52315222,
+    "date": "2021-01-05T19:25:31.308Z",
+    "from": "+2348024968233"
+},
+{
+  "linkId": "9b354379-0d2d-4da7-b307-3b3361326eve",
+  "text": "nnnnnnn",
+  "to": "20425",
+  "id": 52314102,
+  "date": "2021-01-05T18:23:12.101Z",
+  "from": "+23490347474"
+},
+{
+  "linkId": "ccd86a15-85ee-4813-964e-596803d0bcj2",
+  "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+  "to": "20425",
+  "id": 52315,
+  "date": "2021-01-05T19:25:31.308Z",
+  "from": "+2348024968233"
+},
+{
+  "linkId": "ccd86a15-85ee-4813-964e-596803d0bcj2",
+  "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+  "to": "20425",
+  "id": 52315,
+  "date": "2021-01-05T19:25:31.308Z",
+  "from": "+2348024968233"
+},
+{
+  "linkId": "ccd86a15-85ee-4813-964e-596803d0bcj2",
+  "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+  "to": "20425",
+  "id": 52315,
+  "date": "2021-01-05T19:25:31.308Z",
+  "from": "+2348024968233"
+},
+{
+  "linkId": "ccd86a15-85ee-4813-964e-596803d0bcj2",
+  "text": "jdeehfehfhefhefehdeheeefeedcdscdcdcdcdc",
+  "to": "20425",
+  "id": 52315,
+  "date": "2021-01-05T19:25:31.308Z",
+  "from": "+2348024968233"
+}
+]
+
+let colorArray = []
+let mockMessages = mockData.length !==0 ?   mockData.map(({from , date, id , text}, i)=>{ 
+   if(colorArray.find(x=>x.from===from) ){
+     let color = (colorArray.find(x=>x.from===from))
+     return  {id , from,date, body:text, avatar:(<Avatar size="large" style={{ color:color.color, backgroundColor:color.backgroundColor }}  > <User/> </Avatar> ) 
+   }}
+   else {
+    let color= randomColor()
+    let backgroundColor = randomColor()
+    colorArray.push({from,color, backgroundColor})
+    return  {id , from,date, body:text, avatar:(<Avatar size="large" style={{ color, backgroundColor }}  > <User/> </Avatar> )}
+   }
+ 
+}) : []
+
 
 export default mockMessages;
