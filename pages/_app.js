@@ -18,7 +18,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 import {Provider} from 'react-redux';
 import { wrapper,initStore } from '../redux/store';
 import { TOKEN_LOCATION } from '../redux/varables';
-import { AuthToken } from '../services/authToken';
+// import { AuthToken } from '../services/authToken';
 
 
 class MyApp extends App {
