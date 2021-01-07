@@ -3,16 +3,17 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import HomeHeader from '../components/HomeHeader';
+import { NotPrivateRoute } from '../components/NotPrivateRoute';
 import Overview from '../components/Overview';
 import Demo from '../demos/antd/carousel/demo';
 
 const IndexPage = ({auth}) => {
   const Router = useRouter()
-  useEffect(()=>{
-    if (auth.isAuth) {
-      Router.push('/dashboard')
-   }
-  })
+  // useEffect(()=>{
+  //   if (auth.isAuth) {
+  //     Router.push('/dashboard')
+  //  }
+  // })
 
   return(
     <>
@@ -33,4 +34,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default   connect(mapStateToProps, mapDispatchToProps)(IndexPage);
+export default  NotPrivateRoute(connect(mapStateToProps, mapDispatchToProps)(IndexPage));

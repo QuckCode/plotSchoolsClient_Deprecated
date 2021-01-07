@@ -6,6 +6,9 @@ import {
   FETCH_ALL_DEPARTMENT_BEGIN,
   FETCH_ALL_DEPARTMENT_SUCCESS,
   FETCH_ALL_DEPARTMENT_ERROR,
+  EDIT_DEPARTMENT_BEGIN,
+  EDIT_DEPARTMENT_ERROR,
+  EDIT_DEPARTMENT_SUCCESS,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -47,7 +50,6 @@ export const getAllDepartments = (schoolID) => {
     dispatch( getAllDepartmentsBegin())
     return axios.get(`${url}/department/${school}`)
     .then(({data})=>{
-       console.log(data)
           dispatch(getAllDepartmentsSuccess(data))
           return Promise.resolve()
     })
@@ -75,3 +77,34 @@ const getAllDepartmentsError= error=>({
      error
   }
 })
+
+
+export const editDepartment = (data) => {
+  return dispatch => {
+    dispatch(editDepartmentBegin())
+    return axios.post(`${url}/department/edit`,data)
+    .then(({data})=>{
+          dispatch(editDepartmentSuccess(data))
+           return Promise.resolve((data))
+    })
+    .catch(({response})=>{
+       dispatch(editDepartmentError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+ };
+ 
+ const editDepartmentBegin= ()=>({
+  type:EDIT_DEPARTMENT_BEGIN
+ })
+ 
+ const editDepartmentSuccess= ()=>({
+  type:EDIT_DEPARTMENT_SUCCESS,
+ })
+ 
+ const editDepartmentError= error=>({
+  type: EDIT_DEPARTMENT_ERROR,
+  payload:{
+     error
+  }
+ })

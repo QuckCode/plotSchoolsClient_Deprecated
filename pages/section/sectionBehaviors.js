@@ -15,6 +15,7 @@ import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
 import FetchSection from '../../components/Section/FetchSection';
 import { getAllBehaviour , getCurrentSectionBehaviour, removeSectionBehaviour , addSectionBehaviour} from '../../redux/actions/behaviour';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -238,18 +239,6 @@ const SectionBehaviourPage = (props) =>{
 
 
 
-const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    store.dispatch(getAllSection())
-    return {
-      props:{
-       
-      }
-    }
-  }
-)
-
-
 
 
 const mapStateToProps = state => ({
@@ -267,4 +256,4 @@ const mapDispatchToProps = {
 
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(SectionBehaviourPage)
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SectionBehaviourPage))

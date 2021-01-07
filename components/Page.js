@@ -12,39 +12,33 @@ import {connect} from 'react-redux'
 import  { useRouter }  from 'next/router';
 import {  loginSuccess, logOut } from '../redux/actions/auth';
 import { TOKEN_LOCATION } from '../redux/varables';
-import jwt from 'jsonwebtoken';
+import routes from '../lib/routes';
 
 
 const { Content } = Layout;
+ let  NonDashboardRoutes = [
+   "/departments/edit/[id]",
+   "/designation/edit/[id]"
+ ]
+ routes.forEach((x)=>{
+   if (x.path) {
+      NonDashboardRoutes.push(x.path)
+   }
+   if(x.children){
+     x.children.map((child)=>{
+       NonDashboardRoutes.push(child.path)
+     })
+   }
+  
+})
 
-const NonDashboardRoutes = [
-  '/signin',
-  '/signup',
-  '/forgot',
-  '/lockscreen',
-  '/',
-  '/pricing'
-];
 
 const Page = ({ router, children, auth , loginSuccess , logOut,  }) => {
   const [loading, setLoading] = useState(true);
   const [state] = useAppState();
-  const isNotDashboard = NonDashboardRoutes.includes(router.pathname);
-
+  let  isNotDashboard = !NonDashboardRoutes.includes(router.pathname);
   useEffect(() => {
-    let userData= localStorage.getItem(TOKEN_LOCATION)
-    if(userData){
-       let user= jwt.decode(userData,'BIU_WEB_APP')
-        loginSuccess( user, user.userType )
-        setLoading(false);
-    }
-    else {
-      if(!isNotDashboard){
-        router.push('/')
-        setLoading(false);
-      }
       setLoading(false);
-    }
   }, [loading]);
 
   return (

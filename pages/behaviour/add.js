@@ -12,6 +12,7 @@ import {
 import  {connect} from 'react-redux'
 import { createBehaviour } from '../../redux/actions/behaviour';
 import RegisterBehaviourType from '../../components/Behaviour/RegisterBehaviourType';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -80,4 +81,4 @@ const mapDispatchToProps = {
   createBehaviour:createBehaviour
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BehaviorAddPage);
+export default  PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(BehaviorAddPage));

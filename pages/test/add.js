@@ -12,6 +12,7 @@ import {
 import RegisterTestType from '../../components/Test/RegisterTestType';
 import { createTest } from '../../redux/actions/test';
 import  {connect} from 'react-redux'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -80,4 +81,5 @@ const mapDispatchToProps = {
   createTest:createTest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestAddPage);
+
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(TestAddPage));

@@ -23,6 +23,8 @@ import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
 import axios from 'axios'
 import { url } from '../../redux/varables';
+import { capitalize } from '../../lib/helpers';
+
 
 const Title = Typography.Title
 
@@ -156,10 +158,11 @@ const TestAddPage = (props) =>{
     setTableHeight(window.innerHeight-280)
   }, []);
   
+
   return (
     <>
       <Card 
-        title="Add Test Score By Subject"
+        title={`${props.testBySubject.subject  && props.testBySubject.test  ? `Add score for ${ capitalize(props.testBySubject.subject.name ? props.testBySubject.subject.name :"" )}  ${ capitalize(props.testBySubject.test.name?props.testBySubject.test.name:"")} ` : `Add Score By Subject`  } `}
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />

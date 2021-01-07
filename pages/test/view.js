@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getAllDepartments, getAllTest } from '../../redux/actions/test';
 import TestTable from '../../components/Test/TestTable';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -81,4 +82,4 @@ const mapStateToProps = state => ({
    getAllTest:getAllTest
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestViewPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(TestViewPage));

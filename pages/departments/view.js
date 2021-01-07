@@ -13,6 +13,7 @@ import DepartmentTable from '../../components/Department/DepartmentTable';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getAllDepartments } from '../../redux/actions/department';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -82,4 +83,4 @@ const mapStateToProps = state => ({
    getAllDepartments:getAllDepartments
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewDepartmentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ViewDepartmentPage));

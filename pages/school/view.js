@@ -1,5 +1,6 @@
 import Social from '../../components/Social';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const SocialPage = () => <Social />;
 
-export default SocialPage;
+export default PrivateRoute(SocialPage);

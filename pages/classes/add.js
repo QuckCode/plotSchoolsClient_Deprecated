@@ -12,6 +12,7 @@ import RegisterClass from '../../components/Classes/RegisterClass';
 import { createSection, getAllSection } from '../../redux/actions/section';
 import { connect} from "react-redux"
 import { createClasses } from '../../redux/actions/classes';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -87,4 +88,4 @@ const mapDispatchToProps = {
  createClass: createClasses
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterClassesPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterClassesPage));

@@ -12,6 +12,7 @@ import SectionTable from '../../components/Section/SectionTable';
 import { getAllSection } from '../../redux/actions/section';
 import {connect} from 'react-redux'
 import { useEffect } from 'react';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -81,4 +82,4 @@ const mapDispatchToProps = {
 
 
 
- export default connect(mapStateToProps, mapDispatchToProps)(SectionViewPage);
+ export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SectionViewPage));

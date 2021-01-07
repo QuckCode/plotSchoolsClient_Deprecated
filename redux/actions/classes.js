@@ -53,8 +53,8 @@ export const getAllClasses = (schoolID) => {
           dispatch(getAllClassesSuccess(data))
     })
     .catch((error)=>{
-       dispatch(getAllClassesError(error.response.data))
-       return resolve(error.response.data)
+       dispatch(getAllClassesError(error))
+       return resolve(error)
 
     })
   }}

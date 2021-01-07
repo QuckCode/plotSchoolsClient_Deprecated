@@ -10,6 +10,7 @@ import {
 import RegisterSection from '../../components/Section/RegisterSection';
 import {connect} from 'react-redux'
 import { createSection } from '../../redux/actions/section';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -77,4 +78,4 @@ const mapDispatchToProps = {
 };
 
 
-export default  connect(mapStateToProps, mapDispatchToProps)(RegisterSectionPage)
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterSectionPage))

@@ -11,6 +11,7 @@ import {
   Mail,
   MapPin
 } from 'react-feather';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const StaffCapturePage = (props) =>{
@@ -25,4 +26,4 @@ const StaffCapturePage = (props) =>{
 };
 
 
-export default StaffCapturePage;
+export default PrivateRoute(StaffCapturePage);

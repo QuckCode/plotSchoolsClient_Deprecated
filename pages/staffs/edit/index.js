@@ -1,5 +1,6 @@
 import Chat from '../../../components/Chat';
+import { PrivateRoute } from '../../../components/PrivateRoute';
 
 const ChatPage = () => <Chat />;
 
-export default ChatPage;
+export default PrivateRoute(ChatPage);

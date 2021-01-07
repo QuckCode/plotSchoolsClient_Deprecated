@@ -18,6 +18,7 @@ import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 
 const Title = Typography.Title
@@ -152,4 +153,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SkillScore);
+export default  connect(mapStateToProps, mapDispatchToProps)(SkillScore);

@@ -2,37 +2,9 @@ import { message } from "antd"
 import axios from "axios"
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION, staff, student} from "../varables"
 import jwt from 'jsonwebtoken'
-import  Router  from "next/router"
-export const loginStudent = (data) => {
-  return dispatch => {
-    axios.post(`${url}/login/student`,data)
-    .then(({data})=>{
-       localStorage.setItem(TOKEN_LOCATION,data.token)
-       message.success('Successfully login', 10)
-       dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), student))
-       Router.push('/dashboard')
-    })
-    .catch(({response})=>{
-      dispatch(loginFailure(response.data))
-    })
-  }
-}
+import { AuthToken} from '../../services/authToken'
 
-export const loginStaff = (data) => {
-  return dispatch => {
-    axios.post(`${url}/login/staff`,data)
-    .then(({data})=>{
-      localStorage.setItem(TOKEN_LOCATION,data.token)
-      message.success('Successfully login', 10)
-      dispatch(loginSuccess(jwt.decode(data.token,'BIU_WEB_APP'), staff))
-      Router.push('/dashboard')
-    })
-    .catch(({response})=>{
-       console.log(response)
-      dispatch(loginFailure(response.data))
-    })
-  }
-}
+
 
 //Thunk to handle a successfull login 
 export const loginSuccess = ( user, userType) => {
@@ -57,7 +29,7 @@ export const loginFailure = ( error) => {
 }
 
  export const logOut = ()=>{
- localStorage.removeItem(TOKEN_LOCATION)
+  AuthToken.removeToken()
   return {
    type:LOGOUT
   }

@@ -8,6 +8,7 @@ import {
   Trash,
 } from 'react-feather';
 import RegistrationSchool from '../../components/RegisterSchool';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -65,4 +66,4 @@ const RegisterParentPage = () =>{
   )
 };
 
-export default RegisterParentPage;
+export default PrivateRoute(RegisterParentPage);

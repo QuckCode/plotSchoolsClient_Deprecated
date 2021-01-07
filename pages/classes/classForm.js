@@ -13,6 +13,7 @@ import {useEffect} from 'react'
 import { getAllSubjects } from '../../redux/actions/subject';
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -120,4 +121,4 @@ const mapDispatchToProps = {
   getAllSubject:getAllSubjects,
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage)
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage))

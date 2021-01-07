@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { createDesignation } from '../../redux/actions/designation';
 import RegisterDesignation from '../../components/Designation/RegisterDesignation';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const Title = Typography.Title
 
@@ -47,7 +48,7 @@ const menu = (
   </Menu>
 );
 
-const RegisterDepartmentPage = props =>{
+const RegisterDesignationPage = props =>{
   return (
         <Card 
         title="Create New Designations"
@@ -73,4 +74,4 @@ const mapDispatchToProps = {
 createDesignation : createDesignation
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterDepartmentPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(RegisterDesignationPage));
