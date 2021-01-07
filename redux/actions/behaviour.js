@@ -183,6 +183,12 @@ export const addSectionBehaviour = (data) => {
      payload:{
         error
      }
+    }) 
+
+    const test=()=>{
+      
+    }
+
     })
 
 
