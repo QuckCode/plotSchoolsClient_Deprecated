@@ -39,4 +39,4 @@ const SmsPage = () => {
 }
  
  
-export default SmsPage;
+export default PrivateRoute(SmsPage);

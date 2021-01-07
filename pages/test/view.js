@@ -81,4 +81,4 @@ const mapStateToProps = state => ({
    getAllTest:getAllTest
  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestViewPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(TestViewPage));

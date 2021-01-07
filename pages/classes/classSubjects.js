@@ -230,23 +230,6 @@ const ClassesSubjectsPage = (props) =>{
   )
 };
 
-const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    store.dispatch(getAllSection())
-    store.dispatch(getAllClasses())
-    store.dispatch((getAllSubjects()))
-
-    return {
-      props:{
-       
-      }
-    }
-  }
-)
-
-
-
-
 const mapStateToProps = state => ({
   classes: state.classes,
   sections: state.section,

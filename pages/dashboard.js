@@ -5,7 +5,6 @@ import { wrapper } from '../redux/store';
 import { getAllClasses } from '../redux/actions/classes';
 import { getAllStudents } from '../redux/actions/student';
 import { getAllStaffs } from '../redux/actions/staff';
-import { PrivateRoute } from '../components/PrivateRoute';
 
 
 const DashboardPage = ({students, classes,scratchCard, staffs}) => {

@@ -80,4 +80,4 @@ const mapDispatchToProps = {
   createTest:createTest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestAddPage);
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(TestAddPage));

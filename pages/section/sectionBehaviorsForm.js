@@ -239,17 +239,6 @@ const SectionBehaviourPage = (props) =>{
 
 
 
-const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    store.dispatch(getAllSection())
-    return {
-      props:{
-       
-      }
-    }
-  }
-)
-
 
 
 
