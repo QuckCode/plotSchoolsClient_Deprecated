@@ -13,6 +13,7 @@ const DashboardPage = ({students, classes,scratchCard, staffs}) => {
   
   <>    
     <Overview  students={students} classes={classes} scratchCard={scratchCard} staffs={staffs}/> 
+
   </>
 )
   }

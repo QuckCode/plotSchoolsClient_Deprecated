@@ -11,7 +11,8 @@ import {
   Row,
   Select,
   Spin,
-  Alert
+  Alert,
+  Modal
 } from 'antd';
 import {
   MessageCircle,
@@ -26,6 +27,8 @@ import styled from 'styled-components';
 import { useAppState } from './shared/AppProvider';
 import { useState } from 'react';
 import { capitalize } from '../lib/helpers';
+import BulkMessageStepper from './BulkMessage/BulkMessageStep';
+import BuyAirtimeStepper from './Airtime/BuyAirtimeStep'
 
 const { Sider } = Layout;
 const { Option } = Select;
@@ -55,7 +58,10 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
   const navigationSidebar = (
     <div className="h-100">
       <div className="p-4">
-        <Button type="primary" onClick={() => setBox(!replyBox)}>
+        <Button type="primary" onClick={() =>  {
+          form.resetFields(["phone","message"])
+          setBox(!replyBox)
+          }}>
           Compose
         </Button>
       </div>
@@ -141,48 +147,32 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
       
   );
 
-  const modalSidebar = (
-    <List
-      className="scroll-y flex-1 bg-transparent px-3 py-1"
-      itemLayout="horizontal"
-      loading={loading}
-      dataSource={mockMessage}
-      renderItem={(item, index) => (
-        <List.Item
-          onClick={() => setSelectedIndex(index)}
-          style={{
-            backgroundColor: selectedIndex === index ? '#e6f7ff' : ''
-          }}
-          className={`${
-            selectedIndex === index ? '' : 'border-0'
-          } rounded border-0 p-3`}
+  const allModal = (
+    <div>
+       <Modal
+          title=" Send Bulk Message"
+          visible={bulkModal}
+          onOk={ ()=> setBulkModal(false)}
+          onCancel={()=>setBulkModal(false)}
+          width={700}
         >
-          <List.Item.Meta
-            avatar={item.avatar}
-            title={
-              <small
-                css={`
-                  display: flex;
-                  width: 100%;
-                `}
-              >
-                <span>{`${item.from  }\n`}</span>
-                <span className="mr-auto" />
-                <br/>
-                <span>{distanceInWordsToNow(new Date(item.date))}</span>
-              </small>
-            }
-          />
-        </List.Item>
-      )}
+           <BulkMessageStepper/>
+        </Modal>
+        <Modal
+          title="Buy Airtime"
+          visible={airtimeModal}
+          onOk={()=> setAirtimeModal(false)}
+          onCancel={()=>setAirtimeModal(false)}
+        >
+         <BuyAirtimeStepper/>
+        </Modal>
+    </div>
 
-    />
-    
 );
 
 
   return (
-    <>
+    <d>
       <Layout className="fill-workspace rounded shadow-sm overflow-hidden">
         {!state.mobile && <Sider width={150}>{navigationSidebar}</Sider>}
         
@@ -238,7 +228,11 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
             <div dangerouslySetInnerHTML={createMarkup(selectedMessage.body)} />
             <br/> <br/><br/>
             <div >
-                <Button type="primary" onClick={() => setBox(!replyBox)}>
+                <Button type="primary" onClick={() =>  {
+                     form.resetFields(["phone","message"])
+                     form.setFieldsValue({"phone":selectedMessage.from})
+                     setBox(!replyBox)
+                }}>
                   Reply
                </Button>
             </div>
@@ -255,7 +249,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
             )
             }
 
-
+           {allModal}
             {state.mobile && (
               <Fab>
                 <Button
@@ -295,36 +289,27 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
         }}
       >
         <Form layout="vertical" hideRequiredMark>
-          <Row gutter={16}>
-            <Col span={16}>
-              <Form.Item label="Name">
-                {form.getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'please enter user name' }]
-                })(<Input placeholder="please enter user name" />)}
+          <Row gutter={0}>
+            <Col span={24}>
+              <Form.Item label="Phone Number">
+                {form.getFieldDecorator('phone', {
+                  rules: [{ required: true, message: 'please enter  receiver phone number' }]
+                })(<Input placeholder="080XXXXXXX" />)}
               </Form.Item>
             </Col>
 
           </Row>
-          <Row gutter={16}>
-            <Col span={16}>
-              <Form.Item label="Name">
-                {form.getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'please enter user name' }]
-                })(<Input placeholder="please enter user name" />)}
-              </Form.Item>
+          <Row gutter={0}>
+            <Col span={24}>
+              <Form label="Message">
+                {form.getFieldDecorator('message', {
+                  rules: [{ required: true, message: 'please  enter the sms message' }]
+                })(<Input.TextArea  placeholder="please enter the sms message " />)}
+              </Form>
             </Col>
 
           </Row>
-          <Row gutter={16}>
-            <Col span={16}>
-              <Form.Item label="Name">
-                {form.getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'please enter user name' }]
-                })(<Input placeholder="please enter user name" />)}
-              </Form.Item>
-            </Col>
 
-          </Row>
         </Form>
         <div
           style={{
@@ -350,7 +335,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
           <Button onClick={() => setBox(!replyBox)}>Send</Button>
         </div>
       </Drawer>
-    </>
+    </d>
   );
 };
 

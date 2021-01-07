@@ -1,6 +1,7 @@
 import { Modal, Button } from 'antd';
 import React, { useState } from 'react';
 import Messages from '../components/Messages';
+import { PrivateRoute } from '../components/PrivateRoute';
 import mockMessages from '../demos/mock/messages';
  
 const SmsPage = () => {
@@ -38,4 +39,4 @@ const SmsPage = () => {
 }
  
  
-export default SmsPage;
+export default PrivateRoute(SmsPage);
