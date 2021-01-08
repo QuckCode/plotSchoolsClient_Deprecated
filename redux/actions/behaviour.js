@@ -189,7 +189,6 @@ export const addSectionBehaviour = (data) => {
       
     }
 
-    })
 
 
     export const fetchStudentBehaviourScore = (data) => {
