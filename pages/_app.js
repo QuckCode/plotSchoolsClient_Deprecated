@@ -28,6 +28,7 @@ class MyApp extends App {
     let pageProps = {};
     const userAgent = ctx.req ? ctx.req.headers['user-agent']  : navigator.userAgent;
     let ie = false;
+    if(userAgent){
     if (userAgent.match(/Edge/i) || userAgent.match(/Trident.*rv[ :]*11\./i)) {
       ie = true;
     }
@@ -35,6 +36,7 @@ class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+  }
 
     // res.setHeader("Access-Control-Allow-Origin", "*");
     
