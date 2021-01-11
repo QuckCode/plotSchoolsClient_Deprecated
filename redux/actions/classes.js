@@ -54,7 +54,7 @@ export const getAllClasses = (schoolID) => {
     })
     .catch((error)=>{
        dispatch(getAllClassesError(error))
-       return resolve(error)
+       return Promise.resolve(error)
 
     })
   }}
