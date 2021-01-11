@@ -40,7 +40,9 @@ class MyApp extends App {
 
     // res.setHeader("Access-Control-Allow-Origin", "*");
     
-    pageProps.query = ctx.query;
+    if(ctx){
+      pageProps.query = ctx.query;
+    }
     pageProps.ieBrowser = ie;
       return { pageProps };
   }

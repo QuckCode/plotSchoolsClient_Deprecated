@@ -28,6 +28,7 @@ export function PrivateRoute(WrappedComponent) {
         if(AuthToken.getStoredToken(ctx)!==undefined){
            let token = AuthToken.getStoredToken(ctx)
            let users = AuthToken.decodedToken(token)
+           
            ctx.store.dispatch(loginSuccess(users, users.userType))
         }
       }
