@@ -5,6 +5,9 @@ import { wrapper } from '../redux/store';
 import { getAllClasses } from '../redux/actions/classes';
 import { getAllStudents } from '../redux/actions/student';
 import { getAllStaffs } from '../redux/actions/staff';
+import { AuthToken } from '../services/authToken';
+import { loginSuccess } from '../redux/actions/auth';
+
 
 
 const DashboardPage = ({students, classes,scratchCard, staffs}) => {
@@ -18,7 +21,10 @@ const DashboardPage = ({students, classes,scratchCard, staffs}) => {
   }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
+  async (ctx ) => {
+    const store = ctx.store
+    let data =  await AuthToken.fromNext(ctx)
+    await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
     await store.dispatch(getAllClasses())
     await store.dispatch(getAllStudents())
     await store.dispatch(getAllStaffs())
