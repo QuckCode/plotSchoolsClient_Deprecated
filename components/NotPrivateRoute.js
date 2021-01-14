@@ -19,7 +19,9 @@ export function NotPrivateRoute(WrappedComponent) {
        if(await AuthToken.isAuth(ctx)){
          let token = AuthToken.getStoredToken(ctx);
          let users= AuthToken.decodedToken(token)
-         ctx.store.dispatch(loginSuccess(users, users.userType))
+         if(users){
+          ctx.store.dispatch(loginSuccess(users, users.userType))
+         }
          return redirectBack(ctx)
        }
     
