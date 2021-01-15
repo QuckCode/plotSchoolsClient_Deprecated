@@ -24,7 +24,8 @@ import { useState } from 'react';
 import axios from 'axios'
 import { url } from '../../redux/varables';
 import { capitalize } from '../../lib/helpers';
-
+import { AuthToken } from '../../services/authToken';
+import { loginSuccess } from '../../redux/actions/auth';
 
 const Title = Typography.Title
 
