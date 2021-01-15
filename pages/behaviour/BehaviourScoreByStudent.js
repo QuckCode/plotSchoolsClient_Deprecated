@@ -14,7 +14,11 @@ import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
 import BehaviourScoreForm from '../../components/Behaviour/BehaviourScoreForm';
-
+import { AuthToken } from '../../services/authToken';
+import { loginSuccess } from '../../redux/actions/auth';
+import Axios from 'axios';
+import { url } from '../../redux/varables';
+import { error, success } from '../../components/modal';
 
 const Title = Typography.Title
 
@@ -130,7 +134,13 @@ const BehaviourScoreByStudent = (props) =>{
   }
 
   const onConfirm = ()=>{
-
+    Axios.post( `${url}/student/arm/behaviour/score/save`, dataSource[position-1])
+      .then(data=>{
+        success("Save Students scores")
+      })
+      .catch(err=>{
+        error("Something went wrong", "Please check your connection and fill all the fields")
+      })
   }
   return (
     <>
@@ -210,8 +220,10 @@ const mapStateToProps = state => ({
 
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-   await store.dispatch(getAllBehaviour())
+  async (ctx ) => {
+    const store = ctx.store
+    let data =  await AuthToken.fromNext(ctx)
+    await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())
    await store.dispatch(getAllClasses())

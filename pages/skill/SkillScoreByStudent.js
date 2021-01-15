@@ -15,6 +15,11 @@ import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
 import BehaviourScoreForm from '../../components/Behaviour/BehaviourScoreForm';
 import { PrivateRoute } from '../../components/PrivateRoute';
+import { success, error } from '../../components/modal';
+import Axios from 'axios'
+import { url } from '../../redux/varables';
+import { loginSuccess } from '../../redux/actions/auth';
+import { AuthToken } from '../../services/authToken';
 
 
 const Title = Typography.Title
@@ -69,9 +74,14 @@ const SkillScoreByStudent = (props) =>{
   }
 
   const onConfirm = ()=>{
-
+    Axios.post( `${url}/student/arm/skill/score/save`, dataSource[position-1])
+      .then(data=>{
+         success("Save Students scores")
+      })
+      .catch(err=>{
+         error("Something went wrong", "Please check your connection and fill all the fields")
+      })
   }
-
 
 
 
@@ -116,6 +126,20 @@ const SkillScoreByStudent = (props) =>{
      }
     },
   ];
+
+ const nextPosition=(number)=>{
+  setLoading(true)
+  setTimeout(()=>{
+    setLoading(false)
+  }, 1000);
+  if(dataSource.length ===number){
+    setPosition(1)
+  }
+  else{
+     setPosition(number+1)
+  }
+
+ }
  
   useEffect(()=>{
     if(props.skillScoreByStudent.skillScores.length==0){
@@ -139,6 +163,8 @@ const SkillScoreByStudent = (props) =>{
     })
    })
   }
+  
+
 
   return (
     <>
@@ -165,13 +191,7 @@ const SkillScoreByStudent = (props) =>{
               <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
            </Col>
            <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
-                <Pagination onChange={(e)=> {
-                  setLoading(true)
-                  setTimeout(()=>{
-                    setLoading(false)
-                  }, 1000);
-                  setPosition(e)
-                  }} simple defaultCurrent={1} total={dataSource.length*10} />
+                <Pagination onChange={(e)=> nextPosition(e)} simple  current={position}  defaultCurrent={1} total={dataSource.length*10} />
            </Col>
            <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
               <Typography.Text strong level={4}> Student  {position} of {dataSource.length} </Typography.Text>
@@ -192,9 +212,13 @@ const SkillScoreByStudent = (props) =>{
              <Row gutter={[48, 48]}>
               <Col xs={24} lg={12}  span={12}>
                <Table size='small' footer={()=>(
-                <Popconfirm placement="topLeft" onConfirm={onConfirm} title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
-                   <Button type="primary"> Submit  Student Score </Button>
-                </Popconfirm>
+                 <div>
+                   <Popconfirm placement="topLeft" onConfirm={onConfirm} title={"Are you sure you want to submit this student score sheet"}  okText="Yes" cancelText="No">
+                      <Button type="primary"> Submit  Student Score </Button>
+                   </Popconfirm>
+                    <Button onClick={()=>nextPosition(position)}  style={{marginLeft:10}} type="primary"> {dataSource.length ===position ? "Start Again" :"Next Student"}  </Button>
+
+                 </div>
                )} pagination={false} bordered columns={columns} dataSource={dataSource.length>0?dataSource[position-1].skills:[] }   />
    
            </Col>          
@@ -218,7 +242,10 @@ const mapStateToProps = state => ({
 
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
+  async (ctx ) => {
+   const store = ctx.store
+   let data =  await AuthToken.fromNext(ctx)
+   await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
    await store.dispatch(getAllSkill())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())

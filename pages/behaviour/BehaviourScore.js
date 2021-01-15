@@ -19,7 +19,8 @@ import { useEffect } from 'react';
 import { wrapper } from '../../redux/store';
 import { useAppState } from '../../components/shared/AppProvider';
 import { useState } from 'react';
-
+import { AuthToken } from '../../services/authToken';
+import { loginSuccess } from '../../redux/actions/auth';
 
 const Title = Typography.Title
 
@@ -131,7 +132,10 @@ const mapStateToProps = state => ({
 
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
+  async (ctx ) => {
+   const store = ctx.store
+   let data =  await AuthToken.fromNext(ctx)
+   await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
    await store.dispatch(getAllBehaviour())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())
