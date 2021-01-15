@@ -6,6 +6,7 @@ import HomeHeader from '../components/HomeHeader';
 import { NotPrivateRoute } from '../components/NotPrivateRoute';
 import Overview from '../components/Overview';
 import Demo from '../demos/antd/carousel/demo';
+import '../node_modules/react-vis/dist/style.css';
 
 const IndexPage = () => {
   return(

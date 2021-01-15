@@ -106,7 +106,7 @@ const SidebarContent = ({
                 <Link href={route.path} prefetch>
                   <a>
                     {sidebarIcons && (
-                      <span className="anticon">{route.icon}</span>
+                      <span className="anticon" >{route.icon}</span>
                     )}
                     <span className="mr-auto">{capitalize(route.name)}</span>
                     {route.badge && badgeTemplate(route.badge)}
