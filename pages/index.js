@@ -22,4 +22,4 @@ const IndexPage = () => {
 
 
 
-export default  NotPrivateRoute(IndexPage);
+export default IndexPage;
