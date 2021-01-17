@@ -13,7 +13,7 @@ import { theme } from '../components/styles/GlobalStyles';
 
 
 
-const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading}) => {
+const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType}) => {
 
   const menu = (
     <Menu>
@@ -49,6 +49,7 @@ const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClass
   );
 
 
+  if(userType==="student")
   return  (
   
   <>    
@@ -59,6 +60,19 @@ const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClass
     graphStudentClassTotal={graphStudentClassTotal}
     loadingTotalGraph={loading}/> 
   </>
+)
+if(userType==="staff")
+return  (
+<>    
+<>    
+    <Overview  students={students}
+    classes={classes}
+    scratchCard={scratchCard}
+    staffs={staffs}
+    graphStudentClassTotal={graphStudentClassTotal}
+    loadingTotalGraph={loading}/> 
+  </>
+</>
 )
   }
 
@@ -79,7 +93,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
          scratchCard:100,
          staffs:propStore.staff.staffs.length,
          graphStudentClassTotal:propStore.student.graphOfTotalParClass,
-         loading:propStore.student.loading
+         loading:propStore.student.loading,
+         userType:propStore.auth.user.userType
       }
     }
   }
