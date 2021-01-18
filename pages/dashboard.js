@@ -53,12 +53,7 @@ const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClass
   return  (
   
   <>    
-    <Overview  students={students}
-    classes={classes}
-    scratchCard={scratchCard}
-    staffs={staffs}
-    graphStudentClassTotal={graphStudentClassTotal}
-    loadingTotalGraph={loading}/> 
+    
   </>
 )
 if(userType==="staff")

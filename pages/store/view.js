@@ -1,4 +1,5 @@
 import Messages from '../../components/Messages';
+import { PrivateRoute } from '../../components/PrivateRoute';
 
 const MessagesPage = () => (
    <div>
@@ -6,4 +7,4 @@ const MessagesPage = () => (
    </div>
 );
 
-export default MessagesPage;
+export default PrivateRoute(MessagesPage);

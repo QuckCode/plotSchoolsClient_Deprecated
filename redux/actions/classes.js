@@ -76,35 +76,3 @@ const getAllClassesError= error=>({
      error
   }
 })
-
-export const getGraphStudentTotal = (schoolID) => {
-  return dispatch => {
-    dispatch( getAllClassesBegin())
-    return axios.get(`${url}/class/${school}`)
-    .then(({data})=>{
-          dispatch(getAllClassesSuccess(data))
-    })
-    .catch((error)=>{
-       dispatch(getAllClassesError(error))
-       return Promise.resolve(error)
-
-    })
-  }}
-
-const getAllClassesBegin= ()=>({
-  type:FETCH_ALL_CLASSES_BEGIN
-})
-
-const getAllClassesSuccess= (classes)=>({
-  type:FETCH_ALL_CLASSES_SUCCESS,
-  payload:{
-    classes
-  }
-})
-
-const getAllClassesError= error=>({
-  type:FETCH_ALL_CLASSES_ERROR,
-  payload:{
-     error
-  }
-})
