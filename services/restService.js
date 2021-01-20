@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import axios, { AxiosRequestConfig } from "axios";
 import Router  from "next/router";
 import { initStore } from "../redux/store";
+import { url } from "../redux/varables";
 import { AuthToken } from "./authToken";
 
 
@@ -36,7 +37,7 @@ export const postLogin = async ( path,userData , loginSuccess)=> {
 
 // a base configuration we can extend from
 const baseConfig = {
-  baseURL: "http://localhost:4000",
+  baseURL: url,
 };
 
 const post = (url, data) => {
