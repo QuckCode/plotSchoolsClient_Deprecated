@@ -149,15 +149,21 @@ export const FETCH_All_BEHAVIOUR_SCORE_SUCCESS="FETCH_All_BEHAVIOUR_SCORE_SUCCES
 export const FETCH_All_BEHAVIOUR_SCORE_ERROR="FETCH_All_BEHAVIOUR_SCORE_ERROR"
 
 
+//SMS
+export const FETCH_SCHOOL_BALANCE="FETCH_SCHOOL_BALANCE"
+export const FETCH_SCHOOL_MESSAGES="FETCH_SCHOOL_MESSAGES"
+
+
+
 ///parts
-export const url ="http://localhost:4000"
-export const school= `5f8c7ee1b9776e05f105a6db`
+// export const url ="http://localhost:4000"
+// export const school= `5f8c7ee1b9776e05f105a6db`
 
 
 
 
-//  export const url ="https://plotapi-tets.herokuapp.com"	
-//  export const school= `5f9183cad035174e94992476`
+ export const url ="https://plotapi-tets.herokuapp.com"	
+ export const school= `5f9183cad035174e94992476`
 
 export const student= 'student'
 export const staff= 'staff'

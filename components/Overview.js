@@ -92,7 +92,7 @@ const menu = (
   </Menu>
 );
 
-const Overview = ({staffs, classes ,students, graphStudentClassTotal=[],loadingTotalGraph=true}) => {
+const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent}) => {
   return (
     <div>
       <Row gutter={16}>
@@ -110,20 +110,20 @@ const Overview = ({staffs, classes ,students, graphStudentClassTotal=[],loadingT
           <StatCard
             // type="fill"
             title="Airtime balance"
-            value={"NGN 1000.00"}
+            value={`Units ${smsBalance}`}
             icon={<CreditCard size={20} strokeWidth={1} />}
             color={theme.primaryColor}
-            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+            clickHandler={() => message.info(`You have ${smsBalance} Sms Units `)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
             title="Total message received"
-            value={"10"}
+            value={smsSent}
             icon={<MessageCircle size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => message.info(`You have ${10} Message`)}
+            clickHandler={() => message.info(`You have ${smsSent} messages sent`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -133,7 +133,7 @@ const Overview = ({staffs, classes ,students, graphStudentClassTotal=[],loadingT
             value={10}
             icon={<CreditCard size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+            clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>

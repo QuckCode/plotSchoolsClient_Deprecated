@@ -6,7 +6,11 @@ const { Step } = Steps;
 const steps = [
   {
     title: 'First',
-    content: 'First-content',
+    content: (
+      <div>
+        
+      </div>
+    )
   },
   {
     title: 'Second',

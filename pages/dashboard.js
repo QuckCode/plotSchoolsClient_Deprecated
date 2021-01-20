@@ -10,10 +10,11 @@ import { loginSuccess } from '../redux/actions/auth';
 import { Card , Dropdown, Menu,Row } from 'antd';
 import { MoreHorizontal, Archive, Edit, Save, Trash, Printer } from 'react-feather';
 import { theme } from '../components/styles/GlobalStyles';
+import { getSmsBalanceRequest, getSmsOutBoxRequest } from '../redux/actions/sms';
 
 
 
-const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType}) => {
+const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType, smsBalance, smsSent}) => {
 
   const menu = (
     <Menu>
@@ -65,7 +66,10 @@ return  (
     scratchCard={scratchCard}
     staffs={staffs}
     graphStudentClassTotal={graphStudentClassTotal}
-    loadingTotalGraph={loading}/> 
+    loadingTotalGraph={loading}
+    smsBalance={smsBalance}
+    smsSent={smsSent}
+    /> 
   </>
 </>
 )
@@ -80,6 +84,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     await store.dispatch(getAllStudents())
     await store.dispatch(getAllStaffs())
     await store.dispatch(getGraphStudentClassTotal())
+    await store.dispatch(getSmsOutBoxRequest())
+    await store.dispatch(getSmsBalanceRequest())
     let propStore =  await store.getState()  
     return {
       props:{
@@ -89,7 +95,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
          staffs:propStore.staff.staffs.length,
          graphStudentClassTotal:propStore.student.graphOfTotalParClass,
          loading:propStore.student.loading,
-         userType:propStore.auth.user.userType
+         userType:propStore.auth.user.userType,
+         smsBalance:propStore.sms.balance,
+         smsSent:propStore.sms.messages.length
       }
     }
   }
