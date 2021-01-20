@@ -26,9 +26,9 @@ export const getSmsBalanceRequest= (schoolId) => {
           dispatch(getSmsBalance(schoolId, data.balance))
           return Promise.resolve()
     })
-    .catch(({response})=>{
+    .catch(({error})=>{
          dispatch(getSmsBalance(schoolId, 0.00))
-       return Promise.reject(response.data)
+       return Promise.reject(error)
     })
   };
 };
@@ -52,9 +52,9 @@ return dispatch => {
        dispatch(getSmsOutBox(schoolId, data))
        return Promise.resolve()
  })
- .catch(({response})=>{
+ .catch((err)=>{
     dispatch(getSmsOutBox(schoolId, []))
-    return Promise.reject(response.data)
+    return Promise.reject(err)
  })
 };
 };
