@@ -7,56 +7,92 @@ import {
   User,
   CreditCard,
   MessageCircle,
-  Home
-
+  Home,
+  MoreHorizontal,
 } from 'react-feather';
 import {
   Col,
   Menu,
   message,
   Row,
-  Icon
+  Icon,
+  DatePicker,
+  Card,
+ Dropdown,
+ Spin
 } from 'antd';
+
+import {
+  DiscreteColorLegend,
+  FlexibleWidthXYPlot,
+  HorizontalGridLines,
+  VerticalBarSeries,
+  VerticalGridLines,
+  XAxis,
+  YAxis,
+  
+} from 'react-vis';
+
+import NoSSR from 'react-no-ssr';
 
 
 import StatCard from './shared/StatCard';
 import { theme } from './styles/GlobalStyles';
+import styled from 'styled-components';
 
+const { MonthPicker } = DatePicker;
+
+const axes = Array.from(Array(12).keys());
+
+const Legend = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  .rv-discrete-color-legend {
+    display: inline-block;
+    width: auto !important;
+  }
+  .rv-discrete-color-legend-item {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+`;
 
 const menu = (
   <Menu>
     <Menu.Item>
       <Row type="flex" align="middle">
-        <Archive size={16} strokeWidth={1} className="mr-3" />{' '}
+        <Archive size={16} strokeWidth={1} classtitle="mr-3" />{' '}
         <span>Archive</span>
       </Row>
     </Menu.Item>
     <Menu.Item>
       <Row type="flex" align="middle">
-        <Edit size={16} strokeWidth={1} className="mr-3" /> <span>Edit</span>
+        <Edit size={16} strokeWidth={1} classtitle="mr-3" /> <span>Edit</span>
       </Row>
     </Menu.Item>
     <Menu.Item>
       <Row type="flex" align="middle">
-        <Trash size={16} strokeWidth={1} className="mr-3" /> <span>Delete</span>
+        <Trash size={16} strokeWidth={1} classtitle="mr-3" /> <span>Delete</span>
       </Row>
     </Menu.Item>
     <Menu.Divider />
     <Menu.Item>
       <Row type="flex" align="middle">
-        <Save size={16} strokeWidth={1} className="mr-3" /> <span>Save as</span>
+        <Save size={16} strokeWidth={1} classtitle="mr-3" /> <span>Save as</span>
       </Row>
     </Menu.Item>
     <Menu.Item>
       <Row type="flex" align="middle">
-        <Printer size={16} strokeWidth={1} className="mr-3" />{' '}
+        <Printer size={16} strokeWidth={1} classtitle="mr-3" />{' '}
         <span>Print</span>
       </Row>
     </Menu.Item>
   </Menu>
 );
 
-const Overview = ({staffs, classes ,students}) => {
+const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent}) => {
   return (
     <div>
       <Row gutter={16}>
@@ -74,20 +110,20 @@ const Overview = ({staffs, classes ,students}) => {
           <StatCard
             // type="fill"
             title="Airtime balance"
-            value={"NGN 1000.00"}
+            value={`Units ${smsBalance}`}
             icon={<CreditCard size={20} strokeWidth={1} />}
             color={theme.primaryColor}
-            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+            clickHandler={() => message.info(`You have ${smsBalance} Sms Units `)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
             title="Total message received"
-            value={"10"}
+            value={smsSent}
             icon={<MessageCircle size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => message.info(`You have ${10} Message`)}
+            clickHandler={() => message.info(`You have ${smsSent} messages sent`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -97,7 +133,7 @@ const Overview = ({staffs, classes ,students}) => {
             value={10}
             icon={<CreditCard size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+            clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -141,6 +177,35 @@ const Overview = ({staffs, classes ,students}) => {
           />
         </Col>
       </Row>
+      <Card
+        title="Total Student Per Class"
+        extra={
+          <Dropdown overlay={menu}>
+            <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
+          </Dropdown>
+        }
+         bodyStyle={{
+          maxHeight: "500rem",
+          overflow: "auto"
+         }}
+        classtitle="mb-4"
+      >
+
+        <NoSSR>
+          <Legend>
+            <DiscreteColorLegend  width={400} height={20} items={[{title:"Student", color:"#007bff"}]} />
+          </Legend>
+          <div className="chat">
+          <FlexibleWidthXYPlot xType="ordinal"   style ={{width:"500rem"}} height={300}>
+            <VerticalGridLines style={{ strokeWidth: 0.5 }} />
+            <HorizontalGridLines style={{ strokeWidth: 0.5 }} />
+            <XAxis style={{ strokeWidth: 0.5 }} />
+            <YAxis style={{ strokeWidth: 0.5 }} />
+            <VerticalBarSeries  className="verticalBarSeries" color="#007bff" xDistance={600} style={{padding:"10rem"}} data={graphStudentClassTotal} />
+          </FlexibleWidthXYPlot>
+          </div>
+        </NoSSR>
+      </Card>
     </div>
   );
 };

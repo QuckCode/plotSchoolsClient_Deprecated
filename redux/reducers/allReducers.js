@@ -12,6 +12,7 @@ import { subjectsReducer } from './subjectReducer';
 import { testReducer } from './testReducer';
 import {behaviourReducer} from './behaviourReducer'
 import { skillReducer } from './skillReducer';
+import { smsReducer } from './smsReducer';
 
 export const allReducers = combineReducers({
   departments:departmentReducer,
@@ -26,5 +27,6 @@ export const allReducers = combineReducers({
   designation:designationReducer,
   test:testReducer,
   behavior:behaviourReducer,
-  skill:skillReducer
+  skill:skillReducer,
+  sms:smsReducer
 });

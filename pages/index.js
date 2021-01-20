@@ -6,15 +6,9 @@ import HomeHeader from '../components/HomeHeader';
 import { NotPrivateRoute } from '../components/NotPrivateRoute';
 import Overview from '../components/Overview';
 import Demo from '../demos/antd/carousel/demo';
+import '../node_modules/react-vis/dist/style.css';
 
-const IndexPage = ({auth}) => {
-  const Router = useRouter()
-  // useEffect(()=>{
-  //   if (auth.isAuth) {
-  //     Router.push('/dashboard')
-  //  }
-  // })
-
+const IndexPage = () => {
   return(
     <>
     <Head>
@@ -28,10 +22,5 @@ const IndexPage = ({auth}) => {
 };
 
 
-const mapStateToProps = state => ({
-  auth:state.auth
-});
 
-const mapDispatchToProps = {};
-
-export default  NotPrivateRoute(connect(mapStateToProps, mapDispatchToProps)(IndexPage));
+export default IndexPage;

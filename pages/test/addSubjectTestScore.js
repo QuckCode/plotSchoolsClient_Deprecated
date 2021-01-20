@@ -24,7 +24,8 @@ import { useState } from 'react';
 import axios from 'axios'
 import { url } from '../../redux/varables';
 import { capitalize } from '../../lib/helpers';
-
+import { AuthToken } from '../../services/authToken';
+import { loginSuccess } from '../../redux/actions/auth';
 
 const Title = Typography.Title
 
@@ -196,7 +197,10 @@ const mapStateToProps = state => ({
 
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
+  async (ctx ) => {
+   const store = ctx.store
+   let data =  await AuthToken.fromNext(ctx)
+   await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
    await store.dispatch(getAllTest())
    await store.dispatch(getAllArms())
    await store.dispatch(getAllSection())

@@ -14,7 +14,6 @@ const StatCard = ({ type, title, value, icon, color, clickHandler }) => {
         type="primary"
         style={{ backgroundColor: color, borderColor: color }}
         className={type !== 'fill' ? 'mr-4' : null}
-        onClick={clickHandler}
       >
         {icon}
       </Button>
@@ -29,6 +28,7 @@ const StatCard = ({ type, title, value, icon, color, clickHandler }) => {
     <Card
       className="mb-4"
       style={type === 'fill' ? { backgroundColor: color } : null}
+      onClick={clickHandler}
     >
       <Row type="flex" align="middle" justify="start">
         {before}
@@ -56,3 +56,4 @@ StatCard.propTypes = {
 };
 
 export default StatCard;
+

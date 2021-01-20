@@ -12,7 +12,8 @@ import {
   Select,
   Spin,
   Alert,
-  Modal
+  Modal,
+  Typography
 } from 'antd';
 import {
   MessageCircle,
@@ -43,13 +44,13 @@ const Fab = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, airtimeModal, setBulkModal, setAirtimeModal} = props) => {
+const Messages = ({ form, onTabChange, loading, message, index, bulkModal, airtimeModal, setBulkModal, setAirtimeModal, balance} = props) => {
   const [state] = useAppState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [replyBox, setBox] = useState(false);
   const [navigation, setNavigation] = useState(false);
   const [messages, setMessages] = useState(false);
-  const selectedMessage = mockMessage[selectedIndex];
+  const selectedMessage = message[selectedIndex];
 
   const createMarkup = body => {
     return { __html: body };
@@ -71,13 +72,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
         </small>
       </div>
       <Menu mode="inline" className="mb-3 border-right-0">
-      <Menu.Item onClick={onTabChange} key="1" className={`${index =="1" ? "ant-menu-item-selected" :""}`}>
-             <a>
-               <span className="anticon"><Inbox strokeOpacity={1} size={16}/> </span>
-                    <span className="mr-auto">{capitalize("Inbox")}</span>
-            </a>
-        </Menu.Item>
-        <Menu.Item onClick={onTabChange} key="2" className={`${index =="2" ? "ant-menu-item-selected" :""}`} >
+        <Menu.Item onClick={onTabChange} key="1" className={`${index =="1" ? "ant-menu-item-selected" :""}`} >
              <a>
                <span className="anticon"><ExternalLink  strokeOpacity={1} size={16}/> </span>
                     <span className="mr-auto">{capitalize("Outbox")}</span>
@@ -87,7 +82,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
              onTabChange(e)
              setAirtimeModal(false)
              setBulkModal(true)
-          }} key="3" className={`${index =="3" ? "ant-menu-item-selected" :""}`} >
+          }} key="2" className={`${index =="2" ? "ant-menu-item-selected" :""}`} >
              <a>
                <span className="anticon"><Send  strokeOpacity={1} size={16}/> </span>
                     <span className="mr-auto">{capitalize("Bulk SMS")}</span>
@@ -97,7 +92,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
              onTabChange(e)
              setAirtimeModal(true)
              setBulkModal(false)
-          }}  key="4"  className={`${index =="4" ? "ant-menu-item-selected" :""}`} >
+          }}  key="3"  className={`${index =="3" ? "ant-menu-item-selected" :""}`} >
              <a>
                <span className="anticon"><CreditCard strokeOpacity={1} size={16}/> </span>
                     <span className="mr-auto">{capitalize("Buy Airtime")}</span>
@@ -109,11 +104,24 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
    
 
   const messagesSidebar = (
+    <div
+    css={`
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      border-right: 1px solid rgba(0, 0, 0, 0.05);
+    `}
+  >
+      <div style={{height:"8%", textAlign:"center", justifyContent:"center", marginTop:10}}>
+             <Typography.Text style={{marginTop:10}} className="mr-auto"> Available Sms Units {balance} </Typography.Text>
+      </div>
       <List
         className="scroll-y flex-1 bg-transparent px-3 py-1"
         itemLayout="horizontal"
         loading={loading}
-        dataSource={mockMessage}
+        dataSource={message}
         renderItem={(item, index) => (
           <List.Item
             onClick={() => setSelectedIndex(index)}
@@ -133,7 +141,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
                     width: 100%;
                   `}
                 >
-                  <span>{`${item.from  }\n`}</span>
+                  <span>{`${item.from }\n`}</span>
                   <span className="mr-auto" />
                   <br/>
                   <span>{distanceInWordsToNow(new Date(item.date))}</span>
@@ -143,8 +151,8 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
           </List.Item>
         )}
 
-      />
-      
+      /> 
+   </div>
   );
 
   const allModal = (
@@ -154,6 +162,9 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
           visible={bulkModal}
           onOk={ ()=> setBulkModal(false)}
           onCancel={()=>setBulkModal(false)}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'none' } }}
+          footer={null}
           width={700}
         >
            <BulkMessageStepper/>
@@ -161,8 +172,12 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
         <Modal
           title="Buy Airtime"
           visible={airtimeModal}
+          cancelButtonProps={{ style: { display: 'none' } }}
+          okButtonProps={{ style: { display: 'none' } }}
           onOk={()=> setAirtimeModal(false)}
           onCancel={()=>setAirtimeModal(false)}
+          footer={null}
+          width={700}
         >
          <BuyAirtimeStepper/>
         </Modal>
@@ -183,7 +198,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
           onClose={() => setNavigation(false)}
           visible={navigation}
           className="chat-drawer"
-        >
+        > 
           {navigationSidebar}
         </Drawer>
         {!state.mobile && <Sider width={350}>{messagesSidebar}</Sider>}
@@ -205,7 +220,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
         >
           <div className={`${state.mobile ? 'px-1 py-3' : 'px-5 py-3'}`}>
             {
-             mockMessage.length !==0  ? (
+             message.length !==0  ? (
                 <Spin
                spinning={loading} 
                 delay={500}
@@ -233,7 +248,7 @@ const Messages = ({ form, onTabChange, loading, mockMessage, index, bulkModal, a
                      form.setFieldsValue({"phone":selectedMessage.from})
                      setBox(!replyBox)
                 }}>
-                  Reply
+                  Send individual message
                </Button>
             </div>
             </Spin>)

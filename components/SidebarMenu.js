@@ -22,7 +22,7 @@ import Link from 'next/link';
 import Routes from '../lib/routes';
 import { useAppState } from './shared/AppProvider';
 import { withRouter } from 'next/router';
-
+import  RoutesStudent  from '../lib/routesStudent'
 const { SubMenu } = Menu;
 const { Header, Sider } = Layout;
 
@@ -55,7 +55,7 @@ const SidebarContent = ({
 }) => {
   const [state, dispatch] = useAppState();
   const [openKeys, setOpenKeys] = useState([]);
-  const [appRoutes] = useState(Routes);
+  const [appRoutes] = useState(user.userType=="staff"? Routes : RoutesStudent);
   const { pathname } = router;
 
   const badgeTemplate = badge => <Badge count={badge.value} />;
@@ -106,7 +106,7 @@ const SidebarContent = ({
                 <Link href={route.path} prefetch>
                   <a>
                     {sidebarIcons && (
-                      <span className="anticon">{route.icon}</span>
+                      <span className="anticon" >{route.icon}</span>
                     )}
                     <span className="mr-auto">{capitalize(route.name)}</span>
                     {route.badge && badgeTemplate(route.badge)}

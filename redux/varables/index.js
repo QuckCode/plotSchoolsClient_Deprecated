@@ -33,6 +33,9 @@ export const CREATE_STUDENT_ERROR="CREATE_STUDENT_ERROR"
 export const FETCH_ALL_STUDENT_BEGIN="FETCH_ALL_STUDENT_BEGIN"
 export const FETCH_ALL_STUDENT_ERROR="FETCH_ALL_STUDENT_ERROR"
 export const FETCH_ALL_STUDENT_SUCCESS="FETCH_ALL_STUDENT_SUCCESS"
+export const FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_BEGIN="FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR_BEGIN"
+export const FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR="FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR"
+export const FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_SUCCESS="FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_SUCCESS"
 
 //staff 
 export const CREATE_STAFF_BEGIN="CREATE_STAFF_BEGIN"
@@ -146,8 +149,21 @@ export const FETCH_All_BEHAVIOUR_SCORE_SUCCESS="FETCH_All_BEHAVIOUR_SCORE_SUCCES
 export const FETCH_All_BEHAVIOUR_SCORE_ERROR="FETCH_All_BEHAVIOUR_SCORE_ERROR"
 
 
+//SMS
+export const FETCH_SCHOOL_BALANCE="FETCH_SCHOOL_BALANCE"
+export const FETCH_SCHOOL_MESSAGES="FETCH_SCHOOL_MESSAGES"
+
+
+
 ///parts
-export const url ="https://plotapi-tets.herokuapp.com"	
-export const school= `5f9183cad035174e94992476`
+// export const url ="http://localhost:4000"
+// export const school= `5f8c7ee1b9776e05f105a6db`
+
+
+
+
+ export const url ="https://plotapi-tets.herokuapp.com"	
+ export const school= `5f9183cad035174e94992476`
+
 export const student= 'student'
 export const staff= 'staff'

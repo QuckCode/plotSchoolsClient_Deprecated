@@ -5,6 +5,9 @@ import {
   FETCH_ALL_STUDENT_BEGIN,
   FETCH_ALL_STUDENT_SUCCESS,
   FETCH_ALL_STUDENT_ERROR,
+  FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_BEGIN,
+  FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_SUCCESS,
+  FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -73,3 +76,37 @@ const getAllStudentsError= error=>({
      error
   }
 })
+
+
+export const getGraphStudentClassTotal = (schoolID) => {
+  return dispatch => {
+    dispatch(getGraphStudentClassTotalBegin())
+    return axios.get(`${url}/graph/class/total/${school}`)
+    .then(({data})=>{
+          dispatch(getGraphStudentClassTotalSuccess(data))
+    })
+    .catch((error)=>{
+      console.log(error)
+       dispatch(getGraphStudentClassTotalError(error.response))
+    })
+  };
+};
+
+const getGraphStudentClassTotalBegin= ()=>({
+  type:FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_BEGIN,
+})
+
+const getGraphStudentClassTotalSuccess= (graphData)=>({
+  type:FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_SUCCESS,
+  payload:{
+    graphData
+  }
+})
+
+const getGraphStudentClassTotalError= error=>({
+  type:FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR,
+  payload:{
+     error
+  }
+})
+
