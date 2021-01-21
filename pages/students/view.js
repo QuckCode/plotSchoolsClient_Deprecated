@@ -68,9 +68,9 @@ const ViewStaffPage = ({getAllStudents,student}) =>{
         }
         bodyStyle={{ padding: 0 , height:'100%'}}
         className="mb-10"> 
-            <Content>
+            <div className='p-4'>
                <StudentTable student={student}/>
-            </Content>
+            </div>
        </Card>
   )
 };

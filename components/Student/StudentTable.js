@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Button , Icon, Avatar} from 'antd';
 import { useAppState } from '../shared/AppProvider';
 import moment from 'moment'
-import { Router } from 'next/router';
+import Router  from 'next/router';
 
 
 const StudentTable= ({student})=>{
@@ -87,7 +87,7 @@ const StudentTable= ({student})=>{
       width: state.mobile?100:150,
       render: (x) =>(
         <Button onClick= {()=>{
-           console.log(x)
+           Router.push(`/students/edit/${ !x.admissionNumber? "empty" :x.admissionNumber.replaceAll("/","-")}`)
         }}  type="primary" htmlType="submit">
          <Icon type="edit" />
          Edit

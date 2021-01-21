@@ -8,10 +8,17 @@ import {
   FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_BEGIN,
   FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_SUCCESS,
   FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR,
-  url, school
+  FETCH_CURRENT_STUDENT_BEGIN,
+  FETCH_CURRENT_STUDENT_ERROR,
+  FETCH_CURRENT_STUDENT_SUCCESS,
+  EDIT_STUDENT_BEGIN,
+  EDIT_STUDENT_SUCCESS,
+  EDIT_STUDENT_ERROR,
+  url, school,
 } from '../varables';
 import axios from 'axios'
 import {message} from 'antd'
+import { success, error } from '../../components/modal';
 
 export const createStudent = (data) => {
  return dispatch => {
@@ -45,6 +52,39 @@ const createStudentError= error=>({
  }
 })
 
+
+export const editStudent = (data) => {
+  return dispatch => {
+    dispatch(editStudentBegin())
+    return axios.post(`${url}/student/edit`,data)
+    .then(({data})=>{
+        setTimeout( ()=>{
+           success("Edited  Students","Your edit successfully")
+          dispatch(editStudentSuccess(data))
+        },2000)
+    })
+    .catch((error)=>{
+         error("Please an error occurred", "")
+       dispatch(editStudentError(error.response))
+    })
+  };
+ };
+ 
+ const editStudentBegin= ()=>({
+  type:EDIT_STUDENT_BEGIN
+ })
+ 
+ const editStudentSuccess= ()=>({
+  type:EDIT_STUDENT_SUCCESS,
+ })
+ 
+ const editStudentError= error=>({
+  type: EDIT_STUDENT_ERROR,
+  payload:{
+     error
+  }
+ })
+ 
 
 export const getAllStudents = (schoolID) => {
   return dispatch => {
@@ -105,6 +145,39 @@ const getGraphStudentClassTotalSuccess= (graphData)=>({
 
 const getGraphStudentClassTotalError= error=>({
   type:FETCH_GRAPH_STUDENT_TOTAL_BY_CLASS_ERROR,
+  payload:{
+     error
+  }
+})
+
+
+export const getCurrentStudent = (admissionNumber) => {
+  return dispatch => {
+    dispatch(getCurrentStudentBegin())
+    try {
+     return   axios.get(`${url}/student/admissionNumber/${admissionNumber}`)
+       .then(({data})=>{
+            dispatch(getCurrentStudentSuccess(data))
+       })
+    } catch (error) {
+      return  dispatch( getCurrentStudentError(error.response))
+    }
+  };
+};
+
+const getCurrentStudentBegin= ()=>({
+  type:FETCH_CURRENT_STUDENT_BEGIN,
+})
+
+const getCurrentStudentSuccess= (student)=>({
+  type:FETCH_CURRENT_STUDENT_SUCCESS,
+  payload:{
+    student
+  }
+})
+
+const  getCurrentStudentError= error=>({
+  type:FETCH_CURRENT_STUDENT_ERROR,
   payload:{
      error
   }
