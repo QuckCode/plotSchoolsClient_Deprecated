@@ -71,9 +71,9 @@ const ViewClassesPage = ({classes, getAllClasses}) =>{
         }
         bodyStyle={{ padding: 0 , height:'100%'}}
         className="mb-10"> 
-            <Content>
+            <div className="p-4">
                <ClassTable classes = {classes} />
-            </Content>
+            </div>
        </Card>
   )
 };

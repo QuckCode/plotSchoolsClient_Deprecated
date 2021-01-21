@@ -46,7 +46,7 @@ const ClassTable= ({classes})=>{
      columns={columns}    
      bordered
      size="default"
-       pagination={false} dataSource={classes.classes}  loading={classes.loading} scroll={{ x: state.mobile?200:300, y: tableHeight }} />
+       pagination={false} dataSource={classes.classes}  loading={classes.loading} scroll={{ x: state.mobile?200:300 }} />
    )
 }
   
