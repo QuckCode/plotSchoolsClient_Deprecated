@@ -25,6 +25,7 @@ class StudentByClassForm extends React.Component {
       return obj.sectionId === e
     })
     this.setState({class: !currentState?[] : currentState})
+    this.props.form.resetFields(['classN'])
   }
 
 

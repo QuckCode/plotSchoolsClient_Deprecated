@@ -26,6 +26,7 @@ class StudentByArmForm extends React.Component {
       return obj.sectionId === e
     })
     this.setState({class: !currentState?[] : currentState})
+    this.props.form.resetFields(['classN', 'arm'])
   }
 
     handleClassChange= (e)=>{
@@ -33,6 +34,7 @@ class StudentByArmForm extends React.Component {
         return obj.classID === e
       })
       this.setState({arms: !currentState?[] : currentState})
+      this.props.form.resetFields(['arm'])
     }
 
   render() {
