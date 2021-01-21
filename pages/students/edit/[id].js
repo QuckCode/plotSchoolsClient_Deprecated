@@ -1,5 +1,12 @@
 import Calendar from '../../../components/Calendar';
+import { PrivateRoute } from '../../../components/PrivateRoute';
 
-const CalendarPage = () => <Calendar />;
+const EditStudentPage = () => {
+  return (
+     <div>
 
-export default CalendarPage;
+     </div>
+  )
+};
+
+export default  EditStudentPage;
