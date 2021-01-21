@@ -114,8 +114,8 @@ const Messages = ({ form, onTabChange, loading, message, index, bulkModal, airti
       border-right: 1px solid rgba(0, 0, 0, 0.05);
     `}
   >
-      <div style={{height:"8%", textAlign:"center", justifyContent:"center", marginTop:10}}>
-             <Typography.Text style={{marginTop:10}} className="mr-auto"> Available Sms Units {balance} </Typography.Text>
+      <div style={{ textAlign:"center", justifyContent:"center", marginTop:10}}>
+             <Typography.Text style={{marginTop:10}} className="mr-auto"> Available Sms Units {balance}  </Typography.Text>
       </div>
       <List
         className="scroll-y flex-1 bg-transparent px-3 py-1"
@@ -167,7 +167,7 @@ const Messages = ({ form, onTabChange, loading, message, index, bulkModal, airti
           footer={null}
           width={700}
         >
-           <BulkMessageStepper/>
+           <BulkMessageStepper closeModal={()=>setBulkModal(false)}/>
         </Modal>
         <Modal
           title="Buy Airtime"
