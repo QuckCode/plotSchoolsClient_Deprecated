@@ -11,6 +11,15 @@ import {
   FETCH_All_STUDENT_TEST_BEGIN,
   FETCH_All_STUDENT_TEST_SUCCESS,
   FETCH_All_STUDENT_TEST_ERROR,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_BEGIN,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_ERROR,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_SUCCESS,
+  ADD_ClASS_TESTS_BEGIN,
+  ADD_CLASS_TESTS_ERROR,
+  ADD_CLASS_TESTS_SUCCESS,
+  REMOVE_CLASS_TESTS_BEGIN,
+  REMOVE_CLASS_TESTS_ERROR,
+  REMOVE_CLASS_TESTS_SUCCESS
 } from '../varables'
 
 const initialState = {
@@ -127,6 +136,58 @@ export const testReducer = (state = initialState, action) => {
               loading:false
             }
         };
+        case FETCH_ALL_TESTS_IN_CURRENT_CLASS_BEGIN:
+          return {
+            ...state,
+            loading:true,
+            currentClassTests: [],
+            error:null,
+        };
+        case FETCH_ALL_TESTS_IN_CURRENT_CLASS_SUCCESS:
+          return {
+            ...state,
+            loading:false,
+            currentClassTests:action.payload.currentClassTests,
+            error:null,
+        };
+        case FETCH_ALL_TESTS_IN_CURRENT_CLASS_ERROR:
+          return {
+            ...state,
+            loading:false,
+            error:action.payload.error,
+        };
+        case   ADD_ClASS_TESTS_BEGIN:
+          return {
+            ...state,
+            loading:true
+          };
+          case ADD_CLASS_TESTS_SUCCESS:
+            return {
+              ...state,
+              loading:false,
+          };
+          case ADD_CLASS_TESTS_ERROR:
+            return {
+              ...state,
+              loading:false,
+              error:action.payload.error
+          };
+          case REMOVE_CLASS_TESTS_BEGIN:
+            return {
+              ...state,
+              loading:true
+            };
+            case REMOVE_CLASS_TESTS_SUCCESS:
+              return {
+                ...state,
+                loading:false,
+            };
+            case REMOVE_CLASS_TESTS_ERROR:
+              return {
+                ...state,
+                loading:false,
+                error:action.payload.error
+            };
     default:
       return {...state};
   }

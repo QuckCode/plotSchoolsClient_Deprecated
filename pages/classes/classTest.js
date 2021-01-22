@@ -8,13 +8,13 @@ import {
   Save,
   Trash,
 } from 'react-feather';
-import { getAllClasses } from '../../redux/actions/classes';
+import { getAllClasses, getCurrentClassTests } from '../../redux/actions/classes';
 import {connect} from 'react-redux'
 import {useEffect, useState} from 'react'
 import { getAllSection } from '../../redux/actions/section';
 import { wrapper } from '../../redux/store';
-import { getAllSubjects , getCurrentClassSubjects, addSubjects, removeSubject} from '../../redux/actions/subject';
-import FetchSubjectForm  from '../../components/Classes/FetchSubject'
+import { getAllTest, addTests, removeTest } from '../../redux/actions/test';
+import FetchTestForm  from '../../components/Classes/FetchTest'
 import { PrivateRoute } from '../../components/PrivateRoute';
 
 const FormItem = Form.Item;
@@ -55,7 +55,7 @@ const menu = (
   </Menu>
 );
 
-const ClassesSubjectsPage = (props) =>{
+const ClassesTestsPage = (props) =>{
   useEffect(() => {
       props.getAllSection()
       props.getAllClasses()
@@ -71,13 +71,12 @@ const ClassesSubjectsPage = (props) =>{
   const [addSubjectList, setAddSubjectList] = useState([])
   const [removeSubjectList, setRemoveSubjectList] = useState([])
 
-
   const loadSubject= (value)=>{
-    props.getAllSubject()
+    props.getAllTest()
     .then((() =>{
       setClassName(props.classes.classes.find(x=>x._id===value.class).name)
       setClassId(props.classes.classes.find(x=>x._id===value.class)._id)
-        props.getCurrentClassSubjects(props.classes.classes.find(x=>x._id===value.class)._id)
+        props.getCurrentClassTests(props.classes.classes.find(x=>x._id===value.class)._id)
         .then(()=>{
              setLoadedObject(true) 
              setDisabledButton(true)
@@ -114,12 +113,12 @@ const ClassesSubjectsPage = (props) =>{
  }
 
  const saveAddedSubject= ()=>{
-    props.addSubjects({ subjects:addSubjectList, classId:classId})
+    props.addTests({ tests:addSubjectList, classId:classId})
     .then(()=>{
       Modal.success({
         title:"Updated subject",
       })
-      props.getCurrentClassSubjects(classId)
+      props.getCurrentClassTests(classId)
     })
     .catch(err=>{
       Modal.error({
@@ -129,12 +128,12 @@ const ClassesSubjectsPage = (props) =>{
  }
 
  const saveRemovedSubject= ()=>{
-    props.removeSubject({ subjects:removeSubjectList, classId:classId})
+    props.removeTest({ tests:removeSubjectList, classId:classId})
      .then(()=>{
       Modal.success({
         title:"Updated subject",
       })
-      props.getCurrentClassSubjects(classId)
+      props.getCurrentClassTests(classId)
     })
     .catch(err=>{
       console.log(err)
@@ -154,11 +153,11 @@ const ClassesSubjectsPage = (props) =>{
     setRemoveSubjectList([])
  }
  
-   const {subjects, currentClassSubjects} = props.subjects
+   const {tests, currentClassTests} = props.tests
   return (
      <div>
         <Card 
-          title="Classes Subjects"
+          title="Classes Test Setting"
         extra={
           <Dropdown overlay={menu}>
             <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -168,7 +167,7 @@ const ClassesSubjectsPage = (props) =>{
         className="mb-10"> 
          <div className="p-4">
          <Content>
-               <FetchSubjectForm onSave= {handleOnSave} disable= {disableButton} sections={props.sections.section} classes={props.classes.classes} onLoadSubject= {loadSubject} />
+               <FetchTestForm onSave= {handleOnSave} disable= {disableButton} sections={props.sections.section} classes={props.classes.classes} onLoadTest= {loadSubject} />
          </Content>
          {
           loadedSubject ?
@@ -177,19 +176,19 @@ const ClassesSubjectsPage = (props) =>{
           <Col style={{marginTop:10}} span={12} lg={12} sm={24}  xs={24}  md={24}>
           <List
              bordered
-             dataSource={subjects}
+             dataSource={tests}
              header= {
                <div>
-                <Typography.Title level={4}> All School Subjects</Typography.Title>
+                <Typography.Title level={4}> All School Tests</Typography.Title>
                </div>
              }
 
              footer = {
               <div>
-                 <Button onClick={saveAddedSubject}  disabled= {addSubjectList.length==0 } type="primary" >  Add Subjects </Button>
+                 <Button onClick={saveAddedSubject}  disabled= {addSubjectList.length==0 } type="primary" >  Add Tests </Button>
                </div>
              }
-             loading={props.subjects.loading}
+             loading={props.tests.loading}
              renderItem={item => (
                <List.Item>
                <Checkbox onChange={addClassSubject} key={item._id} value= {item._id}> {item.name}</Checkbox>
@@ -203,16 +202,16 @@ const ClassesSubjectsPage = (props) =>{
              bordered
              header= {
                <div>
-                <Typography.Title level={4}> {className} Subjects</Typography.Title>
+                <Typography.Title level={4}> {className} Tests</Typography.Title>
                </div>
              }
              footer = {
               <div>
-                 <Button onClick={saveRemovedSubject}  disabled= {removeSubjectList.length==0 } type='danger' >  Remove  Subjects </Button>
+                 <Button onClick={saveRemovedSubject}  disabled= {removeSubjectList.length==0 } type='danger' >  Remove  Tests </Button>
                </div>
              }
-             dataSource={currentClassSubjects}
-             loading={props.subjects.loading}
+             dataSource={currentClassTests}
+             loading={props.tests.loading}
              renderItem={item => (
                <List.Item>
                  <Checkbox onChange= {removeClassSubject}  value={item._id}> {item.name}</Checkbox>
@@ -236,16 +235,15 @@ const ClassesSubjectsPage = (props) =>{
 const mapStateToProps = state => ({
   classes: state.classes,
   sections: state.section,
-  subjects:state.subject
+  tests:state.test
 });
 
 const mapDispatchToProps = {
   getAllClasses: getAllClasses,
   getAllSection:getAllSection,
-  getAllSubject:getAllSubjects,
-  getCurrentClassSubjects:getCurrentClassSubjects,
-  addSubjects:addSubjects,
-  removeSubject :removeSubject
+  getAllTest:getAllTest,
+  getCurrentClassTests:getCurrentClassTests,
+  addTests,removeTest
 };
 
-export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ClassesSubjectsPage));
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(ClassesTestsPage));

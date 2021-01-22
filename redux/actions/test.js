@@ -11,6 +11,12 @@ import {
   FETCH_All_STUDENT_TEST_BEGIN,
   FETCH_All_STUDENT_TEST_ERROR,
   FETCH_All_STUDENT_TEST_SUCCESS,
+  ADD_ClASS_TESTS_BEGIN,
+  ADD_CLASS_TESTS_ERROR,
+  ADD_CLASS_TESTS_SUCCESS,
+  REMOVE_CLASS_TESTS_BEGIN,
+  REMOVE_CLASS_TESTS_ERROR,
+  REMOVE_CLASS_TESTS_SUCCESS,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -156,3 +162,71 @@ const getAllStudentAndSubjectError= error=>({
      error
   }
 })
+
+export const addTests = (data) => {
+  return dispatch => {
+    dispatch(addTestsBegin())
+     return axios.post(`${url}/class/test/add`,data)
+      .then(({data})=>{
+
+          dispatch(addTestsSuccess())
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(addTestsError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+ 
+ };
+ 
+ 
+ const addTestsBegin= ()=>({
+   type:  ADD_ClASS_TESTS_BEGIN,
+  })
+  
+  const addTestsSuccess= ()=>({
+   type:ADD_CLASS_TESTS_SUCCESS,
+  })
+  
+  const addTestsError= error=>({
+   type:  ADD_CLASS_TESTS_ERROR,
+   payload:{
+      error
+   }
+  })
+ 
+
+
+  export const removeTest = (data) => {
+    return dispatch => {
+      dispatch(removeTestBegin())
+      return axios.post(` ${url}/class/test/remove`,data)
+      .then(()=>{
+            dispatch(removeTestSuccess())
+            return Promise.resolve()
+      })
+      .catch(err=>{
+        dispatch(removeTestError())
+        return Promise.reject()
+     })
+    };
+   
+   };
+   
+   
+   const removeTestBegin= ()=>({
+     type:REMOVE_CLASS_TESTS_BEGIN,
+    })
+    
+    const removeTestSuccess= ()=>({
+     type:REMOVE_CLASS_TESTS_SUCCESS,
+    })
+    
+    const removeTestError= error=>({
+     type:  REMOVE_CLASS_TESTS_ERROR,
+     payload:{
+        error
+     }
+    })
+   

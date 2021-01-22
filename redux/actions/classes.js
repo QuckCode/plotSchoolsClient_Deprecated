@@ -5,6 +5,9 @@ import {
   FETCH_ALL_CLASSES_BEGIN,
   FETCH_ALL_CLASSES_SUCCESS,
   FETCH_ALL_CLASSES_ERROR,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_BEGIN,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_ERROR,
+  FETCH_ALL_TESTS_IN_CURRENT_CLASS_SUCCESS,
   url, school
 } from '../varables';
 import axios from 'axios'
@@ -72,6 +75,39 @@ const getAllClassesSuccess= (classes)=>({
 
 const getAllClassesError= error=>({
   type:FETCH_ALL_CLASSES_ERROR,
+  payload:{
+     error
+  }
+})
+
+export const getCurrentClassTests = (classId) => {
+  return dispatch => {
+    dispatch( getCurrentClassTestsBegin())
+    return axios.get(`${url}/class/test/${classId}`)
+    .then(({data})=>{
+          dispatch(getCurrentClassTestsSuccess(data))
+          return Promise.resolve()
+    })
+    .catch(({response})=>{
+       dispatch(getCurrentClassTestsError(response.data))
+       return Promise.reject(response.data)
+    })
+  };
+};
+
+const getCurrentClassTestsBegin= ()=>({
+  type:FETCH_ALL_TESTS_IN_CURRENT_CLASS_BEGIN
+})
+
+const getCurrentClassTestsSuccess= (currentClassTests)=>({
+  type:FETCH_ALL_TESTS_IN_CURRENT_CLASS_SUCCESS,
+  payload:{
+    currentClassTests
+  }
+})
+
+const getCurrentClassTestsError= error=>({
+  type:FETCH_ALL_TESTS_IN_CURRENT_CLASS_ERROR,
   payload:{
      error
   }
