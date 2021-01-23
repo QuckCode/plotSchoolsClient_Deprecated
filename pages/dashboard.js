@@ -11,6 +11,7 @@ import { Card , Dropdown, Menu,Row } from 'antd';
 import { MoreHorizontal, Archive, Edit, Save, Trash, Printer } from 'react-feather';
 import { theme } from '../components/styles/GlobalStyles';
 import { getSmsBalanceRequest, getSmsOutBoxRequest } from '../redux/actions/sms';
+import { redirectError } from '../services/redirectService';
 
 
 
@@ -77,28 +78,32 @@ return  (
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (ctx ) => {
-    const store = ctx.store
-    let data =  await AuthToken.fromNext(ctx)
-    await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
-    await store.dispatch(getAllClasses())
-    await store.dispatch(getAllStudents())
-    await store.dispatch(getAllStaffs())
-    await store.dispatch(getGraphStudentClassTotal())
-    await store.dispatch(getSmsOutBoxRequest())
-    await store.dispatch(getSmsBalanceRequest())
-    let propStore =  await store.getState()  
-    return {
-      props:{
-         students:propStore.student.students.length,
-         classes:propStore.classes.classes.length,
-         scratchCard:100,
-         staffs:propStore.staff.staffs.length,
-         graphStudentClassTotal:propStore.student.graphOfTotalParClass,
-         loading:propStore.student.loading,
-         userType:propStore.auth.user.userType,
-         smsBalance:propStore.sms.balance,
-         smsSent:propStore.sms.messages.length
-      }
+    try {
+      const store = ctx.store
+      let data =  await AuthToken.fromNext(ctx)
+      await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
+      await store.dispatch(getAllClasses())
+      await store.dispatch(getAllStudents())
+      await store.dispatch(getAllStaffs())
+      await store.dispatch(getGraphStudentClassTotal())
+      await store.dispatch(getSmsOutBoxRequest())
+      await store.dispatch(getSmsBalanceRequest())
+      let propStore =  await store.getState()  
+      return {
+        props:{
+           students:propStore.student.students.length,
+           classes:propStore.classes.classes.length,
+           scratchCard:100,
+           staffs:propStore.staff.staffs.length,
+           graphStudentClassTotal:propStore.student.graphOfTotalParClass,
+           loading:propStore.student.loading,
+           userType:propStore.auth.user.userType,
+           smsBalance:propStore.sms.balance,
+           smsSent:propStore.sms.messages.length
+        }
+      } 
+    } catch (error) {
+        redirectError(ctx)
     }
   }
 )
