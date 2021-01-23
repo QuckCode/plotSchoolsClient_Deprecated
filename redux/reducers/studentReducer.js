@@ -14,6 +14,7 @@ import {
   FETCH_CURRENT_STUDENT_BEGIN,
   FETCH_CURRENT_STUDENT_ERROR,
   FETCH_CURRENT_STUDENT_SUCCESS,
+  VALIDATE_STUDENTS_SCORE_BY_SUBJECTS,
 } from '../varables'
 
 const initialState = {
@@ -21,7 +22,8 @@ const initialState = {
   loading:false,
   error:null,
   graphOfTotalParClass:[],
-  currentStudent:{}
+  currentStudent:{},
+  validateStudentScore:[]
 };
 
 export const studentReducer = (state = initialState, action) => {
@@ -114,6 +116,12 @@ export const studentReducer = (state = initialState, action) => {
             ...state,
             loading:false,
             currentStudent:{}
+        };
+        case  VALIDATE_STUDENTS_SCORE_BY_SUBJECTS:
+          return {
+            ...state,
+            loading:false,
+            validateStudentScore:action.payload.validateStudentScore
         };
     default:
       return {...state};

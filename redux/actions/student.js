@@ -14,6 +14,7 @@ import {
   EDIT_STUDENT_BEGIN,
   EDIT_STUDENT_SUCCESS,
   EDIT_STUDENT_ERROR,
+  VALIDATE_STUDENTS_SCORE_BY_SUBJECTS,
   url, school,
 } from '../varables';
 import axios from 'axios'
@@ -165,6 +166,8 @@ export const getCurrentStudent = (admissionNumber) => {
   };
 };
 
+
+
 const getCurrentStudentBegin= ()=>({
   type:FETCH_CURRENT_STUDENT_BEGIN,
 })
@@ -183,3 +186,25 @@ const  getCurrentStudentError= error=>({
   }
 })
 
+
+export const getStudentValidatedScoreRequest = (value) => {
+  console.log(value)
+  return dispatch => {
+      dispatch(getStudentValidatedScore([]))
+    try {
+     return  axios.get(`${url}/student/validate/${value.class}/${value.arm}/${value.subject}`)
+       .then(({data})=>{
+            dispatch(getStudentValidatedScore(data))
+       })
+    } catch (error) {
+      return  dispatch(getStudentValidatedScore([]))
+    }
+  };
+};
+
+ const getStudentValidatedScore = (validateStudentScore) => ({
+   type:VALIDATE_STUDENTS_SCORE_BY_SUBJECTS,
+   payload:{
+    validateStudentScore  
+   }
+});

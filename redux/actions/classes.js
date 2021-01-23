@@ -83,15 +83,17 @@ const getAllClassesError= error=>({
 export const getCurrentClassTests = (classId) => {
   return dispatch => {
     dispatch( getCurrentClassTestsBegin())
-    return axios.get(`${url}/class/test/${classId}`)
-    .then(({data})=>{
-          dispatch(getCurrentClassTestsSuccess(data))
-          return Promise.resolve()
-    })
-    .catch(({response})=>{
-       dispatch(getCurrentClassTestsError(response.data))
-       return Promise.reject(response.data)
-    })
+    try {
+      return axios.get(`${url}/class/test/${classId}`)
+      .then(({data})=>{
+            dispatch(getCurrentClassTestsSuccess(data))
+            return Promise.resolve()
+      })
+      
+    } catch (error) {
+      dispatch(getCurrentClassTestsError(error.data))
+      return Promise.reject(error.data)
+    }
   };
 };
 
@@ -112,3 +114,5 @@ const getCurrentClassTestsError= error=>({
      error
   }
 })
+
+
