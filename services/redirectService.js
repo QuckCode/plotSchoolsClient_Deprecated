@@ -30,3 +30,15 @@ export const redirectBack = (server) => {
     Router.push(dashboard);
   }
 };
+
+export const redirectError = (server) => {
+  const dashboard = "/502";
+  if (server) {
+    server.res.writeHead(302, {
+      Location: dashboard,
+    });
+    server.res.end();
+  } else {
+    Router.push(dashboard);
+  }
+};
