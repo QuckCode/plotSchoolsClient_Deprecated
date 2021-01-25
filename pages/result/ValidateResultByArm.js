@@ -63,16 +63,28 @@ const menu = (
   </Menu>
 );
 
-const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentClassTests=[]}) =>{
+const getArmResult = async (classN, arm) =>{
+  try {
+    let data =  await (await Axios.get(`${url}/student/validate/${classN}/${arm}`)).data
+    return data
+  } catch (error) {
+     return []
+  }
+}
+
+const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[]}) =>{
   const  [loading, setLoading] = useState(false)
+  const [position, setPosition] = useState(0)
+
   const parseClassTestToTable =  (data)=>{
-   let c=  data.map(({name, _id})=>({title:name+" Score",key:_id, dataIndex:name}))
+   let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
+   c.push({title:"Total",key:"Total", dataIndex:"Total"})
+   c.push({title:"Position",key:"position", dataIndex:"postion"})
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})
    return c.reverse()
   }
-  
-  console.log(parseClassTestToTable(currentClassTests))
+
   const  handleSubmit= (value)=>{
     setLoading(true)
     Router.push( 
@@ -85,8 +97,25 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
       })
   }
   
-  const goToClassSetting = ()=>{
-    Router.push({pathname:"/classes/classTest"})
+  const gotoSubjectSetting = ()=>{
+    Router.push({pathname:"/classes/classSubjects"})
+  }
+
+  const handleNext= ()=>{
+   if(position===armResult.length-1){
+    setLoading(true)
+      setTimeout(()=>{
+            setPosition(0)
+      }, 500)
+    return  setLoading(false)
+   }
+   else{
+    setLoading(true)
+    setTimeout(()=>{
+          setPosition(position+1)
+    }, 500)
+    return  setLoading(false)
+   } 
   }
 
    if(!showResult){
@@ -123,13 +152,17 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
                 currentClassTests.length==0 ? (
                    <Result
                      status='500'
-                     title="This Class does not have any tests "
-                     extra={<Button onClick={goToClassSetting} type="primary" key="console"> Click here to go to class tests settings  </Button>}
+                     title="Add Class Subjects"
+                     extra={<Button onClick={gotoSubjectSetting} type="primary" key="console"> Click here to go to class subjects settings  </Button>}
                    />
                 )
                 :(
                   <div>
-                      <Table  columns={parseClassTestToTable(currentClassTests)} />
+                       <div>
+                           <Typography.Text strong> Subject :  { armResult[position]?  armResult[position].subject.name: ""} </Typography.Text><br/> <br/>
+                       </div>
+                      <Table   loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                      <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
                   </div>
                 )
               }
@@ -155,12 +188,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
     if(ctx.query.arm && ctx.query.class){
        try {
            await store.dispatch(getCurrentClassTests(ctx.query.class))
+           let armResult =  await  getArmResult(ctx.query.class, ctx.query.arm)
             propStore =  await store.getState()  
            return {
             props:{
                classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,
-                currentClassTests:propStore.test.currentClassTests
+                currentClassTests:propStore.test.currentClassTests,
+                armResult:armResult
             }
           }
        } catch (error) {
