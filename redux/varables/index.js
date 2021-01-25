@@ -1,6 +1,9 @@
 export const FETCH_ALL_SCHOOLS_BEGIN="FETCH_ALL_SCHOOLS_BEGIN"
 export const FETCH_ALL_SCHOOLS_ERROR="FETCH_ALL_SCHOOLS_ERROR"
 export const FETCH_ALL_SCHOOLS_SUCCESS="FETCH_ALL_SCHOOLS_SUCCESS"
+export const FETCH_SCHOOL_SETTING_BEGIN="FETCH_SCHOOL_SETTING_BEGIN"
+export const FETCH_SCHOOL_SETTING_ERROR="FETCH_SCHOOL_SETTING_ERROR"
+export const FETCH_SCHOOL_SETTING_SUCCESS="FETCH_SCHOOL_SETTING_SUCCESS"
 
 //section
 export const CREATE_SECTION_BEGIN="CREATE_SECTION_BEGIN"
@@ -175,13 +178,13 @@ export const FETCH_SCHOOL_MESSAGES="FETCH_SCHOOL_MESSAGES"
 ///parts
 // export const url ="http://localhost:4000"
 // export const school= `5f8c7ee1b9776e05f105a6db`
-// export const url ="http://localhost:4000"
-// export const school= `5f8c7ee1b9776e05f105a6db`
+export const url ="http://localhost:4000"
+export const school= `5f8c7ee1b9776e05f105a6db`
 
 
 
- export const url ="https://plotapi-tets.herokuapp.com"	
- export const school= `5f9183cad035174e94992476`
+//  export const url ="https://plotapi-tets.herokuapp.com"	
+//  export const school= `5f9183cad035174e94992476`
 
 export const student= 'student'
 export const staff= 'staff'
