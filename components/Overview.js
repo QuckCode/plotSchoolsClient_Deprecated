@@ -92,18 +92,28 @@ const menu = (
   </Menu>
 );
 
-const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent}) => {
+const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent, schoolSettings}) => {
   return (
     <div>
       <Row gutter={16}>
+        <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+            title="Currrent School Section"
+            value={schoolSettings.section}
+            icon={<Home size={20} strokeWidth={1} />}
+            color={theme.darkColor}
+            clickHandler={() => message.info(`This term is currently ${schoolSettings.section}`)}
+          />
+        </Col>
       <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
             title="Current School term"
-            value={" First Term"}
-            icon={<Home size={20} strokeWidth={1} />}
+            value={schoolSettings.term+" Term"}
+            icon={<Icon type="heat-map" size={20} strokeWidth={1} />}
             color={theme.warningColor}
-            clickHandler={() => message.info(`You have ${0} Scratch Card`)}
+            clickHandler={() => message.info(`This term is currently ${schoolSettings.term}`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -114,16 +124,6 @@ const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBala
             icon={<CreditCard size={20} strokeWidth={1} />}
             color={theme.primaryColor}
             clickHandler={() => message.info(`You have ${smsBalance} Sms Units `)}
-          />
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <StatCard
-            // type="fill"
-            title="Total message received"
-            value={smsSent}
-            icon={<MessageCircle size={20} strokeWidth={1} />}
-            color={theme.darkColor}
-            clickHandler={() => message.info(`You have ${smsSent} messages sent`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
