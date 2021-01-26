@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table, Alert } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -64,8 +64,11 @@ const menu = (
   </Menu>
 );
 
-const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, currentClassTests=[], subjects, studentData}) =>{
+const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, currentClassTests=[], subjects, studentData, resultError}) =>{
   const  [loading, setLoading] = useState(false)
+  const  [ arm , setArm] = useState("")
+  const  [classN, setClass] = useState("")
+  const  [subject, setSubject] = useState("")
   
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
@@ -77,12 +80,19 @@ const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, current
   
 
   const  handleSubmit= (value)=>{
+    console.log(arms, classes, subjects, sections, )
     setLoading(true)
     Router.push( 
       {pathname:"/result/ValidateScoreBySubject", query:{ arm:value.arm,class:value.classN, subject:value.subject}})
       .then(()=>{
         setLoading(false)
       })
+  }
+  const  handleGoBack = ()=>{
+    Router.push( {pathname:"/result/ValidateScoreBySubject"})
+      .then(()=>{
+        setLoading(false)
+      }) 
   }
   
   const goToClassSetting = ()=>{
@@ -101,13 +111,28 @@ const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, current
       bodyStyle={{ padding: '1rem' }}
       className="mb-4"> 
           <div className="p-4">
+                   {
+                     resultError ?
+                     (
+                      <Alert
+                         message="Result error"
+                         description="Could not fetch scores for  student in this class"
+                        type="error"
+                         closable
+                      />
+
+                     )
+                     :(
+                       <div> </div>
+                     )
+                   }
+                   <br/>
                 <StudentBySubjectForm handleSubmit={handleSubmit} subjects={subjects} loading={loading} arms={arms} sections={sections} classes={classes} />
           </div>
      </Card>
     )
   }
    else{
-     console.log(parseClassTestToTable(currentClassTests), studentData)
        return (
         <Card 
         title="Validate Result By arm"
@@ -130,7 +155,19 @@ const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, current
                 )
                 :(
                   <div>
-                      <Table  dataSource={studentData} columns={parseClassTestToTable(currentClassTests)} />
+                    <div> 
+                      <span> Section: Jss 1 A</span>
+                      <span style={{marginLeft:"10rem"}}> Class: Mathematics</span>
+                    </div>
+                     <br/>
+                    <div> 
+                      <span> Arm:  {arm}</span>
+                      <span style={{marginLeft:"10rem"}}> Subject: Mathematics </span>
+                    </div>
+                      <br/>
+                      <br/>
+                      <Table  pagination={false}    bordered dataSource={studentData} columns={parseClassTestToTable(currentClassTests)} />
+                      <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button>
                   </div>
                 )
               }
@@ -163,14 +200,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
             props:{
                 classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,studentData:propStore.student.validateStudentScore,
-                currentClassTests:propStore.test.currentClassTests,subjects:propStore.subject.subjects,    
+                currentClassTests:propStore.test.currentClassTests,subjects:propStore.subject.subjects, 
+                resultError:false   
             }
           }
        } catch (error) {
-        return {props:{  classes:propStore.classes.classes,  
+        return {props:{ 
+           classes:propStore.classes.classes,  
             subjects:propStore.subject.subjects,  
             sections:propStore.section.section,
-            arms:propStore.arm.arms, showResult:false}}
+            arms:propStore.arm.arms, showResult:false,
+            resultError:true
+          }}
        }
     }
     else return { props:{

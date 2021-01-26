@@ -25,8 +25,7 @@ import { error } from '../../components/modal';
 import { url } from '../../redux/varables';
 import  Router from 'next/router';
 import { redirectError } from '../../services/redirectService';
-
-
+import { nth } from '../../lib/helpers';
 
 const Title = Typography.Title
 
@@ -72,14 +71,17 @@ const getArmResult = async (classN, arm) =>{
   }
 }
 
-const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[]}) =>{
+const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[], resultError}) =>{
   const  [loading, setLoading] = useState(false)
   const [position, setPosition] = useState(0)
+  const  [ arm , setArm] = useState("")
+  const  [classN, setClass] = useState("")
+  const  [subject, setSubject] = useState("")
 
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
    c.push({title:"Total",key:"Total", dataIndex:"Total"})
-   c.push({title:"Position",key:"position", dataIndex:"postion"})
+   c.push( {title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,})
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})
    return c.reverse()
@@ -97,6 +99,12 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
       })
   }
   
+  const  handleGoBack = ()=>{
+    Router.push( {pathname:"/result/ValidateResultByArm"})
+      .then(()=>{
+        setLoading(false)
+      }) 
+  }
   const gotoSubjectSetting = ()=>{
     Router.push({pathname:"/classes/classSubjects"})
   }
@@ -130,6 +138,22 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
       bodyStyle={{ padding: '1rem' }}
       className="mb-4"> 
           <div className="p-4">
+          {
+                     resultError ?
+                     (
+                      <Alert
+                         message="Result error"
+                         description="Could not fetch scores for  student in this class"
+                        type="error"
+                         closable
+                      />
+
+                     )
+                     :(
+                       <div> </div>
+                     )
+                   }
+                   <br/>
                 <StudentByArmForm  handleSubmit={handleSubmit} loading={loading} arms={arms} sections={sections} classes={classes} />
           </div>
      </Card>
@@ -158,11 +182,20 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
                 )
                 :(
                   <div>
-                       <div>
-                           <Typography.Text strong> Subject :  { armResult[position]?  armResult[position].subject.name: ""} </Typography.Text><br/> <br/>
-                       </div>
-                      <Table   loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                   <div>
+                   <span> Section: Jss 1 A</span>
+                      <span style={{marginLeft:"10rem"}}> Class: Mathematics</span>
+                    </div>
+                     <br/>
+                    <div> 
+                      <span> Arm:  {arm}</span>
+                      <span style={{marginLeft:"10rem"}}>  Subject :  { classResult[position]?  classResult[position].subject.name: ""}  </span>
+                    </div>
+                      <br/>
+                      <br/>
+                      <Table    bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
                       <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
+                      <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button>
                   </div>
                 )
               }
@@ -199,7 +232,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
             }
           }
        } catch (error) {
-        return {props:{  classes:propStore.classes.classes,   sections:propStore.section.section,  arms:propStore.arm.arms, showResult:false}}
+        return {props:{  classes:propStore.classes.classes,   sections:propStore.section.section,  arms:propStore.arm.arms, showResult:false, resultError:true}}
        }
     }
     else return { props:{classes:propStore.classes.classes, sections:propStore.section.section, arms:propStore.arm.arms, showResult:false } }
