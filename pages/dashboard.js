@@ -12,10 +12,9 @@ import { MoreHorizontal, Archive, Edit, Save, Trash, Printer } from 'react-feath
 import { theme } from '../components/styles/GlobalStyles';
 import { getSmsBalanceRequest, getSmsOutBoxRequest } from '../redux/actions/sms';
 import { redirectError } from '../services/redirectService';
+import { getSchoolsSetting } from '../redux/actions/school';
 
-
-
-const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType, smsBalance, smsSent}) => {
+const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType, smsBalance, smsSent, oldSchoolSettings}) => {
 
   const menu = (
     <Menu>
@@ -70,6 +69,7 @@ return  (
     loadingTotalGraph={loading}
     smsBalance={smsBalance}
     smsSent={smsSent}
+    schoolSettings= {oldSchoolSettings}
     /> 
   </>
 </>
@@ -88,6 +88,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       await store.dispatch(getGraphStudentClassTotal())
       await store.dispatch(getSmsOutBoxRequest())
       await store.dispatch(getSmsBalanceRequest())
+      await store.dispatch(getSchoolsSetting(data.decodedToken.school))
       let propStore =  await store.getState()  
       return {
         props:{
@@ -99,7 +100,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
            loading:propStore.student.loading,
            userType:propStore.auth.user.userType,
            smsBalance:propStore.sms.balance,
-           smsSent:propStore.sms.messages.length
+           smsSent:propStore.sms.messages.length,
+           oldSchoolSettings: propStore.schools.settings
         }
       } 
     } catch (error) {
