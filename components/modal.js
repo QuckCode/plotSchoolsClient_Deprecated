@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 
 
  export function info() {
@@ -27,9 +27,18 @@ import { Modal } from "antd";
   });
 }
 
- export function warning() {
-  Modal.warning({
-    title: 'This is a warning message',
-    content: 'some messages...some messages...',
+ export function warning(title, content, ok =()=>{}, okText) {
+  Modal.warn({
+    title: title,
+    content: (
+      <div>
+        <span> {content}</span>
+        <br/>
+        <br/>
+        <Button onClick={Modal.destroyAll} style={{marginLeft:"22%"}} type="danger" value="cancel"> Cancel </Button>
+        <Button  style={{margin:"1rem", marginRight:0}} onClick={()=>{ok(),Modal.destroyAll()}} type="primary"> {okText} </Button> 
+      </div>
+    ),
+    okButtonProps:{style:{display:"none"}}
   });
 }
