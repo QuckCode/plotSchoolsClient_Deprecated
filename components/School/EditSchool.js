@@ -65,7 +65,7 @@ class EditSchoolForm extends React.Component {
         </FormItem>
         <FormItem   name="section"  required  {...formItemLayout} label="School Sections">
            {form.getFieldDecorator('section', { initialValue: "", rules: [ {required: true,message: 'Please input School Sections'}] })(
-            <Select>
+            <Select  disabled>
               <Option value={""}> Select School Section</Option>
               {
                 sections.map(x=>(
@@ -77,7 +77,7 @@ class EditSchoolForm extends React.Component {
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Term">
            {form.getFieldDecorator('term', { initialValue: "", rules: [ {required: true,message: 'Please input Term'}] })(
-            <Select>
+            <Select  disabled>
               <Option value={""}>Please Select a Term</Option>
               <Option value={"First"}>First </Option>
               <Option value={"Second"}>Second </Option>
