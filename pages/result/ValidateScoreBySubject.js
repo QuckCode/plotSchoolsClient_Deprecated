@@ -27,6 +27,7 @@ import { redirectError } from '../../services/redirectService';
 import { getAllSubjects } from '../../redux/actions/subject';
 import StudentBySubjectForm from '../../components/Student/StudentBySubjectForm';
 import { getStudentValidatedScoreRequest } from '../../redux/actions/student';
+import { capitalize } from '../../lib/helpers';
 
 
 const Title = Typography.Title
@@ -64,11 +65,8 @@ const menu = (
   </Menu>
 );
 
-const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, currentClassTests=[], subjects, studentData, resultError}) =>{
+const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, currentClassTests=[], subjects, studentData, resultError,arm, classN, subject}) =>{
   const  [loading, setLoading] = useState(false)
-  const  [ arm , setArm] = useState("")
-  const  [classN, setClass] = useState("")
-  const  [subject, setSubject] = useState("")
   
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
@@ -155,14 +153,13 @@ const ValidateScoreBySubjectPage = ({classes, sections,arms, showResult, current
                 )
                 :(
                   <div>
-                    <div> 
-                      <span> Section: Jss 1 A</span>
-                      <span style={{marginLeft:"10rem"}}> Class: Mathematics</span>
+                  <div>
+                      <span style={{textDecoration:"underline"}}> Class:  {classes.find(x => x._id === classN).name}  {arms.find(x => x.id === arm).arm} </span>
                     </div>
                      <br/>
                     <div> 
-                      <span> Arm:  {arm}</span>
-                      <span style={{marginLeft:"10rem"}}> Subject: Mathematics </span>
+                      <span> Arm:  {arms.find(x => x.id === arm).arm}</span>
+                      <span style={{marginLeft:"10rem"}}>  Subject :  {capitalize(subjects.find(x => x._id === subject).name)}   </span>
                     </div>
                       <br/>
                       <br/>
@@ -201,7 +198,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
                 classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,studentData:propStore.student.validateStudentScore,
                 currentClassTests:propStore.test.currentClassTests,subjects:propStore.subject.subjects, 
-                resultError:false   
+                resultError:false, classN:ctx.query.class, arm:ctx.query.arm, subject:ctx.query.subject
             }
           }
        } catch (error) {

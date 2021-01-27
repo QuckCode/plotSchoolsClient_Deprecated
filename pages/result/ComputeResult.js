@@ -21,13 +21,11 @@ import { wrapper } from '../../redux/store';
 import { getAllArms } from '../../redux/actions/arm';
 import StudentByArmForm from '../../components/Student/StudentByArmForm';
 import Axios from 'axios';
-import { error } from '../../components/modal';
-import { url } from '../../redux/varables';
+import { error, success, warning } from '../../components/modal';
+import { school, url } from '../../redux/varables';
 import  Router from 'next/router';
 import { redirectError } from '../../services/redirectService';
-import {nth} from '../../lib/helpers'
-
-
+import {nth, capitalize} from '../../lib/helpers'
 
 const Title = Typography.Title
 
@@ -73,68 +71,93 @@ const getArmResult = async (classN, arm) =>{
   }
 }
 
-const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[], resultError}) =>{
+const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[], resultError, classN, arm}) =>{
   const  [loading, setLoading] = useState(false)
   const [position, setPosition] = useState(0)
-  const  [ arm , setArm] = useState("")
-  const  [classN, setClass] = useState("")
-  const  [subject, setSubject] = useState("")
+
+  
 
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
    c.push({title:"Total",key:"total", dataIndex:"total"})
-   c.push({
-     title:"Class",
-     children:[
-      {title:"High",key:"high", dataIndex:"high"},
-      {title:"Low",key:"low", dataIndex:"low"},
-      {title:"Avg",key:"avg", dataIndex:"avg"},
-      {title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,}
-     ]
+   c.push({title:"Class",
+      children:[{title:"High",key:"high", dataIndex:"high"},{title:"Low",key:"low", dataIndex:"low"},{title:"Avg",key:"avg", dataIndex:"avg"},{title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,}]
    })
-
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})
    return c.reverse()
   }
 
-  const  handleSubmit= (value)=>{
-    setLoading(true)
-    Router.push( 
-      {pathname:"/result/ComputeResult", query:{arm:value.arm, class:value.classN}})
-      .then(()=>{  setLoading(false) })
-  }
+  const  handleSubmit= (value)=>{setLoading(true), Router.push(  {pathname:"/result/ComputeResult", query:{arm:value.arm, class:value.classN}}).then(()=>{  setLoading(false) })}
   
-  const  handleGoBack = ()=>{
-    Router.push( {pathname:"result/ComputeResult"})
-      .then(()=>{ setLoading(false) }) 
-  }
-  const gotoSubjectSetting = ()=>{
-    Router.push({pathname:"result/ComputeResult"})
-  }
+  const  handleGoBack = ()=>Router.push( {pathname:"result/ComputeResult"}) .then(()=>{ setLoading(false) }) 
+
+  const gotoSubjectSetting = ()=>Router.push({pathname:"result/ComputeResult"})
+
 
   const handleNext= ()=>{
    if(position===armResult.length-1){
-    setLoading(true)
-      setTimeout(()=>{
-            setPosition(0)
-      }, 500)
+    setLoading(true) ,setTimeout(()=>{ setPosition(0)}, 500)
     return  setLoading(false)
    }
    else{
-    setLoading(true)
-    setTimeout(()=>{
-          setPosition(position+1)
-    }, 500)
+    setLoading(true) , setTimeout(()=>{ setPosition(position+1)}, 500)
     return  setLoading(false)
    } 
   }
+
+  const handleComputeResult= ()=>{
+     setLoading(true)
+     Axios.post(`${url}/result/compute`, {
+       classN, arm , school
+     })
+     .then(data=>{
+       setTimeout(()=> setLoading(false), success("Computation Successfully", ""), 2000)
+     })
+     .catch(({response})=>{
+      setLoading(false)
+      if(response){
+        if( response.data.message==="Result have already bean computed"){
+          warning(response.data.title, response.data.message, handleReComputeResult, "Recompute Result")
+        } else error (response.data.title, response.data.message)
+      }
+      else{
+        error("Network Error", "Please an error occurred")
+      }
+
+     })
+  }
+  
+  const handleReComputeResult = ()=>{
+    setLoading(true)
+     Axios.post(`${url}/result/recompute`, {
+       classN, arm , school
+     })
+     .then(data=>{
+       setTimeout(()=> success("Computation Successfully", ""), 1000)
+       setLoading(false)
+     })
+     .catch(({response})=>{
+      setLoading(false)
+      if(response){
+        error (response.data.title, response.data.message)
+      }
+      else{
+        error("Network Error", "Please an error occurred")
+      }
+
+     })
+  }
+
+
+  
+   
 
    if(!showResult){
     return (
       <Card 
         title="Compute Result "
-      extra={
+       extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
         </Dropdown>
@@ -157,7 +180,6 @@ const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTest
                        <div> </div>
                      )
                    }
-                   <br/>
                 <StudentByArmForm  handleSubmit={handleSubmit} loading={loading} arms={arms} sections={sections} classes={classes} />
           </div>
      </Card>
@@ -187,22 +209,20 @@ const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTest
                 :(
                   <div>
                    <div>
-                  <span> Section: Jss 1 A</span>
-                      <span style={{marginLeft:"10rem"}}> Class: Mathematics</span>
+                      <span style={{textDecoration:"underline"}}> Class:  {classes.find(x => x._id === classN).name}  {arms.find(x => x.id === arm).arm} </span>
                     </div>
                      <br/>
                     <div> 
-                      <span> Arm:  {arm}</span>
-                      <span style={{marginLeft:"10rem"}}>  Subject :  { armResult[position]?  armResult[position].subject.name: ""}  </span>
+                      <span> Arm:  {arms.find(x => x.id === arm).arm}</span>
+                      <span style={{marginLeft:"10rem"}}>  Subject :  { armResult[position]? capitalize(armResult[position].subject.name): ""}  </span>
                     </div>
                       <br/>
                       <br/>
                       <Table    bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
-                      <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
-                      <Popconfirm title="Are you sure you want to compute student result">
-                         <Button disabled={position!==armResult.length-1 ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Result  </Button>
+                      <Button onClick={handleNext} disabled={loading} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
+                      <Popconfirm onConfirm={handleComputeResult} title="Are you sure you want to compute student result">
+                         <Button loading={loading} disabled={position!==armResult.length-1 || loading ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Result  </Button>
                       </Popconfirm>
-                      {/* <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button> */}
                   </div>
                 )
               }
@@ -232,10 +252,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
             propStore =  await store.getState()  
            return {
             props:{
-               classes:propStore.classes.classes, sections:propStore.section.section, 
+                classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,
                 currentClassTests:propStore.test.currentClassTests,
-                armResult:armResult
+                armResult:armResult ,classN:ctx.query.class, arm:ctx.query.arm
             }
           }
        } catch (error) {

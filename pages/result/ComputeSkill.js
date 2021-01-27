@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -21,11 +21,12 @@ import { wrapper } from '../../redux/store';
 import { getAllArms } from '../../redux/actions/arm';
 import StudentByArmForm from '../../components/Student/StudentByArmForm';
 import Axios from 'axios';
-import { error } from '../../components/modal';
-import { url } from '../../redux/varables';
+import { error, success, warning } from '../../components/modal';
+import { school, url } from '../../redux/varables';
 import  Router from 'next/router';
 import { redirectError } from '../../services/redirectService';
-import { nth, capitalize } from '../../lib/helpers';
+import {handleEnumScore } from '../../lib/helpers'
+import { getCurrentSectionSkill} from '../../redux/actions/skill'
 
 const Title = Typography.Title
 
@@ -62,72 +63,84 @@ const menu = (
   </Menu>
 );
 
-const getArmResult = async (classN, arm) =>{
+const getSkillResult = async (classN, arm) =>{
   try {
-    let data =  await (await Axios.get(`${url}/student/validate/${classN}/${arm}`)).data
+    let data =  await (await Axios.get(`${url}/student/skill/compute/${classN}/${arm}`)).data
     return data
   } catch (error) {
      return []
   }
 }
 
-const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentClassTests=[], armResult=[], resultError,arm, classN}) =>{
+const ComputeResultSkillPage = ({classes, sections,arms, showResult, currentClassSkill =[],  skillResult=[], resultError, classN, arm}) =>{
   const  [loading, setLoading] = useState(false)
-  const [position, setPosition] = useState(0)
 
-  const parseClassTestToTable =  (data)=>{
-   let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
-   c.push({title:"Total",key:"Total", dataIndex:"Total"})
-   c.push( {title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,})
+  
+  const parseSkillToTable =  (data)=>{
+   let c=  data.map(({name, _id})=>({title:name,key:name, dataIndex:name,render: text => <span>{handleEnumScore(text)} </span>,}))
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})
    return c.reverse()
   }
 
-  const  handleSubmit= (value)=>{
-    setLoading(true)
-    Router.push( 
-      {pathname:"/result/ValidateResultByArm", query:{
-        arm:value.arm,
-        class:value.classN
-      }})
-      .then(()=>{
-        setLoading(false)
-      })
+  const  handleSubmit= (value)=>{setLoading(true), Router.push(  {pathname:"/result/ComputeSkill", query:{arm:value.arm, class:value.classN, section:value.section}}).then(()=>{  setLoading(false) })}
+
+
+  const gotoSubjectSetting = ()=>Router.push({pathname:"/section/sectionSkill"})
+
+
+  const handleComputeResultSkill= ()=>{
+     setLoading(true)
+     Axios.post(`${url}/result/compute/skill`, {
+       classN, arm , school
+     })
+     .then(data=>{
+       setTimeout(()=> setLoading(false), success("Computation Successfully", ""), 2000)
+     })
+     .catch(({response})=>{
+      setLoading(false)
+      if(response){
+        if( response.data.message==="Result for skill have already bean computed"){
+          warning(response.data.title, response.data.message, handleReComputeResultSkill, "Recompute Result")
+        } else error (response.data.title, response.data.message)
+      }
+      else{
+        error("Network Error", "Please an error occurred")
+      }
+
+     })
   }
   
-  const  handleGoBack = ()=>{
-    Router.push( {pathname:"/result/ValidateResultByArm"})
-      .then(()=>{
-        setLoading(false)
-      }) 
-  }
-  const gotoSubjectSetting = ()=>{
-    Router.push({pathname:"/classes/classSubjects"})
+  const handleReComputeResultSkill = ()=>{
+    setLoading(true)
+     Axios.post(`${url}/result/recompute/skill`, {
+       classN, arm , school
+     })
+     .then(data=>{
+       setTimeout(()=> success("Computation Successfully", ""), 1000)
+       setLoading(false)
+     })
+     .catch(({response})=>{
+      setLoading(false)
+      if(response){
+        error (response.data.title, response.data.message)
+      }
+      else{
+        error("Network Error", "Please an error occurred")
+      }
+
+     })
   }
 
-  const handleNext= ()=>{
-   if(position===armResult.length-1){
-    setLoading(true)
-      setTimeout(()=>{
-            setPosition(0)
-      }, 500)
-    return  setLoading(false)
-   }
-   else{
-    setLoading(true)
-    setTimeout(()=>{
-          setPosition(position+1)
-    }, 500)
-    return  setLoading(false)
-   } 
-  }
+
+  
+   
 
    if(!showResult){
     return (
       <Card 
-        title="Validate Result By Arm"
-      extra={
+        title="Compute Skill Result "
+       extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
         </Dropdown>
@@ -150,7 +163,6 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
                        <div> </div>
                      )
                    }
-                   <br/>
                 <StudentByArmForm  handleSubmit={handleSubmit} loading={loading} arms={arms} sections={sections} classes={classes} />
           </div>
      </Card>
@@ -159,7 +171,7 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
    else{
        return (
         <Card 
-        title="Validate Result By arm"
+      title="Compute Skill Result "
         extra={
             <Dropdown overlay={menu}>
                <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -170,28 +182,28 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
           <div className="p-4">
               {
 
-                currentClassTests.length==0 ? (
+                   currentClassSkill.length==0 ? (
                    <Result
                      status='500'
-                     title="Add Class Subjects"
-                     extra={<Button onClick={gotoSubjectSetting} type="primary" key="console"> Click here to go to class subjects settings  </Button>}
+                     title="Add Section Skills"
+                     extra={<Button onClick={gotoSubjectSetting} type="primary" key="console"> Click here to go to section skill settings </Button>}
                    />
                 )
                 :(
                   <div>
-                  <div>
-                      <span style={{textDecoration:"underline"}}> Class:  {classes.find(x => x._id === classN).name}   {arms.find(x => x.id === arm).arm} </span>
+                   <div>
+                      <span style={{textDecoration:"underline"}}> Class:  {classes.find(x => x._id === classN).name}  {arms.find(x => x.id === arm).arm} </span>
                     </div>
                      <br/>
                     <div> 
                       <span> Arm:  {arms.find(x => x.id === arm).arm}</span>
-                      <span style={{marginLeft:"10rem"}}>  Subject :  { armResult[position]? capitalize(armResult[position].subject.name): ""}  </span>
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
-                      <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
-                      <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button>
+                      <Table    bordered  loading={loading}  pagination={false} dataSource={skillResult}   columns={parseSkillToTable(currentClassSkill)} />
+                       <Popconfirm onConfirm={handleComputeResultSkill} title="Are you sure you want to compute student skill result">
+                         <Button loading={loading} disabled={loading ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Skill  </Button>
+                      </Popconfirm>
                   </div>
                 )
               }
@@ -216,15 +228,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
     let propStore =  await store.getState()  
     if(ctx.query.arm && ctx.query.class){
        try {
-           await store.dispatch(getCurrentClassTests(ctx.query.class))
-           let armResult =  await  getArmResult(ctx.query.class, ctx.query.arm)
+           await store.dispatch(getCurrentSectionSkill(ctx.query.section))
+           let  skillResult =  await  getSkillResult(ctx.query.class, ctx.query.arm)
             propStore =  await store.getState()  
            return {
             props:{
-               classes:propStore.classes.classes, sections:propStore.section.section, 
+                classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,
-                currentClassTests:propStore.test.currentClassTests,
-                armResult:armResult, classN:ctx.query.class, arm:ctx.query.arm
+                currentClassSkill:propStore.skill.currentSectionSkills,
+                skillResult: skillResult ,classN:ctx.query.class, arm:ctx.query.arm
             }
           }
        } catch (error) {
@@ -240,4 +252,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 )
 
-export default  ValidateResultByArmPage;
+export default  ComputeResultSkillPage;

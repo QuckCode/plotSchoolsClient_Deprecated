@@ -24,7 +24,7 @@ import Axios from 'axios';
 import { error } from '../../components/modal';
 import { url } from '../../redux/varables';
 import Router from 'next/router';
-import { nth } from '../../lib/helpers';
+import { nth, capitalize} from '../../lib/helpers';
 
 const Title = Typography.Title
 
@@ -70,12 +70,9 @@ const getClassResult = async (classN) =>{
   }
 }
 
-const ValidateResultByClassPage = ({classes, sections,arms, showResult, currentClassTests=[], classResult=[], resultError}) =>{
+const ValidateResultByClassPage = ({classes, sections,arms, showResult, currentClassTests=[], classResult=[], resultError, classN}) =>{
   const  [loading, setLoading] = useState(false)
   const [position, setPosition] = useState(0)
-  const  [ arm , setArm] = useState("")
-  const  [classN, setClass] = useState("")
-  const  [subject, setSubject] = useState("")
 
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
@@ -173,14 +170,12 @@ const ValidateResultByClassPage = ({classes, sections,arms, showResult, currentC
                 )
                 :(
                   <div>
-                  <div> 
-                      <span> Section: Jss 1 A</span>
-                      <span style={{marginLeft:"10rem"}}> Class: Mathematics</span>
+                  <div>
+                      <span style={{textDecoration:"underline"}}> Class:  {classes.find(x => x._id === classN).name}   </span>
                     </div>
                      <br/>
                     <div> 
-                      <span> Arm:  {arm}</span>
-                      <span style={{marginLeft:"10rem"}}>  Subject :  { classResult[position]?  classResult[position].subject.name: ""}  </span>
+                      <span>  Subject :  { classResult[position]? capitalize(classResult[position].subject.name): ""}  </span>
                     </div>
                       <br/>
                       <br/>
@@ -219,7 +214,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
             props:{
                  classes:propStore.classes.classes, sections:propStore.section.section, 
                 arms:propStore.arm.arms,showResult:true,
-                currentClassTests:propStore.test.currentClassTests, classResult:classResult
+                currentClassTests:propStore.test.currentClassTests, classResult:classResult, classN:ctx.query.class
             }
           }
        } catch (error) {
