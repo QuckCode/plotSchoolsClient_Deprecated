@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm, Col } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -202,7 +202,11 @@ const ComputeResultBehaviourPage = ({classes, sections,arms, showResult, current
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={behaviourResult}   columns={parseBehaviorsToTable(currentClassBehaviors)} />
+                      <Row>
+                          <Col gutter={[16,16]}>
+                           <Table size="small"   bordered  loading={loading}  pagination={false} dataSource={behaviourResult}   columns={parseBehaviorsToTable(currentClassBehaviors)} />
+                          </Col>
+                        </Row> 
                       {/* <Button onClick={handleNext} disabled={loading} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button> */}
                       <Popconfirm onConfirm={handleComputeResultBehaviour} title="Are you sure you want to compute student result">
                          <Button loading={loading} disabled={loading ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Behaviour  </Button>

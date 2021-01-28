@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Table, Result, Alert } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Table, Result, Alert, Col } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -179,7 +179,11 @@ const ValidateResultByClassPage = ({classes, sections,arms, showResult, currentC
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={classResult[position] ?   classResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                      <Row gutter={[16, 16]}>
+                        <Col>
+                        <Table size="small"   bordered  loading={loading}  pagination={false} dataSource={classResult[position] ?   classResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                        </Col>
+                      </Row>
                       <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==classResult.length-1 ? "Next Subject" :"Start Again"} </Button>
                       <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button>
                   </div>

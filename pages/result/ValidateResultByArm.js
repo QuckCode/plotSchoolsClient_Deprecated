@@ -189,7 +189,11 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                      <Row gutter={[16, 16]}>
+                        <Col>
+                          <Table size="small"   bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                        </Col>
+                      </Row>
                       <Button onClick={handleNext} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
                       <Button  onClick={handleGoBack} style={{margin:"1rem"}} type="danger" > Go Back To Form </Button>
                   </div>

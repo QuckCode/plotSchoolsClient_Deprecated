@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm, Col } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -218,7 +218,11 @@ const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTest
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                      <Row>
+                          <Col gutter={[16,16]}>
+                              <Table size="small"   bordered  loading={loading}  pagination={false} dataSource={armResult[position] ?   armResult[position].studentData:[]}   columns={parseClassTestToTable(currentClassTests)} />
+                          </Col>
+                      </Row>
                       <Button onClick={handleNext} disabled={loading} style={{margin:"1rem"}} type="primary" > {position!==armResult.length-1 ? "Next Subject" :"Start Again"} </Button>
                       <Popconfirm onConfirm={handleComputeResult} title="Are you sure you want to compute student result">
                          <Button loading={loading} disabled={position!==armResult.length-1 || loading ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Result  </Button>

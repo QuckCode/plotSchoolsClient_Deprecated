@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Popconfirm , Col} from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -200,7 +200,11 @@ const ComputeResultSkillPage = ({classes, sections,arms, showResult, currentClas
                     </div>
                       <br/>
                       <br/>
-                      <Table    bordered  loading={loading}  pagination={false} dataSource={skillResult}   columns={parseSkillToTable(currentClassSkill)} />
+                       <Row gutter={[16,16]}>
+                          <Col>
+                            <Table size="small"   bordered  loading={loading}  pagination={false} dataSource={skillResult}   columns={parseSkillToTable(currentClassSkill)} />
+                          </Col>
+                       </Row>
                        <Popconfirm onConfirm={handleComputeResultSkill} title="Are you sure you want to compute student skill result">
                          <Button loading={loading} disabled={loading ? true :false} style={{margin:"1rem"}} type="primary" > Save Computed Skill  </Button>
                       </Popconfirm>
