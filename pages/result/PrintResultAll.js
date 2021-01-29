@@ -79,6 +79,7 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
 
 
 
+
  const parseResultColumn =  (data)=>{
   let c=  []
   c.push({
@@ -131,8 +132,14 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
     return (
       <div
       style={{width:"100%", height:"100%"}}
+      onKeyDown={
+        e=>console.log(e)
+      }
       className="mb-4">
-           <Button onClick={()=> printPDFMultiple("result")} type="primary" style={{marginLeft:"1rem"}} > Prints All Student Result  </Button>
+           <Button onClick={()=> {
+          success("Print has started it might  take a while")
+           printPDFMultiple("result")
+        }} type="primary" style={{margin:"1rem"}} > Prints All Student Result  </Button>
        {
         results.map((x, i)=>(
          <Card 
