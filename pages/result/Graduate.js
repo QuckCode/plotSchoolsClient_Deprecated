@@ -57,7 +57,7 @@ const getResult = async (classN, arm) =>{
 }
 
 
-const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
+const GraduatePage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
   const  [loading, setLoading] = useState(false)
   const  [promote, setPromote ] = useState(50.0)
   const [showPromote, setShowPromote] = useState(false)
@@ -74,7 +74,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
      setLoading(true)
       Axios.post(`${url}/result/printResult/arm`, {classN:value.classN, arm:value.arm, school:school})
       .then(data=>{
-         Router.push({ pathname:`/result/PromoteByResult`, query:{classN:value.classN, arm:value.arm, school:school}})
+         Router.push({ pathname:`/result/Graduate`, query:{classN:value.classN, arm:value.arm, school:school}})
         setLoading(false)
       })
       .catch(({response})=>{
@@ -89,7 +89,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
       })
   }
 
-  const promoteToNewClass= (value) =>{
+  const graduateStudents= (value) =>{
     setLoading(true)
     console.log(value)
   }
@@ -134,7 +134,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
     else 
        return (
       <Card 
-       title="Promote By Result "
+       title="Graduate student "
        extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -144,15 +144,15 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
       id="result"
       className="mb-4"> 
       <div  className="p-4">
-        <span> Promotion Criteria : </span>
+      <span> Graduation Criteria : </span>
        <InputNumber style={{width:"20%"}}  defaultValue={promote}  min={0} max={100} formatter={value => `${value}%`}  parser={value => value.replace('%', '')} onChange={(value)=>setPromote(value)}/>
-       <Button onClick={()=>setShowPromote(true)} type="primary" style={{marginLeft:"1rem"}}> Promote</Button>
+       <Button onClick={()=>setShowPromote(true)} type="primary" style={{marginLeft:"1rem"}}> Graduate</Button>
       </div>
         <div className="p-4">
             <Table bordered  pagination={false} columns={promoteTable} dataSource={results}/>
         </div>
         <Modal visible={showPromote} onCancel={()=>setShowPromote(false)} footer={null}  title="Promote ">
-              <StudentByArmForm submitText="Promote To" handleSubmit={promoteToNewClass}  loading={loading} classes={classes} sections={sections} arms={arms}/>
+              <StudentByArmForm submitText="Graduate" handleSubmit={graduateStudents}  loading={loading} classes={classes} sections={sections} arms={arms}/>
         </Modal>
       </Card>
     )
@@ -196,4 +196,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
 }
 
 )
-export default PromoteByResultPage;
+export default GraduatePage;

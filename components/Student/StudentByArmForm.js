@@ -40,7 +40,7 @@ class StudentByArmForm extends React.Component {
   render() {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
-    const {form, classes , student, sections, arms,loading} = this.props
+    const {form, classes , student, sections, arms,loading , submitText} = this.props
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -82,7 +82,7 @@ class StudentByArmForm extends React.Component {
         </FormItem>
         <FormItem {...tailFormItemLayout}>
           <Button disabled={loading} type="primary" htmlType="submit">
-          { loading?   <Icon type="loading" />   : (<> </>) }    Submit
+          { loading?   <Icon type="loading" />   : (<> </>) }   { submitText ? submitText: "Submit"} 
           </Button>
         </FormItem>
       </Form>

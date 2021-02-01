@@ -59,22 +59,27 @@ const getResult = async (classN, arm) =>{
 
 const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
   const  [loading, setLoading] = useState(false)
-  const  [promote, setPromote ] = useState(50.0)
+  const  [promote, setPromote ] = useState(80.0)
   const [showPromote, setShowPromote] = useState(false)
 
+  const  handleDoublePromote=(value)=>{
+     setShowPromote(true)
+  }
+
   const promoteTable =[
-      { title:"Name",key:"_id" , dataIndex:"name"},
-      { title:"Admission Number",key:"_id" , dataIndex:"admissionNumber"},
-      { title:"Position",key:"_id" , dataIndex:"position",  render: text => <span>{ text+nth(text)} </span>,},
-      { title:"Cumulative Average",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
-      { title:"Promoting",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
+      { title:"Name",key:"name" , dataIndex:"name"},
+      { title:"Admission Number",key:"admissionNumber" , dataIndex:"admissionNumber"},
+      { title:"Position",key:"position" , dataIndex:"position",  render: text => <span>{ text+nth(text)} </span>,},
+      { title:"Cumulative Average",key:"cumulativeAvg" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
+      { title:"Double Promoting",key:"cumulativeAvg" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
+      { title:"Double Promote",key:"cumulativeAvg"  ,dataIndex:"cumulativeAvg", render: (text, value) => <Button type="primary" onClick={()=>handleDoublePromote(value)} disabled={text<=promote ? true:false} style={{margin:'auto'}}> Double Promote  </Button>},
     ]
 
   const  handleSubmit= (value)=>{
      setLoading(true)
       Axios.post(`${url}/result/printResult/arm`, {classN:value.classN, arm:value.arm, school:school})
       .then(data=>{
-         Router.push({ pathname:`/result/PromoteByResult`, query:{classN:value.classN, arm:value.arm, school:school}})
+         Router.push({ pathname:`/result/DoublePromote`, query:{classN:value.classN, arm:value.arm, school:school}})
         setLoading(false)
       })
       .catch(({response})=>{
@@ -97,7 +102,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
   if(!showResult){
     return (
       <Card 
-      title="Compute Result "
+      title="Double Promote"
        extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -116,7 +121,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
     if(schoolSettings.term!=="Second"){
        return (
         <Card 
-         title="Promote By Result "
+         title="Double Promote "
         extra={
          <Dropdown overlay={menu}>
               <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -134,7 +139,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
     else 
        return (
       <Card 
-       title="Promote By Result "
+       title="Double Promote "
        extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -146,10 +151,13 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
       <div  className="p-4">
         <span> Promotion Criteria : </span>
        <InputNumber style={{width:"20%"}}  defaultValue={promote}  min={0} max={100} formatter={value => `${value}%`}  parser={value => value.replace('%', '')} onChange={(value)=>setPromote(value)}/>
-       <Button onClick={()=>setShowPromote(true)} type="primary" style={{marginLeft:"1rem"}}> Promote</Button>
       </div>
         <div className="p-4">
-            <Table bordered  pagination={false} columns={promoteTable} dataSource={results}/>
+         <Row>
+            <Col>
+               <Table bordered  pagination={false} columns={promoteTable} dataSource={results}/>
+           </Col>
+         </Row>
         </div>
         <Modal visible={showPromote} onCancel={()=>setShowPromote(false)} footer={null}  title="Promote ">
               <StudentByArmForm submitText="Promote To" handleSubmit={promoteToNewClass}  loading={loading} classes={classes} sections={sections} arms={arms}/>

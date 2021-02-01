@@ -14,9 +14,10 @@ import { Edit, Trash,Save, Printer, MoreHorizontal, Phone , Mail, MapPin} from '
 import { theme } from '../../components/styles/GlobalStyles';
 import Router  from 'next/router';
 import { error, success } from '../../components/modal';
-import { capitalize, handleEnumScore, nth ,  printPDFMultiple } from '../../lib/helpers';
+import { capitalize, handleEnumScore, nth ,  printPDFMultiple, termTextToNUmbers,romanize  } from '../../lib/helpers';
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
+import { getSchoolsSetting } from '../../redux/actions/school';
 
 const menu = (
   <Menu>
@@ -55,7 +56,7 @@ const getResult = async (classN, arm) =>{
   }
 }
 
-const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results}) => {
+const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
   const  [loading, setLoading] = useState(false)
 
   const  handleSubmit= (value)=>{
@@ -160,7 +161,7 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
            <Row>
             <Col span={24}>
                <br/>
-               <span className="textForm"> Term Result for 2nd term  2021/2022 Section </span> 
+               <span className="textForm"> Term Result for { termTextToNUmbers(schoolSettings.term)+nth(termTextToNUmbers(schoolSettings.term))} term  { schoolSettings.section} Section </span> 
             </Col>
             </Row>
            <Row className="rowForm">
@@ -191,14 +192,14 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
                     <Row gutter={[16, 16]}>
                       <Col span={12}>
                           <div style={{margin:"1rem",textAlign:"end"}}>
-                             <span> 1rd Term Avg : {results[i].avg}% </span>
+                             <span> { schoolSettings.term} Term Avg : {results[i].avg}% </span>
                               <br/> <br/>
                             <span> Cumulative Term Avg : {results[i].cumulativeAvg}% </span>
                           </div>
                       </Col>
                       <Col span={12}>
                          <div style={{margin:"1rem",textAlign:"end"}}>
-                             <span> 1rd Term position : { results[i].position+nth(results[i].position)} </span>
+                             <span> { schoolSettings.term} Term position : { results[i].position+nth(results[i].position)} </span>
                               <br/> <br/>
                              <span> Cumulative Term Position : {results[i].cumulativePostion+nth(results[i].cumulativePostion)} </span>
                         </div>
@@ -220,16 +221,20 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
                   <Table dataSource={[{opened:100, present:10, absent:90}]} size="small" pagination={false} bordered columns={parseAttendanceColumn()}/>
               </Col>
           </Row>
+          <br/>
            <div>
               <span> NOTICES: </span>
-              <p> (i) Current term ends  </p>
-              <p> (i) Next term starts </p>
+              {
+               schoolSettings.notice.map((x, no)=>(
+                   <p> ({romanize(no+1)}) {x} </p>
+               ))
+             }
           </div>
           <br/>
           <div>
-              <span> Signators</span>
+              <span> Signatories</span>
               <p> (i) Form Master: _________________________________ </p>
-              <p> (ii) Prinicipal :_________________________________  </p>
+              <p> (ii) Principal :_________________________________  </p>
           </div>
            <br/>
            <br/>
@@ -259,10 +264,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
       try {
         await store.dispatch(getCurrentClassTests(ctx.query.classN))
         let  results = await getResult(ctx.query.classN, ctx.query.arm)
+        await store.dispatch(getSchoolsSetting(data.decodedToken.school))
         propStore =  await store.getState() 
          return { props:{  
             classes:propStore.classes.classes, 
             currentClassTests:propStore.test.currentClassTests,
+            schoolSettings:propStore.schools.settings,
             sections:propStore.section.section, arms:propStore.arm.arms,showResult:true , results:results} }
 
       } catch (error) {

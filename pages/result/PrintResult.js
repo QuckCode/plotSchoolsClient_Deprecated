@@ -14,9 +14,10 @@ import { Edit, Trash,Save, Printer, MoreHorizontal, Phone , Mail, MapPin} from '
 import { theme } from '../../components/styles/GlobalStyles';
 import Router  from 'next/router';
 import { error, success } from '../../components/modal';
-import { capitalize, handleEnumScore, nth , printPDF } from '../../lib/helpers';
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
+import { capitalize, handleEnumScore, nth ,  printPDF, termTextToNUmbers,romanize  } from '../../lib/helpers';
+import { getSchoolsSetting } from '../../redux/actions/school';
 
 const menu = (
   <Menu>
@@ -55,7 +56,7 @@ const getResult = async (classN, arm) =>{
   }
 }
 
-const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results}) => {
+const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
   const  [loading, setLoading] = useState(false)
   const [position, setPosition] = useState(0)
 
@@ -172,7 +173,7 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
            <Row>
             <Col span={24}>
                <br/>
-               <span className="textForm"> Term Result for 2nd term  2021/2022 Section </span> 
+               <span className="textForm"> Term Result for { termTextToNUmbers(schoolSettings.term)+nth(termTextToNUmbers(schoolSettings.term))} term  { schoolSettings.section} Section </span> 
             </Col>
             </Row>
            <Row className="rowForm">
@@ -223,19 +224,23 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
            <br/>
           <Row gutter={[16, 16]}>
               <Col span={8}>
-                  <Table size="small" dataSource={results[0].resultBehaviours} pagination={false} bordered columns={parseColumn('behaviour')}/>
+                  <Table size="small" dataSource={results[position].resultBehaviours} pagination={false} bordered columns={parseColumn('behaviour')}/>
               </Col>
             <Col span={8}>
-                <Table size="small"  dataSource={results[0].resultSkills} pagination={false} bordered columns={parseColumn("skill")}/>
+                <Table size="small"  dataSource={results[position].resultSkills} pagination={false} bordered columns={parseColumn("skill")}/>
             </Col>
             <Col  span={8}>
                   <Table dataSource={[{opened:100, present:10, absent:90}]} size="small" pagination={false} bordered columns={parseAttendanceColumn()}/>
               </Col>
           </Row>
+          <br/>
            <div>
               <span> NOTICES: </span>
-              <p> (i) Current term ends  </p>
-              <p> (i) Next term starts </p>
+              {
+               schoolSettings.notice.map((x, no)=>(
+                   <p> ({romanize(no+1)}) {x} </p>
+               ))
+             }
           </div>
           <br/>
           <div>
@@ -267,12 +272,17 @@ export const getServerSideProps = wrapper.getServerSideProps(
     if(ctx.query.arm && ctx.query.classN){
       try {
         await store.dispatch(getCurrentClassTests(ctx.query.classN))
+        await store.dispatch(getCurrentClassTests(ctx.query.classN))
         let  results = await getResult(ctx.query.classN, ctx.query.arm)
+        await store.dispatch(getSchoolsSetting(data.decodedToken.school))
         propStore =  await store.getState() 
          return { props:{  
             classes:propStore.classes.classes, 
             currentClassTests:propStore.test.currentClassTests,
-            sections:propStore.section.section, arms:propStore.arm.arms,showResult:true , results:results} }
+            schoolSettings:propStore.schools.settings,
+            sections:propStore.section.section, arms:propStore.arm.arms,showResult:true , results:results,
+            
+          } }
 
       } catch (error) {
         return { props:{  classes:propStore.classes.classes, sections:propStore.section.section, arms:propStore.arm.arms,showResult:false} }
