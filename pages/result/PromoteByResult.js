@@ -91,7 +91,9 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
 
   const promoteToNewClass= (value) =>{
     setLoading(true)
-    console.log(value)
+    Axios.post(`${url}/result/promote`, {
+      ...value
+    })
   }
 
   if(!showResult){

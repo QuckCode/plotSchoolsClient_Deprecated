@@ -152,9 +152,9 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
                    </Col>
                    <Col span={12}>
                      <div className="description-form">
-                         <span className="textForm">  <Phone/> O8034055074 </span>
-                         <span className="textForm"> <Mail/>  brilliantimpactschool@gmail.com </span>
-                         <span className="textForm"> <MapPin/> Angwan Tomato, Gauraka, Tafa L.G.A, Niger State </span>
+                     <span className="textForm">  <Phone/> {schoolSettings.phoneNumber} </span>
+                         <span className="textForm"> <Mail/> {schoolSettings.email} </span>
+                         <span className="textForm"> <MapPin/>{schoolSettings.address} </span>
                      </div>
                    </Col>
            </Row>

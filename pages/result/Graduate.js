@@ -9,8 +9,8 @@ import { getAllClasses, getCurrentClassTests } from '../../redux/actions/classes
 import { getAllArms } from '../../redux/actions/arm';
 import { redirectError } from '../../services/redirectService';
 import { AuthToken } from '../../services/authToken';
-import { Menu, Row, Card, Dropdown, Table, Col,Avatar, Button, InputNumber, Result, Modal } from 'antd';
-import { Edit, Trash,Save, Printer, MoreHorizontal, Phone , Mail, MapPin} from 'react-feather';
+import { Menu, Row, Card, Dropdown, Table, Col,Avatar, Button, InputNumber, Result, Popconfirm } from 'antd';
+import { Edit, Trash,Save, Printer, MoreHorizontal} from 'react-feather';
 import { theme } from '../../components/styles/GlobalStyles';
 import Router  from 'next/router';
 import { error, success } from '../../components/modal';
@@ -57,10 +57,9 @@ const getResult = async (classN, arm) =>{
 }
 
 
-const GraduatePage = ({showResult,classes, sections,  arms, currentClassTests=[], results, schoolSettings={}}) => {
+const GraduatePage = ({showResult,classes, sections,  arms, results, schoolSettings={}}) => {
   const  [loading, setLoading] = useState(false)
   const  [promote, setPromote ] = useState(50.0)
-  const [showPromote, setShowPromote] = useState(false)
 
   const promoteTable =[
       { title:"Name",key:"_id" , dataIndex:"name"},
@@ -89,9 +88,11 @@ const GraduatePage = ({showResult,classes, sections,  arms, currentClassTests=[]
       })
   }
 
-  const graduateStudents= (value) =>{
+  const graduateStudents= () =>{
     setLoading(true)
-    console.log(value)
+    console.log(results.map(x=>{
+      return x._id
+    }))
   }
 
   if(!showResult){
@@ -146,14 +147,13 @@ const GraduatePage = ({showResult,classes, sections,  arms, currentClassTests=[]
       <div  className="p-4">
       <span> Graduation Criteria : </span>
        <InputNumber style={{width:"20%"}}  defaultValue={promote}  min={0} max={100} formatter={value => `${value}%`}  parser={value => value.replace('%', '')} onChange={(value)=>setPromote(value)}/>
-       <Button onClick={()=>setShowPromote(true)} type="primary" style={{marginLeft:"1rem"}}> Graduate</Button>
+      <Popconfirm onConfirm={graduateStudents}  title="Are You sure you want to graduate students">
+      <Button type="primary" style={{marginLeft:"1rem"}}> Graduate</Button>
+      </Popconfirm>
       </div>
         <div className="p-4">
             <Table bordered  pagination={false} columns={promoteTable} dataSource={results}/>
         </div>
-        <Modal visible={showPromote} onCancel={()=>setShowPromote(false)} footer={null}  title="Promote ">
-              <StudentByArmForm submitText="Graduate" handleSubmit={graduateStudents}  loading={loading} classes={classes} sections={sections} arms={arms}/>
-        </Modal>
       </Card>
     )
   }
