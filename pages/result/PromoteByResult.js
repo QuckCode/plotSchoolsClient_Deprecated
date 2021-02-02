@@ -18,6 +18,7 @@ import { capitalize, handleEnumScore, nth ,  printPDFMultiple, termTextToNUmbers
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
 import { getSchoolsSetting } from '../../redux/actions/school';
+import { PromotionTerm } from '../../lib/constants';
 
 const menu = (
   <Menu>
@@ -65,7 +66,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
   const promoteTable =[
       { title:"Name",key:"_id" , dataIndex:"name"},
       { title:"Admission Number",key:"_id" , dataIndex:"admissionNumber"},
-      { title:"Position",key:"_id" , dataIndex:"position",  render: text => <span>{ text+nth(text)} </span>,},
+      { title:"Avg",key:"_id" , dataIndex:"avg",  render: text => <span>{ text} </span>,},
       { title:"Cumulative Average",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
       { title:"Promoting",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
     ]
@@ -89,10 +90,24 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
       })
   }
 
-  const promoteToNewClass= (value) =>{
+  const promoteToNewClass= (value, school) =>{
     setLoading(true)
-    Axios.post(`${url}/result/promote`, {
-      ...value
+    const students = results.filter((x)=>x.cumulativeAvg>=promote)
+    let data = students.map(x=>({admissionNumber:x.admissionNumber, _id:x._id}))
+    Axios.post(`${url}/result/promote`,{classN:value.classN, arm:value.arm, studentData:data, school})
+    .then(({data})=>{
+       setLoading(false)
+       success(data.message)
+       Router.reload(window.location.pathname);
+    })
+    .catch(({response})=>{
+      setLoading(false)
+      if(response){
+          error (response.data.title, response.data.message)
+      }
+      else{
+         error("Network Error", "Please an error occurred")
+      }  
     })
   }
 
@@ -115,7 +130,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
     )
   }
   else {
-    if(schoolSettings.term!=="Second"){
+    if(schoolSettings.term!==PromotionTerm){
        return (
         <Card 
          title="Promote By Result "
@@ -154,7 +169,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
             <Table bordered  pagination={false} columns={promoteTable} dataSource={results}/>
         </div>
         <Modal visible={showPromote} onCancel={()=>setShowPromote(false)} footer={null}  title="Promote ">
-              <StudentByArmForm submitText="Promote To" handleSubmit={promoteToNewClass}  loading={loading} classes={classes} sections={sections} arms={arms}/>
+              <StudentByArmForm submitText="Promote To" handleSubmit={(value)=>promoteToNewClass(value, schoolSettings._id)}  loading={loading} classes={classes} sections={sections} arms={arms}/>
         </Modal>
       </Card>
     )

@@ -1,5 +1,5 @@
  
-import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table } from 'antd';
+import { Card, Divider, Row, Typography, Button, Menu, Dropdown, Result, Table,Col } from 'antd';
 import RegisterStaff from '../../components/Staff/RegisterStaff'
 import styled from 'styled-components';
 import { theme } from '../../components/styles/GlobalStyles';
@@ -78,7 +78,7 @@ const ValidateResultByArmPage = ({classes, sections,arms, showResult, currentCla
   const parseClassTestToTable =  (data)=>{
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
    c.push({title:"Total",key:"Total", dataIndex:"Total"})
-   c.push( {title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,})
+  //  c.push( {title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,})
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})
    return c.reverse()
