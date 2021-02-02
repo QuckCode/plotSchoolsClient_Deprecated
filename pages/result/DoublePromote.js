@@ -18,6 +18,7 @@ import { capitalize, handleEnumScore, nth ,  printPDFMultiple, termTextToNUmbers
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
 import { getSchoolsSetting } from '../../redux/actions/school';
+import { PromotionTerm } from '../../lib/constants';
 
 const menu = (
   <Menu>
@@ -67,13 +68,12 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
   }
 
   const promoteTable =[
-      { title:"Name",key:"name" , dataIndex:"name"},
-      { title:"Admission Number",key:"admissionNumber" , dataIndex:"admissionNumber"},
-      { title:"Position",key:"position" , dataIndex:"position",  render: text => <span>{ text+nth(text)} </span>,},
-      { title:"Cumulative Average",key:"cumulativeAvg" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
-      { title:"Double Promoting",key:"cumulativeAvg" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
-      { title:"Double Promote",key:"cumulativeAvg"  ,dataIndex:"cumulativeAvg", render: (text, value) => <Button type="primary" onClick={()=>handleDoublePromote(value)} disabled={text<=promote ? true:false} style={{margin:'auto'}}> Double Promote  </Button>},
-    ]
+    { title:"Name",key:"_id" , dataIndex:"name"},
+    { title:"Admission Number",key:"_id" , dataIndex:"admissionNumber"},
+    { title:"Avg",key:"_id" , dataIndex:"avg",  render: text => <span>{ text} </span>,},
+    { title:"Cumulative Average",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
+    { title:"Promoting",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
+  ]
 
   const  handleSubmit= (value)=>{
      setLoading(true)
@@ -118,7 +118,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
     )
   }
   else {
-    if(schoolSettings.term!=="Second"){
+    if(schoolSettings.term!==PromotionTerm){
        return (
         <Card 
          title="Double Promote "

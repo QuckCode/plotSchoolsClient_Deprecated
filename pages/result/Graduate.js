@@ -18,6 +18,7 @@ import { capitalize, handleEnumScore, nth ,  printPDFMultiple, termTextToNUmbers
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
 import { getSchoolsSetting } from '../../redux/actions/school';
+import { PromotionTerm } from '../../lib/constants';
 
 const menu = (
   <Menu>
@@ -62,12 +63,12 @@ const GraduatePage = ({showResult,classes, sections,  arms, results, schoolSetti
   const  [promote, setPromote ] = useState(50.0)
 
   const promoteTable =[
-      { title:"Name",key:"_id" , dataIndex:"name"},
-      { title:"Admission Number",key:"_id" , dataIndex:"admissionNumber"},
-      { title:"Position",key:"_id" , dataIndex:"position",  render: text => <span>{ text+nth(text)} </span>,},
-      { title:"Cumulative Average",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
-      { title:"Promoting",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
-    ]
+    { title:"Name",key:"_id" , dataIndex:"name"},
+    { title:"Admission Number",key:"_id" , dataIndex:"admissionNumber"},
+    { title:"Avg",key:"_id" , dataIndex:"avg",  render: text => <span>{ text} </span>,},
+    { title:"Cumulative Average",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <span>{ text+"%"} </span>,},
+    { title:"Promoting",key:"_id" , dataIndex:"cumulativeAvg",  render: text => <div style={{width:"2rem", height:"2rem", backgroundColor:text<=promote ? "red":"green", margin:'auto'}}> </div>},
+  ]
 
   const  handleSubmit= (value)=>{
      setLoading(true)
@@ -88,11 +89,25 @@ const GraduatePage = ({showResult,classes, sections,  arms, results, schoolSetti
       })
   }
 
-  const graduateStudents= () =>{
+  const graduate= (value, school) =>{
     setLoading(true)
-    console.log(results.map(x=>{
-      return x._id
-    }))
+    const students = results.filter((x)=>x.cumulativeAvg>=promote)
+    let data = students.map(x=>({admissionNumber:x.admissionNumber, _id:x._id}))
+    Axios.post(`${url}/result/graduate`,{classN:value.classN, arm:value.arm, studentData:data, school})
+    .then(({data})=>{
+       setLoading(false)
+       success(data.message)
+       Router.reload(window.location.pathname);
+    })
+    .catch(({response})=>{
+      setLoading(false)
+      if(response){
+          error (response.data.title, response.data.message)
+      }
+      else{
+         error("Network Error", "Please an error occurred")
+      }  
+    })
   }
 
   if(!showResult){
@@ -114,7 +129,7 @@ const GraduatePage = ({showResult,classes, sections,  arms, results, schoolSetti
     )
   }
   else {
-    if(schoolSettings.term!=="Second"){
+    if(schoolSettings.term!==PromotionTerm){
        return (
         <Card 
          title="Promote By Result "
@@ -147,7 +162,7 @@ const GraduatePage = ({showResult,classes, sections,  arms, results, schoolSetti
       <div  className="p-4">
       <span> Graduation Criteria : </span>
        <InputNumber style={{width:"20%"}}  defaultValue={promote}  min={0} max={100} formatter={value => `${value}%`}  parser={value => value.replace('%', '')} onChange={(value)=>setPromote(value)}/>
-      <Popconfirm onConfirm={graduateStudents}  title="Are You sure you want to graduate students">
+      <Popconfirm onConfirm={()=> graduate({classN:Router.query.classN, arm:Router.query.arm}, schoolSettings._id)}  title="Are You sure you want to graduate students">
       <Button type="primary" style={{marginLeft:"1rem"}}> Graduate</Button>
       </Popconfirm>
       </div>
