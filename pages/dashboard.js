@@ -50,7 +50,7 @@ const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClass
   );
 
 
-  if(userType==="student")
+if(userType==="student")
   return  (
   
   <>    
@@ -58,10 +58,9 @@ const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClass
   </>
 )
 if(userType==="staff")
-return  (
+return  ( 
 <>    
-<>    
-    <Overview  students={students}
+  <Overview  students={students}
     classes={classes}
     scratchCard={scratchCard}
     staffs={staffs}
@@ -72,7 +71,6 @@ return  (
     schoolSettings= {oldSchoolSettings}
     /> 
   </>
-</>
 )
   }
 

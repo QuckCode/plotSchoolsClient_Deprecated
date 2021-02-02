@@ -27,13 +27,13 @@ export const createStudent = (data) => {
    return axios.post(`${url}/student`,data)
    .then(({data})=>{
        setTimeout( ()=>{
-        message.success("Created  Students", 10)
+       success("Created  Students", 10)
          dispatch(createStudentSuccess(data))
        },1000)
    })
-   .catch((error)=>{
-        message.error("Please an error occurred")
-      dispatch(createStudentError(error.response))
+   .catch(({response})=>{
+        error("Please an error occurred", "")
+      dispatch(createStudentError(response))
    })
  };
 };
@@ -64,9 +64,9 @@ export const editStudent = (data) => {
           dispatch(editStudentSuccess(data))
         },2000)
     })
-    .catch((error)=>{
+    .catch(({response})=>{
          error("Please an error occurred", "")
-       dispatch(editStudentError(error.response))
+       dispatch(editStudentError(response))
     })
   };
  };
@@ -94,8 +94,8 @@ export const getAllStudents = (schoolID) => {
     .then(({data})=>{
           dispatch(getAllStudentsSuccess(data))
     })
-    .catch((error)=>{
-       dispatch(getAllStudentsError(error.response))
+    .catch(({response})=>{
+       dispatch(getAllStudentsError(response))
     })
   };
 };
@@ -126,9 +126,9 @@ export const getGraphStudentClassTotal = (schoolID) => {
     .then(({data})=>{
           dispatch(getGraphStudentClassTotalSuccess(data))
     })
-    .catch((error)=>{
+    .catch(({response})=>{
       console.log(error)
-       dispatch(getGraphStudentClassTotalError(error.response))
+       dispatch(getGraphStudentClassTotalError(response))
     })
   };
 };
@@ -160,8 +160,8 @@ export const getCurrentStudent = (admissionNumber) => {
        .then(({data})=>{
             dispatch(getCurrentStudentSuccess(data))
        })
-    } catch (error) {
-      return  dispatch( getCurrentStudentError(error.response))
+    } catch ({response}) {
+      return  dispatch( getCurrentStudentError(response))
     }
   };
 };

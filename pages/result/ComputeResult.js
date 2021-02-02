@@ -81,7 +81,7 @@ const ComputeResultPage = ({classes, sections,arms, showResult, currentClassTest
    let c=  data.map(({name, _id})=>({title:name+" Score",key:name, dataIndex:name}))
    c.push({title:"Total",key:"total", dataIndex:"total"})
    c.push({title:"Class",
-      children:[{title:"High",key:"high", dataIndex:"high"},{title:"Low",key:"low", dataIndex:"low"},{title:"Avg",key:"avg", dataIndex:"avg"},{title:"Position",key:"position", dataIndex:"postion",  render: text => <span>{ text+nth(text)} </span>,}]
+      children:[{title:"High",key:"high", dataIndex:"high"},{title:"Low",key:"low", dataIndex:"low"}, {title:"Avg",key:"avg", dataIndex:"avg"}]
    })
    c.push({title:"Admission Number",key:"admissionNumber", dataIndex:"admissionNumber"})
    c.push({title:"Student Name",key:"name", dataIndex:"name"})

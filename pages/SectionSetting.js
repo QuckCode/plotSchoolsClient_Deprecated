@@ -18,6 +18,7 @@ import Axios from 'axios';
 import { url } from '../redux/varables';
 import { useState } from 'react';
 import { success, error } from '../components/modal';
+import SectionForm from '../components/School/Section';
 
 const Title = Typography.Title
 
@@ -55,7 +56,7 @@ const menu = (
   </Menu>
 );
 
-const EditSchoolPage = ({oldSchoolSettings}) =>{
+const SectionSettingPage = ({oldSchoolSettings}) =>{
    const [loading, setLoading] = useState(false)
 
   const editSchool = (value)=>{
@@ -87,7 +88,7 @@ const EditSchoolPage = ({oldSchoolSettings}) =>{
         className="mb-4"> 
           <div className="p-4">
             <Content>
-              <EditSchool loading={loading} editSchool={editSchool} oldSchoolSettings= {oldSchoolSettings}/>
+              <SectionForm loading={loading} editSchool={editSchool} oldSchoolSettings= {oldSchoolSettings}/>
             </Content>
           </div>
        </Card>
@@ -114,4 +115,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 )
 
-export default EditSchoolPage;
+export default SectionSettingPage;

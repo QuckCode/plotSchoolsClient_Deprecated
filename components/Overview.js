@@ -19,8 +19,9 @@ import {
   DatePicker,
   Card,
  Dropdown,
- Spin
+ Spin,
 } from 'antd';
+
 
 import {
   DiscreteColorLegend,
@@ -30,7 +31,7 @@ import {
   VerticalGridLines,
   XAxis,
   YAxis,
-  
+  Hint
 } from 'react-vis';
 
 import NoSSR from 'react-no-ssr';
@@ -39,6 +40,8 @@ import NoSSR from 'react-no-ssr';
 import StatCard from './shared/StatCard';
 import { theme } from './styles/GlobalStyles';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { success } from './modal';
 
 const { MonthPicker } = DatePicker;
 
@@ -93,6 +96,12 @@ const menu = (
 );
 
 const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent, schoolSettings}) => {
+   const [value, setValue] = useState({})
+
+   const onBarOver = (val)=>{
+    setValue(val)
+   }
+
   return (
     <div>
       <Row gutter={16}>
@@ -201,7 +210,14 @@ const Overview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBala
             <HorizontalGridLines style={{ strokeWidth: 0.5 }} />
             <XAxis style={{ strokeWidth: 0.5 }} />
             <YAxis style={{ strokeWidth: 0.5 }} />
-            <VerticalBarSeries  className="verticalBarSeries" color="#007bff" xDistance={600} style={{padding:"10rem"}} data={graphStudentClassTotal} />
+            <VerticalBarSeries  onValueMouseOver={onBarOver}  onValueClick={()=>message.info(`${value.x} has ${value.y} students`)}  className="verticalBarSeries" color="#007bff" xDistance={600} style={{padding:"10rem"}} data={graphStudentClassTotal}/>
+            <Hint value={value}>
+                <div style={{background: '#2b2b2b', padding:"1rem", borderRadius:"1rem", width:150}}>
+                 <span style={{fontSize:11, padding:'2%'}}> Class:{"  " +value.x}</span>
+                  <br/>
+                 <span  style={{fontSize:11, padding:'2%'}}> Total Students: {value.y}</span>
+                 </div>
+            </Hint>
           </FlexibleWidthXYPlot>
           </div>
         </NoSSR>
