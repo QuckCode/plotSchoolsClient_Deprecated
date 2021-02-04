@@ -5,7 +5,7 @@ const FormItem = Form.Item
 const Option = Select.Option
 import {useState} from 'react'
  
-const PreviousResultForm = ({form, previousSections}) => {
+const PreviousResultForm = ({form, previousSections, submit}) => {
  
  const [loading, setLoading] = useState(false) 
  const [sections, setSections] = useState([])
@@ -20,10 +20,11 @@ const PreviousResultForm = ({form, previousSections}) => {
     }
  }, [])
 
-  const  handleSubmit = (e)=> {s
+  const  handleSubmit = (e)=> {
     e.preventDefault();
     validateFields((err, values) => {
       if (!err) {    
+        submit(values)
       }
     });
   }
@@ -41,7 +42,7 @@ const PreviousResultForm = ({form, previousSections}) => {
             </Select>
            )}
         </FormItem>
-        <FormItem  required  {...formItemLayout} label="Term">
+        <FormItem   name="term" required  {...formItemLayout} label="Term">
            {form.getFieldDecorator('term', { initialValue: "", rules: [ {required: true,message: 'Please input Term'}] })(
             <Select  >
               <Option value={""}>Please Select a Term</Option>
@@ -51,9 +52,9 @@ const PreviousResultForm = ({form, previousSections}) => {
             </Select>
            )}
         </FormItem>
-    <FormItem {...formItemLayout} label="Admission Number">
-      {getFieldDecorator('admission', {
-        rules: [{ required: true, message: 'Please input your username!' }],
+    <FormItem  name="admissionNumber" {...formItemLayout} label="Admission Number">
+      {form.getFieldDecorator('admissionNumber', {
+        rules: [{ required: true, message: 'Please input admissionNumber' }],
       })(
         <Input/>,
       )}
@@ -68,7 +69,8 @@ const PreviousResultForm = ({form, previousSections}) => {
 }
  
 PreviousResultForm.propTypes = {
-  previousSections:PropTypes.array.isRequired
+  previousSections:PropTypes.array.isRequired,
+  submit:PropTypes.func.isRequired
 };
  
 export default  Form.create()(PreviousResultForm);
