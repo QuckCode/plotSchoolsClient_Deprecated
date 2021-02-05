@@ -1,4 +1,4 @@
-import { Card, Row, Typography, Button, Menu, Dropdown,Form,Select,AutoComplete, Input } from 'antd';
+import { Card, Row, Typography, Button, Menu, Dropdown,Form,Select,AutoComplete, Input, Popconfirm , Icon} from 'antd';
 import styled from 'styled-components';
 import { theme } from '../components/styles/GlobalStyles';
 import {
@@ -19,6 +19,7 @@ import { url } from '../redux/varables';
 import { useState } from 'react';
 import {  error, success } from '../components/modal';
 import SectionForm from '../components/School/Section';
+import  Router  from 'next/router';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -68,15 +69,41 @@ const resetPasswordPage = ({form, user}) =>{
     e.preventDefault()
     form.validateFields((err, values) => {
       if (!err) {
+        setLoading(true)
           if(values.newPassword === values.confirmPassword){
-             console.log(user)
             if(user.userType==="staff") {
-               Axios.post(`${url}\/staff/resetPassword`, {regNumber:user.regNumber, oldPassword:values.oldPassword,newPassword:values.newPassword })
-               .then(data=>success("Saves password successful") )
-               .catch(()=> error("Could not save password"))
+               Axios.post(`${url}/staff/resetPassword`, {regNumber:user.regNumber, oldPassword:values.oldPassword,newPassword:values.newPassword })
+               .then(data=>{
+                  Router.push("/dashboard")
+                  setLoading(false)
+                 success("Saves password successful") 
+               })
+               .catch(({response})=> {
+                 setLoading(false)
+                 if(response){
+                  error (response.data.title, response.data.message)
+                }
+                else{
+                  error("Network Error", "Please an error occurred")
+                }
+               })
             }
             else{
-
+              Axios.post(`${url}/student/resetPassword`, {admissionNumber:user.admissionNumber, oldPassword:values.oldPassword,newPassword:values.newPassword })
+              .then(data=>{
+                 Router.push("/dashboard")
+                 setLoading(false)
+                success("Saves password successful") 
+              })
+              .catch(()=> {
+                setLoading(false)
+                if(response){
+                  error (response.data.title, response.data.message)
+                }
+                else{
+                  error("Network Error", "Please an error occurred")
+                }
+              })
             }
           }
           else error("New Password is not equal to Confirm Password")
@@ -96,7 +123,7 @@ const resetPasswordPage = ({form, user}) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-         <Form onSubmit={handleSubmit}>
+         <Form>
           <FormItem name="oldPassword"   required {...formItemLayout} label="Old Password">
           {form.getFieldDecorator('oldPassword', {rules: [ {required: true,message: 'Please Input Old Password  '}] })(<Input.Password />)}
           </FormItem>
@@ -107,9 +134,11 @@ const resetPasswordPage = ({form, user}) =>{
            {form.getFieldDecorator('confirmPassword', {rules: [ {required: true,message: 'Please Input Confirm Password  '}] })(<Input.Password />)}
            </FormItem>
            <FormItem  {...tailFormItemLayout}>
-             <Button disabled={loading} loading={loading} type="primary" htmlType="submit">
-             { loading?   <Icon type="loading" />   : (<> </>) }    Save
-          </Button>
+             <Popconfirm  title={"Are You sure you want to change your password"} onConfirm={handleSubmit} >
+                 <Button disabled={loading} loading={loading} type="primary" >
+                  { loading?   <Icon type="loading" />   : (<> </>) }    Save
+                 </Button>
+             </Popconfirm>
         </FormItem>
       </Form>
           </div>
