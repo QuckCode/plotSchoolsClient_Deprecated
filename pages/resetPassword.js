@@ -1,4 +1,4 @@
-import { Card, Row, Typography, Button, Menu, Dropdown } from 'antd';
+import { Card, Row, Typography, Button, Menu, Dropdown,Form,Select,AutoComplete, Input } from 'antd';
 import styled from 'styled-components';
 import { theme } from '../components/styles/GlobalStyles';
 import {
@@ -17,8 +17,11 @@ import { loginSuccess } from '../redux/actions/auth';
 import Axios from 'axios';
 import { url } from '../redux/varables';
 import { useState } from 'react';
-import { success, error } from '../components/modal';
+import {  error, success } from '../components/modal';
 import SectionForm from '../components/School/Section';
+const FormItem = Form.Item;
+const Option = Select.Option;
+const AutoCompleteOption = AutoComplete.Option;
 
 const Title = Typography.Title
 
@@ -56,26 +59,32 @@ const menu = (
   </Menu>
 );
 
-const resetPasswordPage = ({}) =>{
+const resetPasswordPage = ({form, user}) =>{
    const [loading, setLoading] = useState(false)
+   const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
+   const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
 
-  const editSchool = (value)=>{
-    setLoading(true)
-    Axios.post(`${url}/school/setting`, value)
-    .then(({data})=>{
-      success(data.message, " ")
-      setLoading(false)
-    })
-    .catch(({response})=>{
-      setLoading(false)
-      if(response){
-        error (response.data.title, response.data.message)
+   const handleSubmit = e=>{
+    e.preventDefault()
+    form.validateFields((err, values) => {
+      if (!err) {
+          if(values.newPassword === values.confirmPassword){
+             console.log(user)
+            if(user.userType==="staff") {
+               Axios.post(`${url}\/staff/resetPassword`, {regNumber:user.regNumber, oldPassword:values.oldPassword,newPassword:values.newPassword })
+               .then(data=>success("Saves password successful") )
+               .catch(()=> error("Could not save password"))
+            }
+            else{
+
+            }
+          }
+          else error("New Password is not equal to Confirm Password")
       }
-      else{
-        error("Network Error", "Please an error occurred")
-      }
-    })
-  }
+    });
+
+   }
+  
   return (
         <Card 
         title="Reset Password"
@@ -87,9 +96,22 @@ const resetPasswordPage = ({}) =>{
         bodyStyle={{ padding: '1rem' }}
         className="mb-4"> 
           <div className="p-4">
-            <Content>
-            
-            </Content>
+         <Form onSubmit={handleSubmit}>
+          <FormItem name="oldPassword"   required {...formItemLayout} label="Old Password">
+          {form.getFieldDecorator('oldPassword', {rules: [ {required: true,message: 'Please Input Old Password  '}] })(<Input.Password />)}
+          </FormItem>
+           <FormItem name="newPassword" required {...formItemLayout} label="New Password">
+           {form.getFieldDecorator('newPassword', {rules: [ {required: true,message: 'Please Input New Password  '}] })(<Input.Password />)}
+           </FormItem>
+           <FormItem name="confirmPassword" required {...formItemLayout} label="Confirm Password">
+           {form.getFieldDecorator('confirmPassword', {rules: [ {required: true,message: 'Please Input Confirm Password  '}] })(<Input.Password />)}
+           </FormItem>
+           <FormItem  {...tailFormItemLayout}>
+             <Button disabled={loading} loading={loading} type="primary" htmlType="submit">
+             { loading?   <Icon type="loading" />   : (<> </>) }    Save
+          </Button>
+        </FormItem>
+      </Form>
           </div>
        </Card>
   )
@@ -105,7 +127,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       let propStore =  await store.getState()
       return {
         props:{
-           
+           loading:false, user:propStore.auth.user
         }
       } 
     } catch (error) {
@@ -114,4 +136,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 )
 
-export default resetPasswordPage;
+export default Form.create()(resetPasswordPage);
