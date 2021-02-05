@@ -18,6 +18,15 @@ class EditStaff extends React.Component {
     takePassport :false,
     valid:false
   };
+  componentDidUpdate (){
+    const {name , gender} = this.props.currentStaff
+    if(name){
+    this.props.form.setFields({firstName:{value:name.firstName },middleName:{value:name.middleName},  srnName:{value:name.srnName},gender:{value:gender?1:0}})
+    }
+    else{
+
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -47,15 +56,6 @@ class EditStaff extends React.Component {
         <FormItem name="lastName" required  {...formItemLayout} label="Surname">
         {form.getFieldDecorator('srnName', {rules: [ {required: true,message: 'Please input Name'}] })(<Input />)}
         </FormItem>
-        <FormItem name="dob" required  {...formItemLayout} label="Date Of Birth">
-        {form.getFieldDecorator('dob', {rules: [ {required: true,message: 'Please input Dob'}] })(<DatePicker />)}
-        </FormItem>
-        <FormItem name="email"  required  {...formItemLayout} label="E-mail">
-        {form.getFieldDecorator('email', {rules: [ {required: true,message: 'Please input Email'}] })(<Input />)}
-        </FormItem>
-        <FormItem name="phone"  required  {...formItemLayout} label="Phone Number">
-            {form.getFieldDecorator('phone', {rules: [ {required: true,message: 'Please input phone'}] })(<Input/>)}
-        </FormItem>
         <FormItem  required  {...formItemLayout} label="Gender">
            {form.getFieldDecorator('gender', { initialValue: "", rules: [ {required: true,message: 'Please input  Gender'}] })(
             <Select>
@@ -64,9 +64,6 @@ class EditStaff extends React.Component {
               <Option value={2}>Female</Option>
             </Select>
            )}
-        </FormItem>
-        <FormItem name="employmentDate" requiredMark required  {...formItemLayout} label="Employment date">
-        {form.getFieldDecorator('employmentDate', {rules: [ {required: true,message: 'Please input Employment Date'}] })(<DatePicker showToday={false} />)}
         </FormItem>
         <FormItem name="designation"  required  {...formItemLayout} label="Designation">
         {form.getFieldDecorator('designation', {initialValue:"", rules: [ {required: true,message: 'Please input designation'}]})(

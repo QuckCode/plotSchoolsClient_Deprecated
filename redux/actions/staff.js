@@ -5,6 +5,9 @@ import {
   FETCH_ALL_STAFF_BEGIN,
   FETCH_ALL_STAFF_SUCCESS,
   FETCH_ALL_STAFF_ERROR,
+  FETCH_CURRENT_STAFF_BEGIN,
+  FETCH_CURRENT_STAFF_ERROR,
+  FETCH_CURRENT_STAFF_SUCCESS,
   url,school
 } from '../varables';
 import axios from 'axios'
@@ -71,6 +74,41 @@ const getAllStaffsSuccess= (staffs)=>({
 
 const getAllStaffsError= error=>({
   type:FETCH_ALL_STAFF_ERROR,
+  payload:{
+     error
+  }
+})
+
+
+export const getCurrentStaff = (regNumber) => {
+  return dispatch => {
+    dispatch(getCurrentStaffBegin())
+    try {
+     return   axios.get(`${url}/staff/regNumber/${regNumber.replaceAll("/","-")}`)
+       .then(({data})=>{
+            dispatch(getCurrentStaffSuccess(data))
+       })
+    } catch ({response}) {
+      return  dispatch( getCurrentStaffError(response))
+    }
+  };
+};
+
+
+
+const getCurrentStaffBegin= ()=>({
+  type:FETCH_CURRENT_STAFF_BEGIN,
+})
+
+const getCurrentStaffSuccess= (currentStaff)=>({
+  type:FETCH_CURRENT_STAFF_SUCCESS,
+  payload:{
+    currentStaff
+  }
+})
+
+const  getCurrentStaffError= error=>({
+  type:FETCH_CURRENT_STAFF_ERROR,
   payload:{
      error
   }

@@ -34,22 +34,3 @@ export const loginFailure = ( error) => {
    type:LOGOUT
   }
 }
-
-export const getCurrentUserSetting= (setting)=>{
-  return {
-    type:GET_USER_SETTING,
-    payload:{
-      setting
-    }
-  }
-}
-export const getCurrentUserSettingRequest= (userId)=>{
-  return dip
-   Axios.get(`${url}/userSetting/${userId}`)
-   .then(data=>{
-
-   })
-   .catch(err=>{
-
-   })
-}

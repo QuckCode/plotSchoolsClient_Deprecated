@@ -1,4 +1,4 @@
-import  React, { useEffect } from 'react'
+import  React, { useEffect, useState } from 'react'
 import Head from 'next/head';
 import { Card, Row, Typography, Button, Menu, Dropdown, Avatar } from 'antd';
 import { theme } from '../components/styles/GlobalStyles';
@@ -12,7 +12,7 @@ import { PrivateRoute } from '../components/PrivateRoute';
 import { connect } from 'react-redux';
 import { getAllClasses } from '../redux/actions/classes';
 import { getAllArms } from '../redux/actions/arm';
-import { getAllStaffs } from '../redux/actions/staff';
+import { getAllStaffs, getCurrentStaff } from '../redux/actions/staff';
 import { getAllDesignations } from '../redux/actions/designation';
 import { getAllDepartments } from '../redux/department/department';
 import EditStaff from '../components/Staff/EditStaff';
@@ -45,12 +45,18 @@ const menu = (
   </Menu>
 );
 
-const SettingPage = ({auth,getAllClasses, getAllArms, getAllStaffs,  getAllDesignations,  getAllDepartments,  staff, designations,  departments, classes, arm, student}) => {
+const SettingPage = ({auth,getAllClasses, getAllArms, getAllStaffs, getAllDesignations,  getAllDepartments,  staff, designations,  departments, classes, arm, student, getCurrentStaff}) => {
+
+  const [staffData, setStaffData] = useState({name:{} , gender:0,})
+  const [studentData, setStudentData] = useState({})
+
    useEffect(()=>{
       if(auth.userType==="staff"){
          getAllDepartments()
          getAllStaffs()
          getAllDesignations()
+         getCurrentStaff(auth.user.regNumber)
+         setStaffData(staff.currentStaff)
       }
       else{
          getAllClasses()
@@ -59,7 +65,7 @@ const SettingPage = ({auth,getAllClasses, getAllArms, getAllStaffs,  getAllDesig
    },[])
 
    const editStaff= (value)=>{
-
+    
    }
 
    const editStudent= (value)=>{
@@ -79,13 +85,13 @@ const SettingPage = ({auth,getAllClasses, getAllArms, getAllStaffs,  getAllDesig
       className="mb-4"> 
         <div className="p-4">
             <div style={{textAlign:"center"}}>
-               <Avatar size={150} icon="user" />
+               <Avatar src={auth.user.passport} size={150} icon="user" />
                <div>
                <Button style={{margin:"1rem"}}> Change Passport </Button>
                <Button style={{margin:"1rem"}}> Take a Passport </Button>
                </div>
             </div>
-            <EditStaff designations={designations.designations} departments= {departments.departments} staff={staff} editStaff={editStaff}/>
+            <EditStaff currentStaff={staffData}  designations={designations.designations} departments= {departments.departments} staff={staff} editStaff={editStaff}/>
         </div>
      </Card>
      )  
@@ -131,7 +137,8 @@ const mapDispatchToProps = {
   getAllArms:getAllArms,
   getAllStaffs:getAllStaffs,
   getAllDesignations:getAllDesignations,
-  getAllDepartments:getAllDepartments
+  getAllDepartments:getAllDepartments,
+  getCurrentStaff
 };
 
 export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SettingPage));
