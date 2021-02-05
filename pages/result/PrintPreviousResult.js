@@ -1,4 +1,4 @@
-import  React, { useState } from 'react'
+import  React, { useState, useEffect } from 'react'
 import Head from 'next/head';
 import { PrivateRoute } from '../../components/PrivateRoute';
 import StudentByArmForm from '../../components/Student/StudentByArmForm';
@@ -9,7 +9,7 @@ import { AuthToken } from '../../services/authToken';
 import { Menu, Row, Card, Dropdown, Table, Col,Avatar, Button } from 'antd';
 import { Edit, Trash,Save, Printer, MoreHorizontal, Phone , Mail, MapPin} from 'react-feather';
 import { theme } from '../../components/styles/GlobalStyles';
-import Router  from 'next/router';
+import Router, {useRouter} from 'next/router';
 import { error, success } from '../../components/modal';
 import { capitalize, handleEnumScore, nth ,  printPDF, termTextToNUmbers,romanize  } from '../../lib/helpers';
 import Axios from 'axios';
@@ -17,7 +17,6 @@ import { school, url } from '../../redux/varables';
 import { getSchoolsSetting } from '../../redux/actions/school';
 import PreviousResultForm from '../../components/Result/PreviousResultForm';
 import { getAllTest } from '../../redux/actions/test';
-import {useRouter} from 'next/router'
 
 
 const menu = (
@@ -57,14 +56,29 @@ const getPreviousResult = async (term,section,admissionNumber) =>{
   }
 }
 
-const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tests}) => {
+const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tests=[]}) => {
   const  [loading, setLoading] = useState(false)
+  const [term , setTerm] = useState("")
+  const [section , setSection] = useState("")
+  const [admissionNumber , setAdmissionNumber] = useState("")
+  const query = useRouter().query
+
+  useEffect(()=>{
+     if(query.term && query.section &&query.admissionNumber){
+        setTerm(query.term);
+        setSection(query.section)
+        setAdmissionNumber(query.admissionNumber)
+     }
+    return {
+
+    }
+  }, [])
 
   const  handleSubmit= (value)=>{
      setLoading(true)
       Axios.post(`${url}/result/previous`, {term:value.term, section:value.section, admissionNumber:value.admissionNumber})
       .then(data=>{
-         Router.push({pathname:`/result/PrintPreviousResult`,query:{term:value.term, section:value.section,admissionNumber:value.admissionNumber}})
+        Router.push({pathname:`/result/PrintPreviousResult`,query:{term:value.term, section:value.section,admissionNumber:value.admissionNumber}})
         setLoading(false)
       })
       .catch(({response})=>{
@@ -128,7 +142,7 @@ const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tes
   else {
     return(
     <Card 
-    title="Previous  Result "
+    title="Previous  Result"
      extra={
       <Dropdown overlay={menu}>
         <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
@@ -157,7 +171,7 @@ const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tes
             </div>
             <div style={{textAlign:"start", marginTop:"5%"}}>
                 <span> Admission Number:  {results.Student[0].admissionNumber} </span>
-                <span style={{marginLeft:"12%"}}> Gender:  {results.Student.gender? "Male" :"Female"} </span>
+                <span style={{marginLeft:"12%"}}> Gender:  {results.Student[0].gender? "Male" :"Female"} </span>
             </div>
             </Col>
             <Col span={12}>
@@ -169,7 +183,7 @@ const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tes
            <Row>
             <Col span={24}>
                <br/>
-               <span className="textForm"> Term Result for { termTextToNUmbers(useRouter().query.term)+nth(termTextToNUmbers(useRouter().query.term))} term  {useRouter().query.section} Section </span> 
+               <span className="textForm"> Term Result for { termTextToNUmbers(term)+nth(termTextToNUmbers(term))} term  {section} Section </span> 
             </Col>
             </Row>
            <br/>
@@ -197,14 +211,7 @@ const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tes
               </Col>
           </Row>
           <br/>
-           <div>
-              <span> NOTICES: </span>
-              {
-               schoolSettings.notice.map((x, no)=>(
-                   <p> ({romanize(no+1)}) {x} </p>
-               ))
-             }
-          </div>
+
           <br/>
           <div>
               <span> Signators</span>
@@ -214,7 +221,7 @@ const PrintPreviousResultPage = ({showResult, schoolSettings={}, results=[], tes
           </div>
           <Button onClick={()=>printPDF("result")} type="primary" style={{marginLeft:"1rem"}} > Prints Student Result  </Button>
     </Card>
-    )
+   )
   }
 }
 

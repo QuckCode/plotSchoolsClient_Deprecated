@@ -1,6 +1,6 @@
-import  React from 'react'
+import  React, { useEffect } from 'react'
 import Head from 'next/head';
-import { Card, Row, Typography, Button, Menu, Dropdown } from 'antd';
+import { Card, Row, Typography, Button, Menu, Dropdown, Avatar } from 'antd';
 import { theme } from '../components/styles/GlobalStyles';
 import {
   Edit,MoreHorizontal,
@@ -9,7 +9,14 @@ import {
   Trash,
 } from 'react-feather';
 import { PrivateRoute } from '../components/PrivateRoute';
-
+import { connect } from 'react-redux';
+import { getAllClasses } from '../redux/actions/classes';
+import { getAllArms } from '../redux/actions/arm';
+import { getAllStaffs } from '../redux/actions/staff';
+import { getAllDesignations } from '../redux/actions/designation';
+import { getAllDepartments } from '../redux/department/department';
+import EditStaff from '../components/Staff/EditStaff';
+import EditStudentProfile from '../components/Student/EditStudentProfile';
 
 const menu = (
   <Menu>
@@ -38,22 +45,93 @@ const menu = (
   </Menu>
 );
 
-const SettingPage = () => {
-   return (
-    <Card 
-    title="User Setting "
-    extra={
-      <Dropdown overlay={menu}>
-        <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
-      </Dropdown>
-    }
-    bodyStyle={{ padding: '1rem' }}
-    className="mb-4"> 
-      <div className="p-4">
+const SettingPage = ({auth,getAllClasses, getAllArms, getAllStaffs,  getAllDesignations,  getAllDepartments,  staff, designations,  departments, classes, arm, student}) => {
+   useEffect(()=>{
+      if(auth.userType==="staff"){
+         getAllDepartments()
+         getAllStaffs()
+         getAllDesignations()
+      }
+      else{
+         getAllClasses()
+         getAllArms()
+      }
+   },[])
 
-      </div>
-   </Card>
-   )  
+   const editStaff= (value)=>{
+
+   }
+
+   const editStudent= (value)=>{
+     
+  }
+
+  if(auth.userType==="staff"){
+    return (
+      <Card 
+      title="User Setting for Staff"
+      extra={
+        <Dropdown overlay={menu}>
+          <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
+        </Dropdown>
+      }
+      bodyStyle={{ padding: '1rem' }}
+      className="mb-4"> 
+        <div className="p-4">
+            <div style={{textAlign:"center"}}>
+               <Avatar size={150} icon="user" />
+               <div>
+               <Button style={{margin:"1rem"}}> Change Passport </Button>
+               <Button style={{margin:"1rem"}}> Take a Passport </Button>
+               </div>
+            </div>
+            <EditStaff designations={designations.designations} departments= {departments.departments} staff={staff} editStaff={editStaff}/>
+        </div>
+     </Card>
+     )  
+  }
+  else{
+    return (
+      <Card 
+      title="User setting  for student"
+      extra={
+        <Dropdown overlay={menu}>
+          <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
+        </Dropdown>
+      }
+      bodyStyle={{ padding: '1rem' }}
+      className="mb-4"> 
+           <div className="p-4">
+            <div style={{textAlign:"center"}}>
+               <Avatar size={150} icon="user" />
+               <div>
+               <Button style={{margin:"1rem"}}> Change Passport </Button>
+               <Button style={{margin:"1rem"}}> Take a Passport </Button>
+               </div>
+            </div>
+            <EditStudentProfile  student={student} editStudent= {editStudent} classes={classes} arm={arm}/>
+        </div>
+     </Card>
+     )  
+  }
 }
 
-export default PrivateRoute(SettingPage);
+const mapStateToProps = state => ({
+  auth:state.auth,
+  staff:state.staff,
+  designations:state.designation,
+  departments:state.departments,
+  classes: state.classes,
+  arm:state.arm,
+  student:state.student
+});
+
+const mapDispatchToProps = {
+  getAllClasses:getAllClasses,
+  getAllArms:getAllArms,
+  getAllStaffs:getAllStaffs,
+  getAllDesignations:getAllDesignations,
+  getAllDepartments:getAllDepartments
+};
+
+export default PrivateRoute(connect(mapStateToProps, mapDispatchToProps)(SettingPage));

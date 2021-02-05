@@ -1,6 +1,6 @@
 import { message } from "antd"
-import axios from "axios"
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION, staff, student} from "../varables"
+import Axios from "axios"
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT , url ,TOKEN_LOCATION, staff, student, GET_USER_SETTING} from "../varables"
 import jwt from 'jsonwebtoken'
 import { AuthToken} from '../../services/authToken'
 
@@ -33,4 +33,23 @@ export const loginFailure = ( error) => {
   return {
    type:LOGOUT
   }
+}
+
+export const getCurrentUserSetting= (setting)=>{
+  return {
+    type:GET_USER_SETTING,
+    payload:{
+      setting
+    }
+  }
+}
+export const getCurrentUserSettingRequest= (userId)=>{
+  return dip
+   Axios.get(`${url}/userSetting/${userId}`)
+   .then(data=>{
+
+   })
+   .catch(err=>{
+
+   })
 }

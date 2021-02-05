@@ -8,7 +8,8 @@ const initialState = {
   user: {},
   isAuth:false,
   error:{ message:""},
-  userType:""
+  userType:"",
+  currentUser:{},
 };
 
 export const authReducer = (state = initialState, action) => {

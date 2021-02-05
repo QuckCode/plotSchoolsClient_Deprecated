@@ -9,7 +9,9 @@ let mql;
 
 Router.events.on(
   'routeChangeComplete',
-  () => (document.querySelector('.workspace > .ant-layout').scrollTop = 0)
+  () => {
+    document.querySelector('.workspace > .ant-layout')!==null? document.querySelector('.workspace > .ant-layout').scrollTop = 0 :()=>{}
+  }
 );
 
 const saveToLocal = state => {
