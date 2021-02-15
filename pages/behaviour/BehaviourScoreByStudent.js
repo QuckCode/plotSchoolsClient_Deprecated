@@ -114,6 +114,7 @@ const BehaviourScoreByStudent = (props) =>{
       setPosition(1)
     }
     else{
+       console.log(number)
        setPosition(number+1)
     }
   
@@ -180,7 +181,7 @@ const BehaviourScoreByStudent = (props) =>{
               <Search placeholder="Admission Number" enterButton="Search" size="large" onSearch={onSearch} />
            </Col>
            <Col xs={12} lg={8} style={{paddingBottom:20}} span={8}>
-           <Pagination onChange={(e)=> nextPosition(e)} simple  current={position}  defaultCurrent={1} total={dataSource.length*10} />
+           <Pagination onChange={(e)=> nextPosition(e-1)} simple  current={position}  defaultCurrent={1} total={dataSource.length*10} />
            </Col>
            <Col xs={12} lg={7} style={{paddingBottom:20}} span={7}>
               <Typography.Text strong level={4}> Student {position} of {dataSource.length} </Typography.Text>
