@@ -114,7 +114,6 @@ const BehaviourScoreByStudent = (props) =>{
       setPosition(1)
     }
     else{
-       console.log(number)
        setPosition(number+1)
     }
   
