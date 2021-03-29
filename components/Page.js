@@ -13,6 +13,7 @@ import  { useRouter }  from 'next/router';
 import {  loginSuccess, logOut } from '../redux/actions/auth';
 import { TOKEN_LOCATION } from '../redux/varables';
 import routes from '../lib/routes';
+import routesStudent from '../lib/routesStudent'
 
 
 const { Content } = Layout;
@@ -31,6 +32,18 @@ const { Content } = Layout;
      })
    }
   
+})
+
+routesStudent.forEach((x)=>{
+  if (x.path) {
+     NonDashboardRoutes.push(x.path)
+  }
+  if(x.children){
+    x.children.map((child)=>{
+      NonDashboardRoutes.push(child.path)
+    })
+  }
+ 
 })
 
 
