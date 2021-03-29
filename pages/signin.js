@@ -10,6 +10,9 @@ import { NotPrivateRoute } from '../components/NotPrivateRoute';
 import { loginSuccess } from '../redux/actions/auth';
  
 class SignInPage extends Component {
+   state = {
+      loading:false
+   }
     componentDidMount(){
        if (this.props.auth.isAuth) {
           Router.push('/dashboard')
@@ -18,11 +21,25 @@ class SignInPage extends Component {
      
     loginStaff= (regNumber, password)=>{
       //  console.log({regNumber, password})
+      this.setState({loading:true})
        postLogin("/login/staff",{regNumber, password}, this.props.loginSuccess)
+       .then(()=>{
+         this.setState({loading:false})
+      })
+      .catch(e=>{
+         this.setState({loading:false})
+      })
     }
 
     loginStudent= (regNumber, password)=>{
+      this.setState({loading:true})
       postLogin("/login/student",{admissionNumber:regNumber, password}, this.props.loginSuccess)
+      .then(()=>{
+         this.setState({loading:false})
+      })
+      .catch(e=>{
+         this.setState({loading:false})
+      })
 
     }
    render() { 
@@ -30,7 +47,7 @@ class SignInPage extends Component {
       return (
          <>
          <HomeHeader/>
-         <Signin loginStaff={this.loginStaff} loginStudent={this.loginStudent} schools={schools.schools}/>
+         <Signin  loading={this.state.loading} loginStaff={this.loginStaff} loginStudent={this.loginStudent} schools={schools.schools}/>
       </>
       );
    }
