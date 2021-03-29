@@ -13,6 +13,7 @@ import { theme } from '../components/styles/GlobalStyles';
 import { getSmsBalanceRequest, getSmsOutBoxRequest } from '../redux/actions/sms';
 import { redirectError } from '../services/redirectService';
 import { getSchoolsSetting } from '../redux/actions/school';
+import StudentOverview from '../components/StudentOverview';
 
 const DashboardPage = ({students, classes,scratchCard, staffs, graphStudentClassTotal,  loading, userType, smsBalance, smsSent, oldSchoolSettings}) => {
 
@@ -54,7 +55,16 @@ if(userType==="student")
   return  (
   
   <>    
-    
+     <StudentOverview  
+     students={students}
+    classes={classes}
+    scratchCard={scratchCard}
+    staffs={staffs}
+    graphStudentClassTotal={graphStudentClassTotal}
+    loadingTotalGraph={loading}
+    smsBalance={smsBalance}
+    smsSent={smsSent}
+    schoolSettings= {oldSchoolSettings}/>
   </>
 )
 if(userType==="staff")
@@ -103,6 +113,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         }
       } 
     } catch (error) {
+      console.log(error, ctx)
         redirectError(ctx)
     }
   }

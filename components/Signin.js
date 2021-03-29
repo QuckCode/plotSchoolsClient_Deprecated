@@ -18,8 +18,9 @@ const Content = styled.div`
   backgroundColor:'#f0f0f0'
 `;
 
-const Signin = ({ form, schools, loginStaff, loginStudent ,}) => {
+const Signin = ({ form, schools, loginStaff, loginStudent , loading }) => {
   const [schoolName, setSchoolName] = useState([])
+  // const [loading , setLoading] = useState(true)
   useEffect(()=>{
     setSchoolName(schools.reduce((a, o) => (a.push(o.name), a), []))   
   }, [schools])
@@ -116,7 +117,7 @@ const Signin = ({ form, schools, loginStaff, loginStudent ,}) => {
               <small>Forgot password</small>
             </a>
           </Link>
-          <Button type="primary" htmlType="submit" block className="mt-3">
+          <Button disabled={loading} loading={loading} type="primary" htmlType="submit" block className="mt-3">
             Log in
           </Button>
         </FormItem>
