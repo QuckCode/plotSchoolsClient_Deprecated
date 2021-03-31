@@ -15,6 +15,7 @@ import {
   EDIT_STUDENT_SUCCESS,
   EDIT_STUDENT_ERROR,
   VALIDATE_STUDENTS_SCORE_BY_SUBJECTS,
+  FETCH_STUDENT_CURRENT_CLASS_AND_ARM,
   url, school,
 } from '../varables';
 import axios from 'axios'
@@ -206,5 +207,27 @@ export const getStudentValidatedScoreRequest = (value) => {
    type:VALIDATE_STUDENTS_SCORE_BY_SUBJECTS,
    payload:{
     validateStudentScore  
+   }
+});
+
+
+export const getStudentClassAndArmRequest = (admissionNumber) => {
+  return dispatch => {
+      dispatch(getStudentClassAndArm({ "class": "No Class", "arm": "No Arm"}))
+    try {
+     return  axios.post(`${url}/student/classAndArm`, {admissionNumber})
+       .then(({data})=>{
+            dispatch(getStudentClassAndArm(data))
+       })
+    } catch (error) {
+      return  dispatch(getStudentClassAndArm({ "class": "No Class", "arm": "No Arm"}))
+    }
+  };
+};
+
+ const getStudentClassAndArm = (data) => ({
+   type:FETCH_STUDENT_CURRENT_CLASS_AND_ARM,
+   payload:{
+    data
    }
 });

@@ -2,7 +2,7 @@ import { Button, Card, Col, Row } from 'antd';
 
 import PropTypes from 'prop-types';
 
-const StatCard = ({ type, title, value, icon, color, clickHandler }) => {
+const StatCard = ({ type, title, value, icon, color, clickHandler, notCapital }) => {
   let before = null,
     after = null;
 
@@ -33,7 +33,7 @@ const StatCard = ({ type, title, value, icon, color, clickHandler }) => {
       <Row type="flex" align="middle" justify="start">
         {before}
         <Col>
-          <h5 className={`mb-0 ${type === 'fill' ? 'text-white' : null}`}>
+          <h5  style = {{textTransform: !notCapital ? "capitalize":"lowercase"}}  className={`mb-0 ${type === 'fill' ? 'text-white' : null}`}>
             {value}
           </h5>
           <small className={type === 'fill' ? 'text-white-50' : null}>

@@ -8,13 +8,12 @@ import { AuthToken } from "./authToken";
 
 
 export const postLogin = async ( path,userData , loginSuccess)=> {
-  console.log(loginSuccess);
   return await post(path, userData)
  .then( async ({data})=>{
    AuthToken.storeToken(data.token)
    let authToken = new AuthToken(data.token)
    await loginSuccess(authToken.decodedToken, authToken.decodedToken.userType)
-   await Router.push('/dashboard')
+     authToken.decodedToken.userType==="staff" ? await Router.push('/dashboard') : await Router.push('/dashboardStudent')
 
   return  Modal.success({
     title:"Login Successfully",

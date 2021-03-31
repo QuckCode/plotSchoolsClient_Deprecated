@@ -15,7 +15,8 @@ class SignInPage extends Component {
    }
     componentDidMount(){
        if (this.props.auth.isAuth) {
-          Router.push('/dashboard')
+          
+         //  Router.push('/dashboard')
        }
     }
      

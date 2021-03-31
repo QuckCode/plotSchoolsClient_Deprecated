@@ -325,3 +325,38 @@ div.chart {
     top: 0;
   }
 }
+
+
+.storeCover {
+  width: 100%;   
+  overflow: hidden;
+}
+
+.storeImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  filter: brightness(90%);
+  transition: transform .9s;
+}
+
+.storeCard{
+  width: 200;
+  padding: auto;
+ }
+ 
+.storeImage:hover {
+  transform: scale(1.1)
+
+}
+
+.userImage {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  filter: brightness(90%);
+}
+
+.ant-table-title{
+   padding: 0 !important;
+ }

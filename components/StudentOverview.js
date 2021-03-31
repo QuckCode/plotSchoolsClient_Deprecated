@@ -9,6 +9,11 @@ import {
   MessageCircle,
   Home,
   MoreHorizontal,
+  DollarSign,
+  MapPin,
+  Layers,
+  Calendar
+
 } from 'react-feather';
 import {
   Col,
@@ -20,7 +25,9 @@ import {
   Card,
  Dropdown,
  Spin,
+ Avatar
 } from 'antd';
+
 
 
 
@@ -29,6 +36,7 @@ import { theme } from './styles/GlobalStyles';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { success } from './modal';
+import moment from 'moment';
 
 const { MonthPicker } = DatePicker;
 
@@ -82,10 +90,9 @@ const menu = (
   </Menu>
 );
 
-const StudentOverview = ({staffs, classes ,students, graphStudentClassTotal=[], smsBalance, smsSent, schoolSettings}) => {
+const StudentOverview = ({user, schoolSettings, currentStudentClassAndArm }) => {
    const [value, setValue] = useState({})
-
-
+    console.log(currentStudentClassAndArm)
 
   return (
     <div>
@@ -97,7 +104,7 @@ const StudentOverview = ({staffs, classes ,students, graphStudentClassTotal=[], 
             value={schoolSettings.section}
             icon={<Home size={20} strokeWidth={1} />}
             color={theme.darkColor}
-            clickHandler={() => message.info(`This term is currently ${schoolSettings.section}`)}
+            clickHandler={() => message.info(`This section is currently ${schoolSettings.section}`)}
           />
         </Col>
       <Col xs={24} sm={12} md={6}>
@@ -113,9 +120,9 @@ const StudentOverview = ({staffs, classes ,students, graphStudentClassTotal=[], 
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-            title="Outstanding Dept"
-            value={`₦ ${10000}`}
-            icon={<CreditCard size={20} strokeWidth={1} />}
+            title="Payment Status"
+            value={` Owing ₦ ${10000}`}
+            icon={<DollarSign size={20} strokeWidth={1} />}
             color={theme.primaryColor}
             clickHandler={() => message.info(`You have ${10000} outstanding dept `)}
           />
@@ -123,49 +130,50 @@ const StudentOverview = ({staffs, classes ,students, graphStudentClassTotal=[], 
         <Col xs={24} sm={12} md={6}>
           <StatCard
             type="fill"
-             title="Current Class"
-            value={"JSS 1 A"}
-            icon={<CreditCard size={20} strokeWidth={1} />}
+             title="Student Status"
+            value={user.active ? "Active" :" Not Active"}
+            icon={<MapPin size={20} strokeWidth={1} />}
             color={theme.errorColor}
-            clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
+            clickHandler={() => message.info(`You  are an active student`)}
+          />
+        </Col>
+        <Col xs={24} sm={12} md={6}>
+          <StatCard
+            // type="fill"
+             title="Admission Number"
+            value={user.admissionNumber}
+            notCapital={true}
+            icon={<User size={20} strokeWidth={1} />}
+            color={theme.darkColor}
+            clickHandler={() => message.info(`Yor admission number  is ${user.admissionNumber}`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
              title="Current Class"
-            value={"JSS 1 A"}
-            icon={<CreditCard size={20} strokeWidth={1} />}
-            color={theme.errorColor}
+            value={`${currentStudentClassAndArm.class}  ${currentStudentClassAndArm.arm}`}
+            icon={<Layers size={20} strokeWidth={1} />}
+            color={theme.warningColor}
             clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
-             title="Current Class"
-            value={"JSS 1 A"}
-            icon={<CreditCard size={20} strokeWidth={1} />}
-            color={theme.errorColor}
+             title="Result Status"
+            value={"Pending"}
+            icon={<Icon type="solution" size={40} strokeWidth={2} />}
+            color={theme.primaryColor}
             clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <StatCard
             // type="fill"
-             title="Current Class"
-            value={"JSS 1 A"}
-            icon={<CreditCard size={20} strokeWidth={1} />}
-            color={theme.errorColor}
-            clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
-          />
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <StatCard
-            // type="fill"
-             title="Current Class"
-            value={"JSS 1 A"}
-            icon={<CreditCard size={20} strokeWidth={1} />}
+             title="Year Of Admission"
+            value={ moment(user.admissionDate).format('YYYY')}
+            icon={<Calendar size={20} strokeWidth={1} />}
             color={theme.errorColor}
             clickHandler={() => message.info(`You have ${10} School fees payments for this term`)}
           />
@@ -184,6 +192,11 @@ const StudentOverview = ({staffs, classes ,students, graphStudentClassTotal=[], 
          }}
         classtitle="mb-4"
       >
+         <Row justify="space-around" gutter={[24, 24]}>
+          <Col lg={6} md={8} xs={12} >
+                       <Avatar shape="square" className="userImage"  alt="userImage" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+             </Col>
+          </Row>
       </Card>
     </div>
   );
