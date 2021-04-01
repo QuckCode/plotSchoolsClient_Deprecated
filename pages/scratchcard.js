@@ -3,12 +3,16 @@ import Head from 'next/head';
 import { Card, Dropdown , Menu, Row} from 'antd';
 import { MoreHorizontal,Save, Camera, Printer } from 'react-feather';
 import { theme } from '../components/styles/GlobalStyles';
+import GenerateScratchCard from '../components/ScratchCard/generateScratchCard';
+import ViewScratchCard from '../components/ScratchCard/ViewScratchCard';
+import DeleteScratchCard from '../components/ScratchCard/DeleteScratchCard';
+import ViewStatsScratchCard from '../components/ScratchCard/ViewStatsScratchCard';
 
 
 const ScratchCardPage = () => {
-  const [type, setType] = useState("tab1")
-  const [key, setKey] = useState("tab1")
-  const tabList = [{key: "tab1", tab: 'Generate Scratch Card ',},{ key: "tab2",tab: 'View Scratch Card',},{ key: "tab3",tab: 'View And Delete Scratch Card',},];
+  const [type, setType] = useState("tab0")
+  const [key, setKey] = useState("tab0")
+  const tabList = [{key: "tab0", tab: 'View Stats',},{key: "tab1", tab: 'Generate Scratch Card ',},{ key: "tab2",tab: 'View Scratch Card',},{ key: "tab3",tab: 'Delete Scratch Card',},];
 
   const menu = (
     <Menu>
@@ -32,7 +36,12 @@ const ScratchCardPage = () => {
     </Menu>
   );
   
-  const contentList = {tab1: <p>content1</p>, tab2: <p>content2</p>,  tab3: <p>content3</p>,};
+   const contentList = {
+     tab0: <ViewStatsScratchCard/>,
+     tab1: <GenerateScratchCard/>, 
+     tab2: <ViewScratchCard/>,  
+     tab3: <DeleteScratchCard/>,
+    };
   
   const  onTabChange = (key, type) => {
     setKey(key), setType(type)
