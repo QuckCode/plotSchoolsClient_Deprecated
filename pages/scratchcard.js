@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Card, Dropdown , Menu, Row} from 'antd';
 import { MoreHorizontal,Save, Camera, Printer } from 'react-feather';
 import { theme } from '../components/styles/GlobalStyles';
-import GenerateScratchCard from '../components/ScratchCard/generateScratchCard';
+import GenerateScratchCard from '../components/ScratchCard/GenerateScratchCard';
 import ViewScratchCard from '../components/ScratchCard/ViewScratchCard';
 import DeleteScratchCard from '../components/ScratchCard/DeleteScratchCard';
 import { wrapper } from '../redux/store';
