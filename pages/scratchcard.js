@@ -1,4 +1,4 @@
-import  React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head';
 import { Card, Dropdown , Menu, Row} from 'antd';
 import { MoreHorizontal,Save, Camera, Printer } from 'react-feather';
@@ -9,9 +9,16 @@ import DeleteScratchCard from '../components/ScratchCard/DeleteScratchCard';
 import { wrapper } from '../redux/store';
 import { AuthToken } from '../services/authToken';
 import { loginSuccess } from '../redux/actions/auth';
+import { connect } from 'react-redux';
+import { getScratchCard , getScratchCardStatsRequest , generateScratchCardRequest} from '../redux/actions/scratchCard';
+import { redirectError } from '../services/redirectService';
+import { school } from '../redux/varables';
 
 
-const ScratchCardPage = () => {
+
+
+
+const ScratchCardPage = ({cards, stats, getScratchCard,user, userType, generateScratchCardRequest,  getScratchCardStatsRequest }) => {
   const [type, setType] = useState("tab1")
   const [key, setKey] = useState("tab1")
   const tabList = [{key: "tab1", tab: 'Generate Scratch Card ',},{ key: "tab2",tab: 'View Scratch Card',},{ key: "tab3",tab: 'Delete Scratch Card',},];
@@ -39,9 +46,9 @@ const ScratchCardPage = () => {
   );
   
    const contentList = {
-     tab1: <GenerateScratchCard/>, 
-     tab2: <ViewScratchCard/>,  
-     tab3: <DeleteScratchCard/>,
+     tab1: <GenerateScratchCard stats= {stats} generateScratchCardRequest={generateScratchCardRequest} getScratchCardStatsRequest={getScratchCardStatsRequest} />, 
+     tab2: <ViewScratchCard  stats= {stats}/>,  
+     tab3: <DeleteScratchCard  stats= {stats}/>,
     };
   
   const  onTabChange = (key, type) => {
@@ -77,6 +84,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const store = ctx.store
       let data =  await AuthToken.fromNext(ctx)
       await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
+      await store.dispatch(getScratchCardStatsRequest(school))
       let propStore =  await store.getState()  
       return {
         props:{
@@ -86,10 +94,23 @@ export const getServerSideProps = wrapper.getServerSideProps(
       } 
 
     } catch (error) {
+        console.trace(error)
         redirectError(ctx)
     }
   }
 )
 
 
-export default ScratchCardPage;
+const mapStateToProps = state => ({
+   cards:state.scratchCard.cards,
+   stats:state.scratchCard.stats
+});
+
+const mapDispatchToProps = {
+     getScratchCard, 
+     getScratchCardStatsRequest,
+     generateScratchCardRequest
+    
+};
+
+export default  connect(mapStateToProps, mapDispatchToProps)(ScratchCardPage);

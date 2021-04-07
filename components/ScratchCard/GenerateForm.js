@@ -5,14 +5,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
  
-const GenerateForm = ({form}) => {
+const GenerateForm = ({form, generateScratchCardRequest}) => {
   const { getFieldDecorator } = form;
 
   const handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    form.validateFields((err, values) => {
       if (!err) {
-     
+         generateScratchCardRequest({...values})
+         getScratchCardStatsRequest()
       }
     });
   };
