@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ViewStatsScratchCard from './ViewStatsScratchCard';
 import { Row, Col } from 'antd';
-import GenerateForm from './generateForm';
+import GenerateForm from './GenerateForm';
 
  
 const GenerateScratchCard = () => {
