@@ -6,13 +6,15 @@ import { theme } from '../components/styles/GlobalStyles';
 import GenerateScratchCard from '../components/ScratchCard/generateScratchCard';
 import ViewScratchCard from '../components/ScratchCard/ViewScratchCard';
 import DeleteScratchCard from '../components/ScratchCard/DeleteScratchCard';
-import ViewStatsScratchCard from '../components/ScratchCard/ViewStatsScratchCard';
+import { wrapper } from '../redux/store';
+import { AuthToken } from '../services/authToken';
+import { loginSuccess } from '../redux/actions/auth';
 
 
 const ScratchCardPage = () => {
-  const [type, setType] = useState("tab0")
-  const [key, setKey] = useState("tab0")
-  const tabList = [{key: "tab0", tab: 'View Stats',},{key: "tab1", tab: 'Generate Scratch Card ',},{ key: "tab2",tab: 'View Scratch Card',},{ key: "tab3",tab: 'Delete Scratch Card',},];
+  const [type, setType] = useState("tab1")
+  const [key, setKey] = useState("tab1")
+  const tabList = [{key: "tab1", tab: 'Generate Scratch Card ',},{ key: "tab2",tab: 'View Scratch Card',},{ key: "tab3",tab: 'Delete Scratch Card',},];
 
   const menu = (
     <Menu>
@@ -37,7 +39,6 @@ const ScratchCardPage = () => {
   );
   
    const contentList = {
-     tab0: <ViewStatsScratchCard/>,
      tab1: <GenerateScratchCard/>, 
      tab2: <ViewScratchCard/>,  
      tab3: <DeleteScratchCard/>,
@@ -69,5 +70,26 @@ const ScratchCardPage = () => {
   )
 
 }
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (ctx ) => {
+    try {
+      const store = ctx.store
+      let data =  await AuthToken.fromNext(ctx)
+      await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
+      let propStore =  await store.getState()  
+      return {
+        props:{
+           user:propStore.auth.user,
+           userType:propStore.auth.user.userType,
+        }
+      } 
+
+    } catch (error) {
+        redirectError(ctx)
+    }
+  }
+)
+
 
 export default ScratchCardPage;

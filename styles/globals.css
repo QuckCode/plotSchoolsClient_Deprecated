@@ -365,3 +365,9 @@ div.chart {
   display: flex;
   justify-content: center;
 }
+
+.ant-card-bordered-custom {
+  box-shadow: 0 0 1px rgb(0 0 0 / 10%);
+  border: #000 10px;
+  background-clip: padding-box;
+}

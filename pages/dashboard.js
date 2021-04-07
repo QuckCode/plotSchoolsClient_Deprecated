@@ -33,6 +33,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     try {
       const store = ctx.store
       let data =  await AuthToken.fromNext(ctx)
+      console.log(data)
       await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
       await store.dispatch(getAllClasses())
       await store.dispatch(getAllStudents())
@@ -52,8 +53,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
            smsBalance:propStore.sms.balance, smsSent:propStore.sms.messages.length,oldSchoolSettings: propStore.schools.settings
         }
       } 
+
     } catch (error) {
-      console.log(error, ctx)
         redirectError(ctx)
     }
   }
