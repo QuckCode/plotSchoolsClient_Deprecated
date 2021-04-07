@@ -9,16 +9,19 @@ import {
   url, school
 } from '../varables';
 import axios from 'axios'
-
+import { message } from 'antd';
+import { success , error} from '../../components/modal';
 export const getScratchCard = () => {
  return dispatch => {
    dispatch( getScratchCardBegin())
    return axios.get(`${url}/ScratchCard/${school}`)
    .then(({data})=>{
+         success("Generating Scratch Card, Please refresh ")
          dispatch(getScratchCardSuccess((data)))
    })
-   .catch((error)=>{
-      dispatch(getScratchCardError(error.response))
+   .catch((err)=>{
+     error("Server Error ", err.response)
+      dispatch(getScratchCardError(err.response))
    })
  };
 };
