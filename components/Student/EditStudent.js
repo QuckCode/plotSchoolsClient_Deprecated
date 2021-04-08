@@ -1,5 +1,4 @@
 import { AutoComplete,Button, DatePicker,Form,Input,Select, Upload, Icon, message} from 'antd';
-import { AutoComplete,Button, DatePicker,Form,Input,Select, Upload, Icon, message} from 'antd';
 import { object } from 'prop-types';
 import { Component } from 'react';
 import {
