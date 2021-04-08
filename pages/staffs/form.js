@@ -11,6 +11,11 @@ import {
   MapPin
 } from 'react-feather';
 import { PrivateRoute } from '../../components/PrivateRoute';
+import { wrapper } from '../../redux/store';
+import { AuthToken } from '../../services/authToken';
+import { loginSuccess } from '../../redux/actions/auth';
+import { getSchoolsSetting } from '../../redux/actions/school';
+import { redirectError } from '../../services/redirectService';
 
 const Text = Typography.Text
 
@@ -22,6 +27,8 @@ const Content = styled.div`
 `;
 
 const StaffFormPage = (props) =>{
+  const {schoolSettings} = props
+
    const savePDF =()=> {
     const printArea = document.getElementById("formStaff");
     html2canvas(printArea, {useCORS:true}).then(canvas => {
@@ -67,13 +74,13 @@ const printPDF =()=> {
             <div id="formStaff">
                 <Row className="rowForm">
                    <Col span={12}>
-                       <img className="banner" src="https://www.integratedschoolrecords.com/storage/images/school_configuration/schoollogo/biiagauraka/mastlogo.gif"/>
+                   <img className='banner' src={`${schoolSettings.schoolImageAsBlob}`}/>
                    </Col>
                    <Col span={12}>
                      <div className="description-form">
-                         <span className="textForm">  <Phone/> O8034055074 </span>
-                         <span className="textForm"> <Mail/>  brilliantimpactschool@gmail.com </span>
-                         <span className="textForm"> <MapPin/> Angwan Tomato, Gauraka, Tafa L.G.A, Niger State </span>
+                         <span className="textForm">  <Phone/> {schoolSettings.phoneNumber}  </span>
+                         <span className="textForm"> <Mail/> {schoolSettings.email} </span>
+                         <span className="textForm"> <MapPin/> {schoolSettings.address} </span>
                      </div>
                    </Col>
                 </Row>
@@ -121,5 +128,23 @@ const printPDF =()=> {
   )
 };
 
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (ctx ) => {
+    try {
+      const store = ctx.store
+      let data =  await AuthToken.fromNext(ctx)
+      await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
+      await store.dispatch(getSchoolsSetting(data.decodedToken.school))
+      let propStore =  await store.getState()  
+      return { props:{  
+             schoolSettings: propStore.schools.settings ,
 
-export default  PrivateRoute(StaffFormPage);
+         }   } 
+    } catch (error) {
+      console.log(error)
+        redirectError(ctx)
+    }
+  }
+)
+
+export default  StaffFormPage;
