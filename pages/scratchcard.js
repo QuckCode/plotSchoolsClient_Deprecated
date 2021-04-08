@@ -46,9 +46,9 @@ const ScratchCardPage = ({cards, stats, getScratchCard,user, userType, generateS
   );
   
    const contentList = {
-     tab1: <GenerateScratchCard stats= {stats} generateScratchCardRequest={generateScratchCardRequest} getScratchCardStatsRequest={getScratchCardStatsRequest} />, 
-     tab2: <ViewScratchCard  stats= {stats}/>,  
-     tab3: <DeleteScratchCard  stats= {stats}/>,
+     tab1: <GenerateScratchCard  stats= {stats} generateScratchCardRequest={generateScratchCardRequest} getScratchCardStatsRequest={getScratchCardStatsRequest} />, 
+     tab2: <ViewScratchCard cards={cards}  stats= {stats}/>,  
+     tab3: <DeleteScratchCard cards={cards}   stats= {stats}/>,
     };
   
   const  onTabChange = (key, type) => {
@@ -85,6 +85,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       let data =  await AuthToken.fromNext(ctx)
       await store.dispatch(loginSuccess(data.decodedToken, data.decodedToken.userType))
       await store.dispatch(getScratchCardStatsRequest(school))
+      await store.dispatch(getScratchCard())
       let propStore =  await store.getState()  
       return {
         props:{
@@ -109,7 +110,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
      getScratchCard, 
      getScratchCardStatsRequest,
-     generateScratchCardRequest
+     generateScratchCardRequest,
     
 };
 
