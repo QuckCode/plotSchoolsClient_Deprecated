@@ -24,6 +24,169 @@ const StorePage = () => {
            <Meta title="Social Studies For Basic 3" />
          </Card>
          </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+            <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         <Col lg={6} md={8} xs={12} >
+          <Card
+          style={{ width: 300 }}
+             hoverable 
+             className="storeCard"
+             cover={
+                <div className="storeCover">
+                       <img className="storeImage" alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                </div>
+             }
+             actions={[
+            <Icon type="shopping-cart" key="buy" />,
+            <Icon type="heart" key="like" />,
+          ]}
+             >
+           <Meta title="Social Studies For Basic 3" />
+         </Card>
+         </Col>
+         
     </Row>
   )
 }

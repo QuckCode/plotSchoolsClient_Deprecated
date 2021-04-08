@@ -1,6 +1,4 @@
 import { AutoComplete,Button, DatePicker,Form,Input,Select, Upload, Icon, message} from 'antd';
-import { AutoComplete,Button, DatePicker,Form,Input,Select, Upload, Icon, message} from 'antd';
-import { object } from 'prop-types';
 import { Component } from 'react';
 import {
  Image
@@ -15,7 +13,7 @@ import moment from 'moment'
 
 
 
-class EditStudent extends Component {
+class PrintStudentResultForm extends Component {
 
   componentDidMount (){
     const {form, student,arms} = this.props
@@ -44,11 +42,12 @@ class EditStudent extends Component {
     arms:[]
   };
 
+  
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.editStudent({...values, dob:values.dob._d, admissionDate:values.admissionDate._d,  school:school})
+        this.props.printResult({...values, school:school})
       }
     });
   };
@@ -78,62 +77,36 @@ class EditStudent extends Component {
     const formItemLayout = {labelCol: { xs: { span: 24 },sm: { span: 8 } }, wrapperCol: {xs: { span: 24 },sm: { span: 16 }} };
     const tailFormItemLayout = { wrapperCol: { xs: { span: 24,   offset: 0 }, sm: {span: 16, offset: 8} } };
     const {form, classes, loading } = this.props
+    console.log(classes)
     return (
       <Form onSubmit={this.handleSubmit}>
           <FormItem  required  {...formItemLayout} label="Admission date">
             {form.getFieldDecorator('admissionNumber', {rules: [ {required: true,message: 'Please input  your admission number'}] })(<Input disabled/>)}
         </FormItem>
-        <FormItem  required  {...formItemLayout} label="Admission date">
-            {form.getFieldDecorator('admissionDate', {rules: [ {required: true,message: 'Please input  your admission date'}] })(<DatePicker format="YYYY/MM/DD"/>)}
+        <FormItem   required  {...formItemLayout} label="Admission date">
+            {form.getFieldDecorator('admissionDate', {rules: [ {required: true,message: 'Please input  your admission date'}] })(<DatePicker disabled format="YYYY/MM/DD"/>)}
         </FormItem>
           <FormItem   required {...formItemLayout} label="First Name">
-          {form.getFieldDecorator('firstName', {rules: [ {required: true,message: 'Please input  First Name'}] })(<Input />)}
+          {form.getFieldDecorator('firstName', {rules: [ {required: true,message: 'Please input  First Name'}] })(<Input disabled />)}
         </FormItem>
         <FormItem {...formItemLayout} label="Middle Name">
-           {form.getFieldDecorator('middleName')(<Input />)}
+           {form.getFieldDecorator('middleName')(<Input disabled />)}
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Surname Name">
-        {form.getFieldDecorator('srnName', {rules: [ {required: true,message: 'Please input  Arm'}] })(<Input />)}
-        </FormItem>
-        <FormItem  required  {...formItemLayout} label="Date Of Birth">
-        {form.getFieldDecorator('dob', {rules: [ {required: true,message: 'Please input  Date Of Birth'}] })(<DatePicker format="YYYY/MM/DD"/>)}
+        {form.getFieldDecorator('srnName', {rules: [ {required: true,message: 'Please input  Arm'}] })(<Input disabled />)}
         </FormItem>
         <FormItem  required  {...formItemLayout} label="Gender">
            {form.getFieldDecorator('gender', { initialValue: "", rules: [ {required: true,message: 'Please input  Gender'}] })(
-            <Select>
+            <Select disabled>
               <Option value={""}>Please Select a gender</Option>
               <Option value={1}>Male</Option>
               <Option value={2}>Female</Option>
             </Select>
            )}
         </FormItem>
-        <FormItem  required  {...formItemLayout} label="State">
-        {form.getFieldDecorator('state', {  initialValue: "",rules: [ {required: true,message: 'Please input  State'}] })(
-            <Select onChange= {this.handleStateChange} >
-              <Option value={''}>Select Your State</Option>
-              {
-                this.state.stateNig.map(d=>(
-                  <Option  value={d}>{d}</Option>
-                ))
-              }
-            </Select>
-           )}
-        </FormItem>
-        <FormItem  required  {...formItemLayout} label="Local Government">
-        {form.getFieldDecorator('lga', { initialValue: "",rules: [ {required: true,message: 'Please input  Local government area'}] })(
-            <Select>
-              <Option value={''}>Select Your Local Government</Option>
-              {
-                this.state.lga.map(d=>(
-                  <Option  value={d}>{d}</Option>
-                ))
-              }
-            </Select>
-           )}
-        </FormItem>
         <FormItem    {...formItemLayout} label="Class">
         {form.getFieldDecorator('classN', {initialValue:"", rules: [ {required: true,message: 'Please input  Class'}]})(
-            <Select onChange={this.handleClassChange}>
+            <Select disabled onChange={this.handleClassChange}>
               <Option value={""}>Select Your Class</Option>
               {
                 classes.classes.map(d=>{
@@ -145,7 +118,7 @@ class EditStudent extends Component {
         </FormItem>
         <FormItem   {...formItemLayout} label="Arm">
         {form.getFieldDecorator('arm', {initialValue:'',rules: [ {required: true,message: 'Please input  Arm'}] })(
-            <Select>
+            <Select disabled>
               <Option value={''}>Select Your Arm</Option>
               {
                 this.state.arms.map(d=>{
@@ -155,15 +128,9 @@ class EditStudent extends Component {
             </Select>
            )}
         </FormItem>
-        <FormItem  required  {...formItemLayout} label="Address">
-           {form.getFieldDecorator('address', {rules: [ {required: true,message: 'Please input  Password'}] })(<Input.TextArea />)}
-        </FormItem>
-        <FormItem  required  {...formItemLayout} label="Parent Phone Number">
-           {form.getFieldDecorator('phone', {rules: [ {required: true,message: 'Please input  Password'}] })(<Input />)}
-        </FormItem>
         <FormItem {...tailFormItemLayout}>
-          <Button disabled={loading} type="primary" htmlType="submit">
-          { loading?   <Icon type="loading" />   : (<> </>) }    Save 
+          <Button disabled={loading}  htmlType="submit">
+          { loading?   <Icon type="loading" />   : (<> </>) }    Print My Result
           </Button>
         </FormItem>
       </Form>
@@ -171,4 +138,4 @@ class EditStudent extends Component {
   }
 }
 
-export default Form.create()(EditStudent);
+export default Form.create()(PrintStudentResultForm);
