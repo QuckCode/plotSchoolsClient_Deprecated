@@ -184,6 +184,10 @@ const mapStateToProps = state => ({
     testBySubject : state.test.testBySubject
 });
 
+const mapDispatchToProps = {
+  getStudentTestScore:getStudentTestScore
+};
+
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (ctx ) => {
@@ -207,10 +211,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
   }
 )
-
-const mapDispatchToProps = {
-  getStudentTestScore:getStudentTestScore
-};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrintTestSheetPage);

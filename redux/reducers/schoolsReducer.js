@@ -32,7 +32,6 @@ export const schoolReducer = (state = initialState, action) => {
       case FETCH_ALL_SCHOOLS_ERROR:
         return {
           ...state,
-          schools:action.payload.schools, 
           loading:false,
           error:action.payload.error
       };

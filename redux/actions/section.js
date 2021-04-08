@@ -19,7 +19,7 @@ export const createSection = (data) => {
        setTimeout( ()=>dispatch(createSectionSuccess(data)),1000)
    })
    .catch((error)=>{
-        message.error("PLease an error occurred")
+        message.error("Please an error occurred")
       dispatch(createSectionError(error.response))
    })
  };

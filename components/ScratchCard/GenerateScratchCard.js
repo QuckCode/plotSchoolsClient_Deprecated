@@ -5,7 +5,7 @@ import { Row, Col } from 'antd';
 import GenerateForm from './GenerateForm';
 
  
-const GenerateScratchCard = () => {
+const GenerateScratchCard = ({stats, generateScratchCardRequest}) => {
   return (
     <div>
       <Row 
@@ -14,7 +14,7 @@ const GenerateScratchCard = () => {
       justify="center"
        className="px-3  mh-page">
        <Col style={{alignSelf:"center"}} span={24}>
-          <ViewStatsScratchCard/>
+          <ViewStatsScratchCard stats={stats}/>
        </Col>
      </Row>
      <Row 
@@ -23,7 +23,7 @@ const GenerateScratchCard = () => {
       justify="center"
        className="px-3  mh-page">
        <Col style={{alignSelf:"center"}} span={24}>
-           <GenerateForm/>
+           <GenerateForm generateScratchCardRequest={generateScratchCardRequest}/>
        </Col>
      </Row>
     </div>

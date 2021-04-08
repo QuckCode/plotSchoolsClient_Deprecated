@@ -15,25 +15,33 @@ import {
   YAxis,
   Hint
 } from 'react-vis';
+import PropTypes from 'prop-types'
 
 
  
-const ViewStatsScratchCard = () => {
+const ViewStatsScratchCard = ({stats}) => {
+   const  {totalScratchCard ,totalUsedScratchCard, totalNotUsedScratchCard  }  = stats
   return (
     <Row>
     <Col  xs={8} sm={8} md={8} >
-      <Statistic title="Generated Cards" value={100}  />
+      <Statistic title="Generated Cards" value={totalScratchCard}  />
     </Col>
     <Col   xs={8} sm={8} md={8}>
-      <Statistic title="Used  Cards" value={90} suffix="/ 100" />
+      <Statistic title="Used  Cards" value={totalUsedScratchCard } suffix={`/ ${totalScratchCard}`} />
     </Col>
     <Col   xs={8} sm={8} md={8}>
-       <Statistic  title="Unused  Cards" value={10}   suffix="/ 100" />
+       <Statistic  title="Unused  Cards" value={totalNotUsedScratchCard}  suffix={`/ ${totalScratchCard}`} />
     </Col>
   </Row>
   );
 }
  
-ViewStatsScratchCard.propTypes = {};
+ViewStatsScratchCard.propTypes = {
+   stats: PropTypes.shape({
+    totalScratchCard: PropTypes.number,
+    totalUsedScratchCard: PropTypes.number,
+    totalNotUsedScratchCard:PropTypes.number,
+  })
+};
  
 export default ViewStatsScratchCard;
