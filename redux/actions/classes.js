@@ -26,7 +26,7 @@ export const createClasses = (data) => {
     .catch((error)=>{
          message.error("Please an error occurred")
        dispatch(createClassesError(error.response.data))
-         reject(err.response.data)
+         reject(error.response.data)
     })
    })
  };
