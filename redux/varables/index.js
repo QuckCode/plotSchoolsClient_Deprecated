@@ -183,6 +183,7 @@ export const FETCH_SCHOOL_MESSAGES="FETCH_SCHOOL_MESSAGES"
 ///parts
 // export const url ="http://localhost:4000"
 // export const school= `5f8c7ee1b9776e05f105a6db`
+
 // export const url ="http://localhost:4000"
 export const school= `606dd5e4ad1a8604c70e1151`
 
