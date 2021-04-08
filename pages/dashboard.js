@@ -55,7 +55,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       } 
 
     } catch (error) {
-        redirectError(ctx)
+        // redirectError(ctx)
     }
   }
 )
