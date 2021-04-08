@@ -9,14 +9,14 @@ import { getAllClasses, getCurrentClassTests } from '../../redux/actions/classes
 import { getAllArms } from '../../redux/actions/arm';
 import { redirectError } from '../../services/redirectService';
 import { AuthToken } from '../../services/authToken';
-import { Menu, Row, Card, Dropdown, Table, Col,Avatar, Button } from 'antd';
+import { Menu, Row, Card, Dropdown, Table, Col,Avatar, Button, Typography } from 'antd';
 import { Edit, Trash,Save, Printer, MoreHorizontal, Phone , Mail, MapPin} from 'react-feather';
 import { theme } from '../../components/styles/GlobalStyles';
 import Router  from 'next/router';
 import { error, success } from '../../components/modal';
 import Axios from 'axios';
 import { school, url } from '../../redux/varables';
-import { capitalize, handleEnumScore, nth ,  printPDF, termTextToNUmbers,romanize  } from '../../lib/helpers';
+import { capitalize, handleEnumScore, nth ,  printPDF, termTextToNUmbers,romanize , grade } from '../../lib/helpers';
 import { getSchoolsSetting } from '../../redux/actions/school';
 
 const menu = (
@@ -99,21 +99,31 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
 
  const parseResultColumn =  (data)=>{
   let c=  []
-  c.push({
-    title:"Term",
-    children:[{title:"1st(100%)",key:"first", dataIndex:"first"},{title:"2nd (100%)",key:"second", dataIndex:"second"},{title:"3rd (100%)",key:"third", dataIndex:"third"}]
-   })
-  c.push({title:"Position",key:"position", dataIndex:"studentResults.position",  render: text => <span>{ text+nth(text)} </span>,})
-  c.push({title:"Class",
-     children:[{title:"High",key:"high", dataIndex:"studentResults.high"},{title:"Low",key:"low", dataIndex:"studentResults.low"},{title:"Avg",key:"avg", dataIndex:"studentResults.avg"}]
-  })
-  c.push({title:"Total (100)%",key:"total", dataIndex:"studentResults.total"})
-  let v =  data.map(({name, marksObtainable})=>({title:`${name+" ("+marksObtainable+")%"}`,key:name, dataIndex:"studentResults.scores" , 
+  let d = {  title: `${schoolSettings.term} Term Continuos Assessments`,   children: []}
+  let z = {  title: `${schoolSettings.term} Term Summary`,   children: []}
+  z.children.push({title:"Final Grade",key:"total", dataIndex:"studentResults.total",  render: text => <span>{ grade(text)} </span>})
+  z.children.push({title:"Position",key:"position", dataIndex:"studentResults.position",  render: text => <span>{ text+nth(text)} </span>,})
+  z.children.push({title:"Remarks",key:"position", dataIndex:"studentResults.position",  render: text => <span>             </span>,})
+  z.children.push({title:"Signature",key:"position", dataIndex:"studentResults.position",  render: text => <span>                </span>,})
+  c.push(z)
+  let v =  data.map(({name, marksObtainable})=>(  {title:`${name}`,key:name, dataIndex:"studentResults.scores" , 
   render:(value, item, index)=>{
      let testScore = value.find(x=> x.test === name)
-    return <span> { testScore ? testScore.score : " "} </span>
+     return <span> { testScore ? testScore.score : " "} </span>
   }}))
-  c.push(...v)
+
+  let x =  data.map(({name, marksObtainable})=>(  {title:`${name} ratio`,key:name , 
+  render:(value, item, index)=>{
+    return <span> {  marksObtainable} </span>
+  }}))
+  x.map((data, i)=>{
+    d.children.push(x[i])
+    d.children.push(v[i])
+  })
+  d.children= d.children.reverse()
+  d.children.push({title:"Total",key:"total", dataIndex:"studentResults.total"})
+  d.children.push({title:"Total Ratio",key:"total", render:()=>(<span>100</span>)})
+  c.push(d)
   c.push({title:"Subject",key:"subject", dataIndex:"subject"})
   c.push({title:"S/No",key:"index",render:(value, item, index)=> <span>{index+1}</span>})
   return [{title:"Student Result Records",children:c.reverse()}]
@@ -159,21 +169,22 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
       className="mb-4">
        <div id="result" className="p-4">
            <Row className="rowForm">
-                   <Col span={12}>
-                      <img className='banner' src={`${schoolSettings.schoolImageAsBlob}`}/>
+                   <Col span={6}>
+                      <img className='bannerDemo' src={`${schoolSettings.schoolImageAsBlob}`}/>
                    </Col>
                    <Col span={12}>
-                     <div className="description-form">
-                         <span className="textForm">  <Phone/> {schoolSettings.phoneNumber} </span>
-                         <span className="textForm"> <Mail/> {schoolSettings.email} </span>
-                         <span className="textForm"> <MapPin/>{schoolSettings.address} </span>
-                     </div>
+                         <Typography.Title level={2} style={{textAlign:"center", marginTop:0, }}> Ministry Of Education</Typography.Title> 
+                         <Typography.Title level={2} style={{textAlign:"center", marginTop:0}}> Edo State Nigeria</Typography.Title> 
+                         <Typography.Title level={4}  strong style={{textAlign:"center", marginTop:0}}> Individual Student  School Assessments Sheets</Typography.Title> 
+                   </Col>
+                   <Col span={6}>
+                    
                    </Col>
            </Row>
            <Row>
             <Col span={24}>
                <br/>
-               <span className="textForm"> Term Result for { termTextToNUmbers(schoolSettings.term)+nth(termTextToNUmbers(schoolSettings.term))} term  { schoolSettings.section} Section </span> 
+               <span className="textForm"> Result for { termTextToNUmbers(schoolSettings.term)+nth(termTextToNUmbers(schoolSettings.term))} term  { schoolSettings.section} Section </span> 
             </Col>
             </Row>
            <Row className="rowForm">
@@ -188,9 +199,14 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
             </div>
             </Col>
             <Col span={12}>
-              <div style={{textAlign:"end"}}>
-                <Avatar shape="square"  size={100}  src={results[position].passport}/>
-              </div>
+            <div style={{textAlign:"start"}}>
+                <span> House :  {`_________________`} </span>
+                <span style={{marginLeft:"20%"}}> Position In Class:  {results[position].position+nth(results[position].position)} </span>
+            </div>
+            <div style={{textAlign:"start", marginTop:"5%"}}>
+                <span> No of Times School Opened:  {100} </span>
+                <span style={{marginLeft:"12%"}}> No of Times School Absent:  {10} </span>
+            </div>
             </Col>
            </Row>
            <br/>
@@ -206,14 +222,14 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
                           <div style={{margin:"1rem",textAlign:"end"}}>
                           <span> { schoolSettings.term} Term Avg : {results[position].avg}% </span>
                               <br/> <br/>
-                            <span> Cumulative Term Avg : {results[position].cumulativeAvg}% </span>
+                            {/* <span> Cumulative Term Avg : {results[position].cumulativeAvg}% </span> */}
                           </div>
                       </Col>
                       <Col span={12}>
                          <div style={{margin:"1rem",textAlign:"end"}}>
                            <span> { schoolSettings.term} Term position : { results[position].position+nth(results[position].position)} </span>
                               <br/> <br/>
-                             <span> Cumulative Term Position : {results[position].cumulativePostion+nth(results[position].cumulativePostion)} </span>
+                             {/* <span> Cumulative Term Position : {results[position].cumulativePostion+nth(results[position].cumulativePostion)} </span> */}
                         </div>
                       </Col>
                     </Row>
@@ -223,15 +239,15 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
            </Row>
            <br/>
           <Row gutter={[16, 16]}>
-              <Col span={8}>
+              <Col span={12}>
                   <Table size="small" dataSource={results[position].resultBehaviours} pagination={false} bordered columns={parseColumn('behaviour')}/>
               </Col>
-            <Col span={8}>
+            <Col span={12}>
                 <Table size="small"  dataSource={results[position].resultSkills} pagination={false} bordered columns={parseColumn("skill")}/>
             </Col>
-            <Col  span={8}>
+            {/* <Col  span={8}>
                   <Table dataSource={[{opened:100, present:10, absent:90}]} size="small" pagination={false} bordered columns={parseAttendanceColumn()}/>
-              </Col>
+              </Col> */}
           </Row>
           <br/>
            <div>
@@ -243,11 +259,21 @@ const PrintResultPage = ({showResult,classes, sections,  arms, currentClassTests
              }
           </div>
           <br/>
-          <div>
-              <span> Signators</span>
-              <p> (i) Form Master: _________________________________ </p>
-              <p> (ii) Prinicipal :_________________________________  </p>
-          </div>
+               <div>
+                   <span> Report</span>
+                   <p> (i) Form Master Report: {`\n \n`} </p>
+                   <p> ________________________________________________________________________________________________________________________________________________________________________________ </p>
+                   <br/>
+     
+                   <p> (i) Principals Report : {`\n \n`} </p>
+                   <p> ________________________________________________________________________________________________________________________________________________________________________________ </p>
+                   <br/>
+               </div>  
+              <div>
+                 <span> Signatories</span>
+                 <p> (i) Form Master  : _________________________________ </p>
+                 <p> (ii) Principals   :_________________________________  </p>
+             </div>
           </div>
           <Button disabled={position===results.length-1? true :false} type="primary" onClick={next} > Next Student  </Button>
           <Button disabled={position===0? true :false} type="primary" onClick={previous}  style={{marginLeft:"1rem"}}> Previous Student  </Button>

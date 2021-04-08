@@ -37,6 +37,11 @@ a {
   height:6rem
 }
 
+.bannerDemo{
+  width:100%;
+  height: 200px
+}
+
 .bannerScratchCard{
   width:100%;
   height: 4rem;
