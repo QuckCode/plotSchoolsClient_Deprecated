@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@react-pdf/renderer": "1.6.8",
