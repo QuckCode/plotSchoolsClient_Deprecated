@@ -92,14 +92,14 @@ const PrintTestSheetPage = (props) => {
          render: (record) => {
             return <span> {record.admissionNumber}</span>;
          },
-         width: state.mobile ? 150 : 200,
+         width: state.mobile ? 150 : 150,
       },
       {
          title: "Name",
          render: (record) => {
             return <span> {record.name}</span>;
          },
-         width: state.mobile ? 150 : 200,
+         width: state.mobile ? 150 : 300,
       },
    ]);
 
