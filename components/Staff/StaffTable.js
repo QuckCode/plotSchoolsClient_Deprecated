@@ -104,7 +104,9 @@ const StaffTable = ({ staff }) => {
       setLoading(true);
       const filteredData = filter(data, ({ name }) => {
          let userFullName = name.firstName + name.srnName;
-         return userFullName.toLowerCase().indexOf(searchText) !== -1;
+         return (
+            userFullName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+         );
       });
       setTimeout(() => {
          setLoading(false);

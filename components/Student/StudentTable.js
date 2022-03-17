@@ -128,7 +128,9 @@ const StudentTable = ({ student }) => {
       setData([]);
       setLoading(true);
       const filteredData = filter(data, (record) => {
-         return record.name.toLowerCase().indexOf(searchText) !== -1;
+         return (
+            record.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+         );
       });
       setTimeout(() => {
          setLoading(false);
