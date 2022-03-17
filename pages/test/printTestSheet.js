@@ -99,6 +99,7 @@ const PrintTestSheetPage = (props) => {
          render: (record) => {
             return <span> {record.name}</span>;
          },
+         sorter: (a, b) => a.name.localeCompare(b.name),
          width: state.mobile ? 150 : 300,
       },
    ]);
