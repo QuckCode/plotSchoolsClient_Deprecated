@@ -4,9 +4,10 @@ import { useAppState } from "../shared/AppProvider";
 import { filter } from "lodash";
 import moment from "moment";
 import Router from "next/router";
+import axios from "axios";
 const Search = Input.Search;
 
-const StudentTable = ({ student }) => {
+const StudentTable = ({ student, onDelete }) => {
    //student.students student.loading
    const [tableHeight, setTableHeight] = React.useState(0);
    const [searchText, setSearchText] = React.useState("");
@@ -112,7 +113,13 @@ const StudentTable = ({ student }) => {
                >
                   <Icon type="edit" />
                </Button>
-               <Button style={{ marginLeft: 10 }} type="danger">
+               <Button
+                  onClick={() => {
+                     onDelete(x._id);
+                  }}
+                  style={{ marginLeft: 10 }}
+                  type="danger"
+               >
                   <Icon type="delete" />
                </Button>
             </div>
@@ -124,6 +131,7 @@ const StudentTable = ({ student }) => {
       setSearchText(e.target.value);
       onSearch(e);
    };
+
    const onSearch = (e) => {
       setData([]);
       setLoading(true);
