@@ -54,10 +54,9 @@ const Signin = ({
                <div className="text-center mb-5">
                   <Link href="/signin">
                      <a className="brand mr-0">
-                        <Grid size={32} strokeWidth={1} />
+                        <img src="../logo.svg" />
                      </a>
                   </Link>
-                  <h5 className="mb-0 mt-3">Login</h5>
                </div>
                <Divider />
                <Form
