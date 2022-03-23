@@ -1,0 +1,68 @@
+.wrapper{
+    display: flex;
+    background-color: #fff;
+    flex-direction: column;
+}
+
+.rightBox{
+  padding-top: 15%;
+  background-color: #007bff;
+  height: 80vh;
+}
+
+.leftBox{
+    background-color: #007bff;
+    height: 80vh;
+}
+
+.boxImage {
+    margin: 15% 0px;
+    height: 80%;
+}
+
+.textWrapper{
+    width: 80%;
+    margin: auto;
+}
+
+.buttonWrapper{
+    width: 80%;
+    margin: auto;
+    margin-top: 4%;
+}
+.plotSchool {
+    color: #fff !important;
+    font-size:50px !important;
+    font-weight: bolder !important;
+    margin-bottom: 0.2em !important;
+}
+
+.plotSchoolExplained {
+    color: #fff !important;
+    font-size:18px !important;
+    font-weight: 300 !important
+}
+.contactUs {  
+    color: #007bff !important;
+    font-size: 18px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.features {
+    height: 80vh;
+    background: linear-gradient(40deg, #034892 0% ,#2f54eb 29%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1%;
+    flex-direction:column;
+}
+
+
+.featuresList {
+    height: 80%;
+    width: 90%;
+}
+
+

@@ -1,26 +1,18 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
-import HomeHeader from '../components/HomeHeader';
-import { NotPrivateRoute } from '../components/NotPrivateRoute';
-import Overview from '../components/Overview';
-import Demo from '../demos/antd/carousel/demo';
-import '../node_modules/react-vis/dist/style.css';
+import Head from "next/head";
+import HomeHeader from "../components/HomeHeader";
+import { Row, Col } from "antd";
+import "../node_modules/react-vis/dist/style.css";
+import HomePage from "../components/HomePage";
 
 const IndexPage = () => {
-  return(
-    <>
-    <Head>
-      <link rel="stylesheet" href="/static/react-vis.css" />
-    </Head>
-     <HomeHeader/>
-     <Demo/>
-     
-  </>
-  )
+   return (
+      <>
+         <Head>
+            <link rel="stylesheet" href="/static/react-vis.css" />
+         </Head>
+         <HomePage />
+      </>
+   );
 };
-
-
 
 export default IndexPage;
