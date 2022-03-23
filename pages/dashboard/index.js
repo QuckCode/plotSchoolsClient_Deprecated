@@ -27,7 +27,8 @@ const DashboardPage = ({
    userType,
    smsBalance,
    smsSent,
-   oldSchoolSettings,
+   section,
+   term,
 }) => {
    return (
       <>
@@ -40,7 +41,8 @@ const DashboardPage = ({
             loadingTotalGraph={loading}
             smsBalance={smsBalance}
             smsSent={smsSent}
-            schoolSettings={oldSchoolSettings}
+            section={section}
+            term={term}
          />
       </>
    );
@@ -74,7 +76,8 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
             userType: propStore.auth.user.userType,
             smsBalance: propStore.sms.balance,
             smsSent: propStore.sms.messages.length,
-            oldSchoolSettings: propStore.schools.settings,
+            section: propStore.schools.settings?.section,
+            term: propStore.schools.settings?.term,
          },
       };
    } catch (error) {
