@@ -17,94 +17,93 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+import React from "react";
+import { Row, Select } from "antd";
 
-import { Row, Select } from 'antd';
-
-import D3FlareData from '../datasets/d3-flare-example.json';
-import ShowcaseButton from '../showcase-components/showcase-button';
-import Treemap from 'react-vis/dist/treemap';
+import D3FlareData from "../datasets/d3-flare-example.json";
+import ShowcaseButton from "../showcase-components/showcase-button";
+import Treemap from "react-vis/dist/treemap";
 const Option = Select.Option;
 
-
 const MODE = [
-  'circlePack',
-  'partition',
-  'partition-pivot',
-  'squarify',
-  'resquarify',
-  'slice',
-  'dice',
-  'slicedice',
-  'binary'
+   "circlePack",
+   "partition",
+   "partition-pivot",
+   "squarify",
+   "resquarify",
+   "slice",
+   "dice",
+   "slicedice",
+   "binary",
 ];
 
 const STYLES = {
-  SVG: {
-    stroke: '#fff',
-    strokeWidth: '0.25',
-    strokeOpacity: 0.5
-  },
-  DOM: {
-    border: 'thin solid #fff'
-  }
+   SVG: {
+      stroke: "#fff",
+      strokeWidth: "0.25",
+      strokeOpacity: 0.5,
+   },
+   DOM: {
+      border: "thin solid #fff",
+   },
 };
 
 export default class SimpleTreemapExample extends React.Component {
-  state = {
-    modeIndex: MODE[0],
-    useSVG: true
-  };
+   state = {
+      modeIndex: MODE[0],
+      useSVG: true,
+   };
 
-  updateModeIndex = value => {
-    this.setState({
-      modeIndex: value
-    });
-  };
+   updateModeIndex = (value) => {
+      this.setState({
+         modeIndex: value,
+      });
+   };
 
-  render() {
-    const { modeIndex, useSVG } = this.state;
+   render() {
+      const { modeIndex, useSVG } = this.state;
 
-    return (
-      <div className="centered-and-flexed">
-        <Row type="flex" align="middle" justify="center">
-          <Select
-            defaultValue={modeIndex}
-            onChange={this.updateModeIndex}
-            size="small"
-            className="mx-3"
-          >
-            {MODE.map((mode, index) => (
-              <Option value={mode} key={index}>
-                {mode}
-              </Option>
-            ))}
-          </Select>
-          <ShowcaseButton
-            onClick={() => this.setState({ useSVG: !useSVG })}
-            buttonContent={useSVG ? 'Use dom' : 'use SVG'}
-          />
-        </Row>
-        <Row type="flex" align="middle" justify="center">
-          <Treemap
-            className="m-auto d-block"
-            {...{
-              animation: true,
-              className: 'nested-tree-example',
-              colorType: 'literal',
-              colorRange: ['#007bff'],
-              data: D3FlareData,
-              mode: modeIndex,
-              renderMode: useSVG ? 'SVG' : 'DOM',
-              height: 300,
-              width: 350,
-              margin: 10,
-              getSize: d => d.value,
-              getColor: d => d.hex,
-              style: STYLES[useSVG ? 'SVG' : 'DOM']
-            }}
-          />
-        </Row>
-      </div>
-    );
-  }
+      return (
+         <div className="centered-and-flexed">
+            <Row type="flex" align="middle" justify="center">
+               <Select
+                  defaultValue={modeIndex}
+                  onChange={this.updateModeIndex}
+                  size="small"
+                  className="mx-3"
+               >
+                  {MODE.map((mode, index) => (
+                     <Option value={mode} key={index}>
+                        {mode}
+                     </Option>
+                  ))}
+               </Select>
+               <ShowcaseButton
+                  onClick={() => this.setState({ useSVG: !useSVG })}
+                  buttonContent={useSVG ? "Use dom" : "use SVG"}
+               />
+            </Row>
+            <Row type="flex" align="middle" justify="center">
+               <Treemap
+                  className="m-auto d-block"
+                  {...{
+                     animation: true,
+                     className: "nested-tree-example",
+                     colorType: "literal",
+                     colorRange: ["#007bff"],
+                     data: D3FlareData,
+                     mode: modeIndex,
+                     renderMode: useSVG ? "SVG" : "DOM",
+                     height: 300,
+                     width: 350,
+                     margin: 10,
+                     getSize: (d) => d.value,
+                     getColor: (d) => d.hex,
+                     style: STYLES[useSVG ? "SVG" : "DOM"],
+                  }}
+               />
+            </Row>
+         </div>
+      );
+   }
 }

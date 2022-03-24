@@ -18,14 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import D3FlareData from '../datasets/d3-flare-example.json';
-import { EXTENDED_DISCRETE_COLOR_RANGE } from 'react-vis/dist/theme';
-import { LabelSeries } from 'react-vis';
-import Sunburst from 'react-vis/dist/sunburst';
+import React from "react";
+import D3FlareData from "../datasets/d3-flare-example.json";
+import { EXTENDED_DISCRETE_COLOR_RANGE } from "react-vis/dist/theme";
+import { LabelSeries } from "react-vis";
+import Sunburst from "react-vis/dist/sunburst";
 
 const LABEL_STYLE = {
-  fontSize: '8px',
-  textAnchor: 'middle'
+   fontSize: "8px",
+   textAnchor: "middle",
 };
 
 /**
@@ -34,13 +35,13 @@ const LABEL_STYLE = {
  * @returns {Array} an array of strings describing the key route to the current node
  */
 function getKeyPath(node) {
-  if (!node.parent) {
-    return ['root'];
-  }
+   if (!node.parent) {
+      return ["root"];
+   }
 
-  return [(node.data && node.data.name) || node.name].concat(
-    getKeyPath(node.parent)
-  );
+   return [(node.data && node.data.name) || node.name].concat(
+      getKeyPath(node.parent)
+   );
 }
 
 /**
@@ -51,89 +52,93 @@ function getKeyPath(node) {
  * @returns {Object} Updated tree structure
  */
 function updateData(data, keyPath) {
-  if (data.children) {
-    data.children.map(child => updateData(child, keyPath));
-  }
-  // add a fill to all the uncolored cells
-  if (!data.hex) {
-    data.style = {
-      fill: EXTENDED_DISCRETE_COLOR_RANGE[5]
-    };
-  }
-  data.style = {
-    ...data.style,
-    fillOpacity: keyPath && !keyPath[data.name] ? 0.2 : 1
-  };
+   if (data.children) {
+      data.children.map((child) => updateData(child, keyPath));
+   }
+   // add a fill to all the uncolored cells
+   if (!data.hex) {
+      data.style = {
+         fill: EXTENDED_DISCRETE_COLOR_RANGE[5],
+      };
+   }
+   data.style = {
+      ...data.style,
+      fillOpacity: keyPath && !keyPath[data.name] ? 0.2 : 1,
+   };
 
-  return data;
+   return data;
 }
 
 const decoratedData = updateData(D3FlareData, false);
 
 export default class BasicSunburst extends React.Component {
-  state = {
-    pathValue: false,
-    data: decoratedData,
-    finalValue: 'SUNBURST',
-    clicked: false
-  };
+   state = {
+      pathValue: false,
+      data: decoratedData,
+      finalValue: "SUNBURST",
+      clicked: false,
+   };
 
-  render() {
-    const { clicked, data, finalValue, pathValue } = this.state;
-    return (
-      <div className="basic-sunburst-example-wrapper">
-        <div>
-          {clicked ? 'click to unlock selection' : 'click to lock selection'}
-        </div>
-        <Sunburst
-          animation
-          className="basic-sunburst-example m-auto"
-          hideRootNode
-          onValueMouseOver={node => {
-            if (clicked) {
-              return;
-            }
-            const path = getKeyPath(node).reverse();
-            const pathAsMap = path.reduce((res, row) => {
-              res[row] = true;
-              return res;
-            }, {});
-            this.setState({
-              finalValue: path[path.length - 1],
-              pathValue: path.join(' > '),
-              data: updateData(decoratedData, pathAsMap)
-            });
-          }}
-          onValueMouseOut={() =>
-            clicked
-              ? () => {}
-              : this.setState({
-                  pathValue: false,
-                  finalValue: false,
-                  data: updateData(decoratedData, false)
-                })
-          }
-          onValueClick={() => this.setState({ clicked: !clicked })}
-          style={{
-            stroke: '#ddd',
-            strokeOpacity: 0.3,
-            strokeWidth: '0.5'
-          }}
-          colorType="literal"
-          getSize={d => d.value}
-          getColor={d => d.hex}
-          data={data}
-          height={300}
-          width={350}
-        >
-          {finalValue && (
-            <LabelSeries
-              data={[{ x: 0, y: 0, label: finalValue, style: LABEL_STYLE }]}
-            />
-          )}
-        </Sunburst>
-        <div className="basic-sunburst-example-path-name">{pathValue}</div>
-      </div>
-    );
-  }
+   render() {
+      const { clicked, data, finalValue, pathValue } = this.state;
+      return (
+         <div className="basic-sunburst-example-wrapper">
+            <div>
+               {clicked
+                  ? "click to unlock selection"
+                  : "click to lock selection"}
+            </div>
+            <Sunburst
+               animation
+               className="basic-sunburst-example m-auto"
+               hideRootNode
+               onValueMouseOver={(node) => {
+                  if (clicked) {
+                     return;
+                  }
+                  const path = getKeyPath(node).reverse();
+                  const pathAsMap = path.reduce((res, row) => {
+                     res[row] = true;
+                     return res;
+                  }, {});
+                  this.setState({
+                     finalValue: path[path.length - 1],
+                     pathValue: path.join(" > "),
+                     data: updateData(decoratedData, pathAsMap),
+                  });
+               }}
+               onValueMouseOut={() =>
+                  clicked
+                     ? () => {}
+                     : this.setState({
+                          pathValue: false,
+                          finalValue: false,
+                          data: updateData(decoratedData, false),
+                       })
+               }
+               onValueClick={() => this.setState({ clicked: !clicked })}
+               style={{
+                  stroke: "#ddd",
+                  strokeOpacity: 0.3,
+                  strokeWidth: "0.5",
+               }}
+               colorType="literal"
+               getSize={(d) => d.value}
+               getColor={(d) => d.hex}
+               data={data}
+               height={300}
+               width={350}
+            >
+               {finalValue && (
+                  <LabelSeries
+                     data={[
+                        { x: 0, y: 0, label: finalValue, style: LABEL_STYLE },
+                     ]}
+                  />
+               )}
+            </Sunburst>
+            <div className="basic-sunburst-example-path-name">{pathValue}</div>
+         </div>
+      );
+   }
 }

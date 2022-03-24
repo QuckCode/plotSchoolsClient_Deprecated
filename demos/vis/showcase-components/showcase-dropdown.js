@@ -18,39 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class ShowcaseDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
+   constructor(props) {
+      super(props);
+      this.state = {
+         open: false,
+      };
+   }
 
-  toggleState = () => {
-    this.setState({ open: !this.state.open });
-  };
+   toggleState = () => {
+      this.setState({ open: !this.state.open });
+   };
 
-  render() {
-    const { items } = this.props;
-    const { open } = this.state;
-    return (
-      <div className="dropdown-wrapper">
-        <div className="dropdown-button" onClick={this.toggleState}>
-          {'SELECT SECTION'}
-        </div>
-        {open && (
-          <div className="background-overlay" onClick={this.toggleState} />
-        )}
-        {open && <ul className="dropdown-inner-wrapper">{items}</ul>}
-      </div>
-    );
-  }
+   render() {
+      const { items } = this.props;
+      const { open } = this.state;
+      return (
+         <div className="dropdown-wrapper">
+            <div className="dropdown-button" onClick={this.toggleState}>
+               {"SELECT SECTION"}
+            </div>
+            {open && (
+               <div className="background-overlay" onClick={this.toggleState} />
+            )}
+            {open && <ul className="dropdown-inner-wrapper">{items}</ul>}
+         </div>
+      );
+   }
 }
 
 ShowcaseDropdown.PropTypes = {
-  items: PropTypes.arrayOf(PropTypes.component)
+   items: PropTypes.arrayOf(PropTypes.component),
 };
 
 export default ShowcaseDropdown;
