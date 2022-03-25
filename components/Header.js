@@ -33,7 +33,7 @@ const MainHeader = ({ user }) => {
             )}
             <Link href="/">
                <a className="brand">
-                  <img src="../logo.svg" />
+                  <img src="/logo.svg" />
                </a>
             </Link>
 
