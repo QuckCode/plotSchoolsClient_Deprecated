@@ -30,9 +30,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
       await store.dispatch(
          loginSuccess(data.decodedToken, data.decodedToken.userType)
       );
-      let staffId = data.decodedToken._id;
       await store.dispatch(getSchoolsSetting(data.decodedToken.school));
       let propStore = await store.getState();
+      console.log(propStore.auth);
       return {
          props: {
             user: propStore.auth.user,
