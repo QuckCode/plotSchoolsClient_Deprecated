@@ -98,7 +98,6 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const GET_USER_SETTING = "GET_USER_SETTING";
-export const TOKEN_LOCATION = "gsgsgs";
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 
@@ -201,7 +200,7 @@ export const FETCH_SCHOOL_BALANCE = "FETCH_SCHOOL_BALANCE";
 export const FETCH_SCHOOL_MESSAGES = "FETCH_SCHOOL_MESSAGES";
 
 ///parts
-// export const url ="http://localhost:4000"
+export const url = "http://localhost:4000";
 // export const school= `5f8c7ee1b9776e05f105a6db`
 
 // export const url ="http://localhost:4000"
@@ -210,11 +209,12 @@ export const FETCH_SCHOOL_MESSAGES = "FETCH_SCHOOL_MESSAGES";
 // export const url = "https://plotapi-tets.herokuapp.com";
 export const school = `5f9183cad035174e94992476`;
 
-export const url = "https://demoplot.herokuapp.com";
+// export const url = "https://demoplot.herokuapp.com";
 // //  export const school= `606f1167be0e6c00153f0460`
 
 export const student = "student";
 export const staff = "staff";
+export const TOKEN_STORAGE_KEY = "plot.authToken";
 
 //scratchCard
 
