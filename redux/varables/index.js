@@ -209,7 +209,7 @@ export const FETCH_SCHOOL_MESSAGES = "FETCH_SCHOOL_MESSAGES";
 // export const url = "https://plotapi-tets.herokuapp.com";
 export const school = `5f9183cad035174e94992476`;
 
-export const url = "https://demoplot.herokuapp.com";
+export const url = "https://plotschool-api.herokuapp.com";
 // //  export const school= `606f1167be0e6c00153f0460`
 
 export const student = "student";
