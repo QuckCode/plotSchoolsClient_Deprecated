@@ -32,7 +32,6 @@ export const createTest = (data) => {
             return Promise.resolve();
          })
          .catch(({ response }) => {
-            console.log(response.data);
             dispatch(createTestError(response.data));
             return Promise.reject(response.data);
          });
