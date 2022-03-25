@@ -65,6 +65,22 @@ export const getAllClasses = (schoolID) => {
    };
 };
 
+export const getStaffClasses = (staffId) => {
+   return (dispatch) => {
+      dispatch(getAllClassesBegin());
+      return axios
+         .get(`${url}/staff/classes/${staffId}`)
+         .then(({ data }) => {
+            console.log(data);
+            dispatch(getAllClassesSuccess(data));
+         })
+         .catch((error) => {
+            dispatch(getAllClassesError(error));
+            return Promise.resolve(error);
+         });
+   };
+};
+
 const getAllClassesBegin = () => ({
    type: FETCH_ALL_CLASSES_BEGIN,
 });

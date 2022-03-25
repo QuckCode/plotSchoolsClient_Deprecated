@@ -53,7 +53,6 @@ export const getAllStaffs = (schoolID) => {
       return axios
          .get(`${url}/staff/${school}`)
          .then(({ data }) => {
-            console.log(data);
             dispatch(getAllStaffsSuccess(data));
          })
          .catch((error) => {
