@@ -1,21 +1,14 @@
 import { Card, Divider, Row, Typography, Button, Menu, Dropdown } from "antd";
-import RegisterStaff from "../../components/Staff/RegisterStaff";
-import styled from "styled-components";
 import { theme } from "../../components/styles/GlobalStyles";
 import { Edit, MoreHorizontal, Printer, Save, Trash } from "react-feather";
-import SubjectTable from "../../components/Subject/ViewSubject";
-import { getAllStudents } from "../../redux/actions/student";
+import { getAllClasses } from "../../redux/actions/classes";
 import { connect } from "react-redux";
-import React from "react";
-import { getAllSubjects } from "../../redux/actions/subject";
-const Title = Typography.Title;
+import { useEffect } from "react";
 import { PrivateRoute } from "../../components/PrivateRoute";
-
-const Content = styled.div`
-  z-index: 0;
-  min-width: 300px;,
-  backgroundColor:'#f0f0f0'
-`;
+import ClassTableSubjectGroup from "../../components/Classes/ClassTableSubjectGroup";
+import axios from "axios";
+import { success, error } from "../../components/modal";
+import { url } from "../../redux/varables";
 
 const menu = (
    <Menu>
@@ -47,17 +40,29 @@ const menu = (
    </Menu>
 );
 
-const ViewSubjectsPage = ({ getAllSubjects, subject }) => {
-   React.useEffect(() => {
-      getAllSubjects();
+const SetHasSubjectGroup = ({ classes, getAllClasses }) => {
+   const setHasSubjectGroup = async (hasSubjectGroup, classId) => {
+      try {
+         await axios.post(`${url}/class/hasSubjectGroup`, {
+            hasSubjectGroup,
+            classId,
+         });
+         await getAllClasses();
+         success("Set Class Has Subjects");
+      } catch (err) {
+         error(error.title || " Error Occurred", error.message);
+      }
+   };
+   useEffect(() => {
+      getAllClasses();
       return () => {
-         // Anything in here is fired on component unmount.
-         getAllSubjects();
+         getAllClasses();
       };
    }, []);
+
    return (
       <Card
-         title="View  Subjects"
+         title="View  Classes"
          extra={
             <Dropdown overlay={menu}>
                <MoreHorizontal
@@ -70,21 +75,24 @@ const ViewSubjectsPage = ({ getAllSubjects, subject }) => {
          bodyStyle={{ padding: 0, height: "100%" }}
          className="mb-10"
       >
-         <Content>
-            <SubjectTable data={subject.subjects} loading={subject.loading} />
-         </Content>
+         <div className="p-4">
+            <ClassTableSubjectGroup
+               classes={classes}
+               setHasSubjectGroup={setHasSubjectGroup}
+            />
+         </div>
       </Card>
    );
 };
 
 const mapStateToProps = (state) => ({
-   subject: state.subject,
+   classes: state.classes,
 });
 
 const mapDispatchToProps = {
-   getAllSubjects: getAllSubjects,
+   getAllClasses: getAllClasses,
 };
 
 export default PrivateRoute(
-   connect(mapStateToProps, mapDispatchToProps)(ViewSubjectsPage)
+   connect(mapStateToProps, mapDispatchToProps)(SetHasSubjectGroup)
 );

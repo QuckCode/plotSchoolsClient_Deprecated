@@ -147,7 +147,6 @@ const mapDispatchToProps = {};
 export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
    const store = ctx.store;
    let data = await AuthToken.fromNext(ctx);
-   console.log(data);
    await store.dispatch(
       loginSuccess(data.decodedToken, data.decodedToken.userType)
    );
