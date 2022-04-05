@@ -59,6 +59,12 @@ export const FETCH_CURRENT_STAFF_BEGIN = "FETCH_CURRENT_STAFF_BEGIN";
 export const FETCH_CURRENT_STAFF_ERROR = "FETCH_CURRENT_STAFF_ERROR";
 export const FETCH_CURRENT_STAFF_SUCCESS = "FETCH_CURRENT_STAFF_SUCCESS";
 
+// Subject Group
+export const FETCH_ALL_SUBJECT_GROUP_BEGIN = "FETCH_ALL_SUBJECT_GROUP_BEGIN";
+export const FETCH_ALL_SUBJECT_GROUP_ERROR = "FETCH_ALL_SUBJECT_GROUP_ERROR";
+export const FETCH_ALL_SUBJECT_GROUP_SUCCESS =
+   "FETCH_ALL_SUBJECT_GROUP_SUCCESS";
+
 //subject and class
 export const CREATE_SUBJECT_BEGIN = "CREATE_SUBJECT_BEGIN";
 export const CREATE_SUBJECT_SUCCESS = "CREATE_SUBJECT_SUCCESS";
@@ -203,13 +209,13 @@ export const FETCH_SCHOOL_MESSAGES = "FETCH_SCHOOL_MESSAGES";
 // export const url = "http://localhost:4000";
 // export const school= `5f8c7ee1b9776e05f105a6db`
 
-// export const url ="http://localhost:4000"
+export const url = "http://localhost:4000";
 // export const school= `606dd5e4ad1a8604c70e1151`
 
 // export const url = "https://plotapi-tets.herokuapp.com";
 export const school = `5f9183cad035174e94992476`;
 
-export const url = "https://plotschool-api.herokuapp.com";
+// export const url = "https://plotschool-api.herokuapp.com";
 // //  export const school= `606f1167be0e6c00153f0460`
 
 export const student = "student";

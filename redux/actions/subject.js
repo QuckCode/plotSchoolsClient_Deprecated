@@ -14,6 +14,9 @@ import {
    REMOVE_CLASS_SUBJECT_BEGIN,
    REMOVE_CLASS_SUBJECT_SUCCESS,
    REMOVE_CLASS_SUBJECT_ERROR,
+   FETCH_ALL_SUBJECT_GROUP_BEGIN,
+   FETCH_ALL_SUBJECT_GROUP_SUCCESS,
+   FETCH_ALL_SUBJECT_GROUP_ERROR,
    url,
    school,
 } from "../varables";
@@ -194,6 +197,41 @@ const getCurrentClassSubjectsSuccess = (currentClassSubjects) => ({
 
 const getCurrentClassSubjectsError = (error) => ({
    type: FETCH_ALL_SUBJECTS_IN_CURRENT_CLASS_ERROR,
+   payload: {
+      error,
+   },
+});
+
+export const getAllSubjectGroup = (schoolID) => {
+   return (dispatch) => {
+      dispatch(getAllSubjectGroupBegin());
+      return axios
+         .get(`${url}/subjectGroup/school/${school}`)
+         .then(({ data }) => {
+            console.log(data);
+            dispatch(getAllSubjectGroupSuccess(data));
+            return Promise.resolve();
+         })
+         .catch(({ response }) => {
+            dispatch(getAllSubjectGroupError(response.data));
+            return Promise.reject(response.data);
+         });
+   };
+};
+
+const getAllSubjectGroupBegin = () => ({
+   type: FETCH_ALL_SUBJECT_GROUP_BEGIN,
+});
+
+const getAllSubjectGroupSuccess = (subjectsGroup) => ({
+   type: FETCH_ALL_SUBJECT_GROUP_SUCCESS,
+   payload: {
+      subjectsGroup,
+   },
+});
+
+const getAllSubjectGroupError = (error) => ({
+   type: FETCH_ALL_SUBJECT_GROUP_ERROR,
    payload: {
       error,
    },
