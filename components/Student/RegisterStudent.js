@@ -41,6 +41,7 @@ class RegistrationStudent extends React.Component {
                school: school,
             });
          }
+         this.props.form.resetFields();
       });
    };
 

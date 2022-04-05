@@ -82,6 +82,7 @@ class EditStudent extends Component {
                school: school,
             });
          }
+         this.props.form.resetFields();
       });
    };
 
