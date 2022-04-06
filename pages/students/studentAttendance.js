@@ -59,7 +59,8 @@ const StudentAttendance = ({ classes, sections, arms, subjectsGroup }) => {
       Axios.get(`${url}/arm/students/${value.arm}`)
          .then(({ data }) => {
             setHideTable(false);
-            setStudents({ loading: false, students: data }), setLoading(true);
+            setStudents({ loading: false, students: data });
+            setLoading(false);
          })
          .catch((err) => {
             let { title, message } = err.response.data;

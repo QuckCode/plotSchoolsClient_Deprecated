@@ -56,7 +56,7 @@ const SubjectGroupByArm = ({ classes, sections, arms, subjectsGroup }) => {
             Axios.get(`${url}/arm/students/${value.arm}`).then(({ data }) => {
                setHideTable(false);
                setStudents({ loading: false, students: data }),
-                  setLoading(true);
+                  setLoading(false);
             });
          })
          .catch((err) => {
