@@ -53,26 +53,26 @@ const menu = (
    <Menu>
       <Menu.Item>
          <Row type="flex" align="middle">
-            <Edit size={16} strokeWidth={1} className="mr-3" />{" "}
+            <Edit size={16} strokeWidth={1} className="mr-3" />
             <span>Edit</span>
          </Row>
       </Menu.Item>
       <Menu.Item>
          <Row type="flex" align="middle">
-            <Trash size={16} strokeWidth={1} className="mr-3" />{" "}
+            <Trash size={16} strokeWidth={1} className="mr-3" />
             <span>Delete</span>
          </Row>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>
          <Row type="flex" align="middle">
-            <Save size={16} strokeWidth={1} className="mr-3" />{" "}
+            <Save size={16} strokeWidth={1} className="mr-3" />
             <span>Save as</span>
          </Row>
       </Menu.Item>
       <Menu.Item>
          <Row type="flex" align="middle">
-            <Printer size={16} strokeWidth={1} className="mr-3" />{" "}
+            <Printer size={16} strokeWidth={1} className="mr-3" />
             <span>Print</span>
          </Row>
       </Menu.Item>
@@ -148,6 +148,8 @@ const PrintResultPage = ({
    };
 
    const parseResultColumn = (data) => {
+      console.log(results);
+      console.log(data);
       let c = [];
       let d = {
          title: `${schoolSettings.term} Term Continuos Assessments`,
@@ -184,8 +186,11 @@ const PrintResultPage = ({
          key: name,
          dataIndex: "studentResults.scores",
          render: (value, item, index) => {
-            let testScore = value.find((x) => x.test === name);
-            return <span> {testScore ? testScore.score : " "} </span>;
+            if (value) {
+               let testScore = value.find((x) => x.test === name);
+               return <span> {testScore ? testScore.score : " "} </span>;
+            }
+            return <span> </span>;
          },
       }));
 
@@ -226,11 +231,6 @@ const PrintResultPage = ({
          {
             title: capitalize(name + " Records "),
             children: [
-               {
-                  title: "S/No",
-                  key: "index",
-                  render: (value, item, index) => <span>{index + 1}</span>,
-               },
                { title: capitalize(name), key: name, dataIndex: name },
                {
                   title: "Grade",
@@ -337,38 +337,29 @@ const PrintResultPage = ({
                   <Col span={24}>
                      <br />
                      <span className="textForm">
-                        {" "}
-                        Result for{" "}
+                        Result for
                         {termTextToNUmbers(schoolSettings.term) +
-                           nth(termTextToNUmbers(schoolSettings.term))}{" "}
-                        term {schoolSettings.section} Section{" "}
+                           nth(termTextToNUmbers(schoolSettings.term))}
+                        term {schoolSettings.section} Section
                      </span>
                   </Col>
                </Row>
                <Row className="rowForm">
                   <Col span={12}>
                      <div style={{ textAlign: "start" }}>
-                        <span>
-                           {" "}
-                           Name of student : {results[position].name}{" "}
-                        </span>
+                        <span>Name of student : {results[position].name}</span>
                         <span style={{ marginLeft: "20%" }}>
-                           {" "}
-                           Class: {results[position].class}{" "}
-                           {results[position].arm}{" "}
+                           Class: {results[position].class}
+                           {results[position].arm}
                         </span>
                      </div>
                      <div style={{ textAlign: "start", marginTop: "5%" }}>
                         <span>
-                           {" "}
-                           Admission Number: {
-                              results[position].admissionNumber
-                           }{" "}
+                           Admission Number: {results[position].admissionNumber}
                         </span>
                         <span style={{ marginLeft: "12%" }}>
-                           {" "}
-                           Gender:{" "}
-                           {results[position].gender ? "Male" : "Female"}{" "}
+                           Gender:
+                           {results[position].gender ? "Male" : "Female"}
                         </span>
                      </div>
                   </Col>
@@ -376,17 +367,19 @@ const PrintResultPage = ({
                      <div style={{ textAlign: "start" }}>
                         <span> House : {`_________________`} </span>
                         <span style={{ marginLeft: "20%" }}>
-                           {" "}
-                           Position In Class:{" "}
+                           Position In Class:
                            {results[position].position +
-                              nth(results[position].position)}{" "}
+                              nth(results[position].position)}
                         </span>
                      </div>
                      <div style={{ textAlign: "start", marginTop: "5%" }}>
-                        <span> No of Times School Opened: {100} </span>
+                        <span>
+                           No of Times School Opened:
+                           {schoolSettings.openedDays}
+                        </span>
                         <span style={{ marginLeft: "12%" }}>
-                           {" "}
-                           No of Times School Absent: {10}{" "}
+                           No of Times School Present:
+                           {results[position]?.present}
                         </span>
                      </div>
                   </Col>
@@ -407,9 +400,8 @@ const PrintResultPage = ({
                                     style={{ margin: "1rem", textAlign: "end" }}
                                  >
                                     <span>
-                                       {" "}
-                                       {schoolSettings.term} Term Avg :{" "}
-                                       {results[position].avg}%{" "}
+                                       {schoolSettings.term} Term Avg :
+                                       {results[position].avg}%
                                     </span>
                                     <br /> <br />
                                     {/* <span> Cumulative Term Avg : {results[position].cumulativeAvg}% </span> */}
@@ -420,10 +412,9 @@ const PrintResultPage = ({
                                     style={{ margin: "1rem", textAlign: "end" }}
                                  >
                                     <span>
-                                       {" "}
-                                       {schoolSettings.term} Term position :{" "}
+                                       {schoolSettings.term} Term position :
                                        {results[position].position +
-                                          nth(results[position].position)}{" "}
+                                          nth(results[position].position)}
                                     </span>
                                     <br /> <br />
                                     {/* <span> Cumulative Term Position : {results[position].cumulativePostion+nth(results[position].cumulativePostion)} </span> */}
@@ -463,8 +454,7 @@ const PrintResultPage = ({
                   <span> NOTICES: </span>
                   {schoolSettings.notice.map((x, no) => (
                      <p>
-                        {" "}
-                        ({romanize(no + 1)}) {x}{" "}
+                        ({romanize(no + 1)}) {x}
                      </p>
                   ))}
                </div>
@@ -473,15 +463,13 @@ const PrintResultPage = ({
                   <span> Report</span>
                   <p> (i) Form Master Report: {`\n \n`} </p>
                   <p>
-                     {" "}
-                     ________________________________________________________________________________________________________________________________________________________________________________{" "}
+                     ________________________________________________________________________________________________________________________________________________________________________________
                   </p>
                   <br />
 
                   <p> (i) Principals Report : {`\n \n`} </p>
                   <p>
-                     {" "}
-                     ________________________________________________________________________________________________________________________________________________________________________________{" "}
+                     ________________________________________________________________________________________________________________________________________________________________________________
                   </p>
                   <br />
                </div>
@@ -496,8 +484,7 @@ const PrintResultPage = ({
                type="primary"
                onClick={next}
             >
-               {" "}
-               Next Student{" "}
+               Next Student
             </Button>
             <Button
                disabled={position === 0 ? true : false}
@@ -505,24 +492,21 @@ const PrintResultPage = ({
                onClick={previous}
                style={{ marginLeft: "1rem" }}
             >
-               {" "}
-               Previous Student{" "}
+               Previous Student
             </Button>
             <Button
                onClick={() => printPDF("result")}
                type="primary"
                style={{ marginLeft: "1rem" }}
             >
-               {" "}
-               Prints Student Result{" "}
+               Prints Student Result
             </Button>
             <Button
                onClick={printAll}
                type="primary"
                style={{ marginLeft: "1rem" }}
             >
-               {" "}
-               Prints All Student Result{" "}
+               Prints All Student Result
             </Button>
          </Card>
       );
@@ -578,6 +562,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
             },
          };
    } catch (error) {
+      console.log(error);
       redirectError(ctx);
    }
 });

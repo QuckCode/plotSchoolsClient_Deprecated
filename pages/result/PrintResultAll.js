@@ -153,8 +153,11 @@ const PrintResultPage = ({
          key: name,
          dataIndex: "studentResults.scores",
          render: (value, item, index) => {
-            let testScore = value.find((x) => x.test === name);
-            return <span> {testScore ? testScore.score : " "} </span>;
+            if (value) {
+               let testScore = value.find((x) => x.test === name);
+               return <span> {testScore ? testScore.score : " "} </span>;
+            }
+            return <span> </span>;
          },
       }));
       c.push(...v);
@@ -256,7 +259,10 @@ const PrintResultPage = ({
             </Button>
             {results.map((x, i) => (
                <Card
-                  style={{ margin: "5%", marginTop: i == 0 ? "0%" : "5%" }}
+                  key={i}
+                  style={{
+                     marginTop: i == 0 ? 0 : 100,
+                  }}
                   className="result"
                >
                   <Row className="rowForm">
@@ -295,7 +301,7 @@ const PrintResultPage = ({
                         </span>
                      </Col>
                   </Row>
-                  <Row className="rowForm">
+                  <Row style={{ height: 100 }} className="rowForm">
                      <Col span={12}>
                         <div style={{ textAlign: "start" }}>
                            <span> Name of student : {results[i].name} </span>
@@ -338,7 +344,7 @@ const PrintResultPage = ({
                                           {schoolSettings.term} Term Avg :
                                           {results[i].avg}%
                                        </span>
-                                       <br /> <br />
+                                       <br />
                                        <span>
                                           Cumulative Term Avg :
                                           {results[i].cumulativeAvg}%
@@ -357,7 +363,7 @@ const PrintResultPage = ({
                                           {results[i].position +
                                              nth(results[i].position)}
                                        </span>
-                                       <br /> <br />
+                                       <br />
                                        <span>
                                           Cumulative Term Position :
                                           {results[i].cumulativePostion +
@@ -393,7 +399,10 @@ const PrintResultPage = ({
                      <Col span={8}>
                         <Table
                            dataSource={[
-                              { opened: 100, present: 10, absent: 90 },
+                              {
+                                 opened: schoolSettings.openedDays,
+                                 present: results[i].present,
+                              },
                            ]}
                            size="small"
                            pagination={false}

@@ -248,7 +248,7 @@ const PrintPreviousResultPage = ({
             className="mb-4"
          >
             <div id="result" className="p-4">
-               <Row className="rowForm">
+               <Row>
                   <Col span={12}>
                      <img
                         style={{ width: "30%", height: 100 }}
