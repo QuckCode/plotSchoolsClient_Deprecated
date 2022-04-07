@@ -187,7 +187,7 @@ const PrintResultPage = ({
       });
       c.push(d);
       c.push({ title: "Subject", key: "subject", dataIndex: "subject" });
-      return [{ title: "Student Result Records", children: c.reverse() }];
+      return [{ title: "Record Of Student`s Result ", children: c.reverse() }];
    };
 
    const parseColumn = (name) => {
@@ -309,11 +309,11 @@ const PrintResultPage = ({
                      <Col span={24}>
                         <br />
                         <span>
-                           Term Result :
+                           Termly Result :
                            {" " +
                               termTextToNUmbers(schoolSettings.term) +
-                              " " +
-                              nth(termTextToNUmbers(schoolSettings.term))}
+                              nth(termTextToNUmbers(schoolSettings.term)) +
+                              " "}
                            term {schoolSettings.section} Section
                         </span>
                      </Col>
@@ -430,7 +430,7 @@ const PrintResultPage = ({
                   </Row>
                   <br />
                   <div>
-                     <span> NOTICES: </span>
+                     <span> NOTICE: </span>
                      {schoolSettings.notice.map((x, no) => (
                         <p>
                            ({romanize(no + 1)}) {x}
@@ -439,8 +439,10 @@ const PrintResultPage = ({
                   </div>
                   <br />
                   <div>
-                     <span> Signatories</span>
+                     <span> Signed </span>
                      <p> (i) Form Master: _________________________________ </p>
+                     <br />
+                     <br />
                      <p> (ii) Principal :_________________________________ </p>
                   </div>
                   <br />
