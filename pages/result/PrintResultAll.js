@@ -358,14 +358,10 @@ const PrintResultPage = ({
                                        }}
                                     >
                                        <span>
-                                          {schoolSettings.term} Term Avg :
-                                          {results[i].avg}%
+                                          {schoolSettings.term} Term Total :
+                                          {results[i].cumulativeTotal}
                                        </span>
                                        <br />
-                                       <span>
-                                          Cummulative Term Avg :
-                                          {results[i].cumulativeAvg}%
-                                       </span>
                                     </div>
                                  </Col>
                                  <Col span={12}>
@@ -381,11 +377,6 @@ const PrintResultPage = ({
                                              nth(results[i].position)}
                                        </span>
                                        <br />
-                                       <span>
-                                          Cummulative Term Position :
-                                          {results[i].cumulativePostion +
-                                             nth(results[i].cumulativePostion)}
-                                       </span>
                                     </div>
                                  </Col>
                               </Row>
