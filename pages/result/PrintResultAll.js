@@ -125,7 +125,7 @@ const PrintResultPage = ({
       console.log(data);
       let c = [];
       let d = {
-         title: `${schoolSettings.term} Term Continuos Assessments`,
+         title: `${schoolSettings.term} Term Continuous Assessments`,
          children: [],
       };
       let z = { title: `${schoolSettings.term} Term Summary`, children: [] };
@@ -309,8 +309,10 @@ const PrintResultPage = ({
                      <Col span={24}>
                         <br />
                         <span>
-                           Term Result for
-                           {termTextToNUmbers(schoolSettings.term) +
+                           Term Result :
+                           {" " +
+                              termTextToNUmbers(schoolSettings.term) +
+                              " " +
                               nth(termTextToNUmbers(schoolSettings.term))}
                            term {schoolSettings.section} Section
                         </span>
@@ -361,7 +363,7 @@ const PrintResultPage = ({
                                        </span>
                                        <br />
                                        <span>
-                                          Cumulative Term Avg :
+                                          Cummulative Term Avg :
                                           {results[i].cumulativeAvg}%
                                        </span>
                                     </div>
@@ -380,7 +382,7 @@ const PrintResultPage = ({
                                        </span>
                                        <br />
                                        <span>
-                                          Cumulative Term Position :
+                                          Cummulative Term Position :
                                           {results[i].cumulativePostion +
                                              nth(results[i].cumulativePostion)}
                                        </span>
