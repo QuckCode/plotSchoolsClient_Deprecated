@@ -33,6 +33,7 @@ import {
    printPDFMultiple,
    termTextToNUmbers,
    romanize,
+   grade,
 } from "../../lib/helpers";
 import Axios from "axios";
 import { school, url } from "../../redux/varables";
@@ -120,16 +121,21 @@ const PrintResultPage = ({
    };
 
    const parseResultColumn = (data) => {
+      console.log(results);
+      console.log(data);
       let c = [];
-      c.push({
-         title: "Term",
-         children: [
-            { title: "1st(100%)", key: "first", dataIndex: "first" },
-            { title: "2nd (100%)", key: "second", dataIndex: "second" },
-            { title: "3rd (100%)", key: "third", dataIndex: "third" },
-         ],
+      let d = {
+         title: `${schoolSettings.term} Term Continuos Assessments`,
+         children: [],
+      };
+      let z = { title: `${schoolSettings.term} Term Summary`, children: [] };
+      z.children.push({
+         title: "Final Grade",
+         key: "total",
+         dataIndex: "studentResults.total",
+         render: (text) => <span>{grade(text)} </span>,
       });
-      c.push({
+      z.children.push({
          title: "Position",
          key: "position",
          dataIndex: "studentResults.position",
@@ -148,8 +154,10 @@ const PrintResultPage = ({
          key: "total",
          dataIndex: "studentResults.total",
       });
+
+      c.push(z);
       let v = data.map(({ name, marksObtainable }) => ({
-         title: `${name + " (" + marksObtainable + ")%"}`,
+         title: `${name}`,
          key: name,
          dataIndex: "studentResults.scores",
          render: (value, item, index) => {
@@ -160,13 +168,25 @@ const PrintResultPage = ({
             return <span> </span>;
          },
       }));
-      c.push(...v);
-      c.push({ title: "Subject", key: "subject", dataIndex: "subject" });
-      c.push({
-         title: "S/No",
-         key: "index",
-         render: (value, item, index) => <span>{index + 1}</span>,
+
+      let x = data.map(({ name, marksObtainable }) => ({
+         title: `${name} ratio`,
+         key: name,
+         render: (value, item, index) => {
+            return <span> {marksObtainable} </span>;
+         },
+      }));
+      x.map((data, i) => {
+         d.children.push(v[i]);
       });
+      d.children = d.children.reverse();
+      d.children.push({
+         title: "Total",
+         key: "total",
+         dataIndex: "studentResults.total",
+      });
+      c.push(d);
+      c.push({ title: "Subject", key: "subject", dataIndex: "subject" });
       return [{ title: "Student Result Records", children: c.reverse() }];
    };
 
@@ -175,11 +195,6 @@ const PrintResultPage = ({
          {
             title: capitalize(name + " Records "),
             children: [
-               {
-                  title: "S/No",
-                  key: "index",
-                  render: (value, item, index) => <span>{index + 1}</span>,
-               },
                { title: capitalize(name), key: name, dataIndex: name },
                {
                   title: "Grade",
