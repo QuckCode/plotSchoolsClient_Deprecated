@@ -412,9 +412,8 @@ const PrintResultPage = ({
                                     style={{ margin: "1rem", textAlign: "end" }}
                                  >
                                     <span>
-                                       {schoolSettings.term} Term position :
-                                       {results[position].position +
-                                          nth(results[position].position)}
+                                       {schoolSettings.term} Term Total :
+                                       {results[position].total}
                                     </span>
                                     <br /> <br />
                                     {/* <span> Cumulative Term Position : {results[position].cumulativePostion+nth(results[position].cumulativePostion)} </span> */}

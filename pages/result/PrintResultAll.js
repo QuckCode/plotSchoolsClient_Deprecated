@@ -372,9 +372,8 @@ const PrintResultPage = ({
                                        }}
                                     >
                                        <span>
-                                          {schoolSettings.term} Term position :
-                                          {results[i].position +
-                                             nth(results[i].position)}
+                                          {schoolSettings.term} Term Average :
+                                          {results[i].avg + "%"}
                                        </span>
                                        <br />
                                     </div>
