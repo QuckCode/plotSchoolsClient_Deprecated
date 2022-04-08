@@ -168,18 +168,7 @@ const PrintResultPage = ({
          dataIndex: "studentResults.position",
          render: (text) => <span>{text + nth(text)} </span>,
       });
-      z.children.push({
-         title: "Remarks",
-         key: "position",
-         dataIndex: "studentResults.position",
-         render: (text) => <span> </span>,
-      });
-      z.children.push({
-         title: "Signature",
-         key: "position",
-         dataIndex: "studentResults.position",
-         render: (text) => <span> </span>,
-      });
+
       c.push(z);
       let v = data.map(({ name, marksObtainable }) => ({
          title: `${name}`,
@@ -365,7 +354,6 @@ const PrintResultPage = ({
                   </Col>
                   <Col span={12}>
                      <div style={{ textAlign: "start" }}>
-                        <span> House : {`_________________`} </span>
                         <span style={{ marginLeft: "20%" }}>
                            Position In Class:
                            {results[position].position +
@@ -413,7 +401,8 @@ const PrintResultPage = ({
                                  >
                                     <span>
                                        {schoolSettings.term} Term Total :
-                                       {results[position].total}
+                                       {results[position].position +
+                                          nth(results[position].position)}
                                     </span>
                                     <br /> <br />
                                     {/* <span> Cumulative Term Position : {results[position].cumulativePostion+nth(results[position].cumulativePostion)} </span> */}
@@ -457,24 +446,11 @@ const PrintResultPage = ({
                      </p>
                   ))}
                </div>
-               <br />
-               <div>
-                  <span> Report</span>
-                  <p> (i) Form Master Report: {`\n \n`} </p>
-                  <p>
-                     ________________________________________________________________________________________________________________________________________________________________________________
-                  </p>
-                  <br />
-
-                  <p> (i) Principals Report : {`\n \n`} </p>
-                  <p>
-                     ________________________________________________________________________________________________________________________________________________________________________________
-                  </p>
-                  <br />
-               </div>
                <div>
                   <span> Signatories</span>
                   <p> (i) Form Master : _________________________________ </p>
+                  <br />
+                  <br />
                   <p> (ii) Principals :_________________________________ </p>
                </div>
             </div>
