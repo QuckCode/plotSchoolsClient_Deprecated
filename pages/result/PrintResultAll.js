@@ -257,11 +257,7 @@ const PrintResultPage = ({
       );
    } else {
       return (
-         <div
-            style={{ width: "100%", height: "100%" }}
-            onKeyDown={(e) => console.log(e)}
-            className="mb-4"
-         >
+         <div onKeyDown={(e) => console.log(e)} className="mb-4">
             <Button
                onClick={() => {
                   success("Print has started it might  take a while");
@@ -273,17 +269,18 @@ const PrintResultPage = ({
                Prints All Student Result
             </Button>
             {results.map((x, i) => (
-               <Card
+               <div
                   key={i}
                   style={{
-                     marginTop: i == 0 ? 0 : 100,
+                     pageBreakInside: "avoid",
+                     pageBreakAfter: "always",
                   }}
                   className="result"
                >
                   <Row className="rowForm">
                      <Col span={16}>
                         <img
-                           style={{ width: "80%", height: 100 }}
+                           style={{ width: "80%", height: 60 }}
                            className="banner"
                            src={schoolSettings.schoolImageAsBlob}
                         />
@@ -326,7 +323,7 @@ const PrintResultPage = ({
                               Class: {results[i].class} {results[i].arm}
                            </span>
                         </div>
-                        <div style={{ textAlign: "start", marginTop: "5%" }}>
+                        <div style={{ textAlign: "start", marginTop: "3%" }}>
                            <span>
                               Admission Number: {results[i].admissionNumber}
                            </span>
@@ -433,14 +430,13 @@ const PrintResultPage = ({
                      <span> Signed </span>
                      <p> (i) Form Master: _________________________________ </p>
                      <br />
-                     <br />
                      <p> (ii) Principal :_________________________________ </p>
                   </div>
                   <br />
                   <br />
                   <br />
                   <br />
-               </Card>
+               </div>
             ))}
          </div>
       );
