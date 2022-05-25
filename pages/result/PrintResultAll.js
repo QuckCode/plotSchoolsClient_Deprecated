@@ -347,7 +347,21 @@ const PrintResultPage = ({
                            columns={parseResultColumn(currentClassTests)}
                            footer={() => (
                               <Row gutter={[16, 16]}>
-                                 <Col span={12}>
+                                 <Col span={8}>
+                                    <div
+                                       style={{
+                                          margin: "1rem",
+                                          textAlign: "end",
+                                       }}
+                                    >
+                                       <span>
+                                          {schoolSettings.term} Term Avg :
+                                          {results[i].avg}%
+                                       </span>
+                                       <br />
+                                    </div>
+                                 </Col>
+                                 <Col span={8}>
                                     <div
                                        style={{
                                           margin: "1rem",
@@ -356,12 +370,12 @@ const PrintResultPage = ({
                                     >
                                        <span>
                                           {schoolSettings.term} Term Total :
-                                          {results[i].cumulativeTotal}
+                                          {results[i].totalScore}
                                        </span>
                                        <br />
                                     </div>
                                  </Col>
-                                 <Col span={12}>
+                                 <Col span={8}>
                                     <div
                                        style={{
                                           margin: "1rem",

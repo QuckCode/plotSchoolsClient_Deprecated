@@ -154,8 +154,17 @@ const PrintResultPage = ({
       let d = {
          title: `${schoolSettings.term} Term Continuos Assessments`,
          children: [],
+         align: "center",
       };
       let z = { title: `${schoolSettings.term} Term Summary`, children: [] };
+      c.push({
+         title: "Class",
+         children: [
+            { title: "High", key: "high", dataIndex: "studentResults.high" },
+            { title: "Low", key: "low", dataIndex: "studentResults.low" },
+            { title: "Avg", key: "avg", dataIndex: "studentResults.avg" },
+         ],
+      });
       z.children.push({
          title: "Final Grade",
          key: "total",
@@ -191,7 +200,7 @@ const PrintResultPage = ({
          },
       }));
       x.map((data, i) => {
-         d.children.push(x[i]);
+         // d.children.push(x[i]);
          d.children.push(v[i]);
       });
       d.children = d.children.reverse();
@@ -421,6 +430,7 @@ const PrintResultPage = ({
                         dataSource={results[position].resultBehaviours}
                         pagination={false}
                         bordered
+                        align="center"
                         columns={parseColumn("behaviour")}
                      />
                   </Col>
