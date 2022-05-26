@@ -129,7 +129,7 @@ const PrintResultPage = ({
       };
       let z = { title: `${schoolSettings.term} Term Summary`, children: [] };
       z.children.push({
-         title: "Final Grade",
+         title: "Grade",
          key: "total",
          dataIndex: "studentResults.total",
          render: (text) => <p className="center-text">{grade(text)} </p>,
@@ -138,30 +138,7 @@ const PrintResultPage = ({
          title: "Position",
          key: "position",
          dataIndex: "studentResults.position",
-         render: (text) => <p className="center-text">{text} </p>,
-      });
-      c.push({
-         title: "Class",
-         children: [
-            {
-               title: "High",
-               key: "high",
-               dataIndex: "studentResults.high",
-               render: (text) => <p className="center-text">{text} </p>,
-            },
-            {
-               title: "Low",
-               key: "low",
-               dataIndex: "studentResults.low",
-               render: (text) => <p className="center-text">{text} </p>,
-            },
-            {
-               title: "Avg",
-               key: "avg",
-               dataIndex: "studentResults.avg",
-               render: (text) => <p className="center-text">{text} </p>,
-            },
-         ],
+         render: (text) => <p className="center-text">{text + nth(text)} </p>,
       });
       c.push({
          title: "Total (100)%",
@@ -201,7 +178,29 @@ const PrintResultPage = ({
       d.children = d.children.sort((a, b) =>
          collator.compare(a.title, b.title)
       );
-
+      d.children.push({
+         title: "Class",
+         children: [
+            {
+               title: "High",
+               key: "high",
+               dataIndex: "studentResults.high",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
+            {
+               title: "Low",
+               key: "low",
+               dataIndex: "studentResults.low",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
+            {
+               title: "Avg",
+               key: "avg",
+               dataIndex: "studentResults.avg",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
+         ],
+      });
       d.children.push({
          title: "Total",
          key: "total",
