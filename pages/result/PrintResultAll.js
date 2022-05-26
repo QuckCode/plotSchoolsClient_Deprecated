@@ -280,7 +280,7 @@ const PrintResultPage = ({
                   <Row className="rowForm">
                      <Col span={16}>
                         <img
-                           style={{ width: "80%", height: 60 }}
+                           style={{ width: "80%", height: 100 }}
                            className="banner"
                            src={schoolSettings.schoolImageAsBlob}
                         />
