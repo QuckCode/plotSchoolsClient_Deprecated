@@ -34,6 +34,7 @@ import {
    termTextToNUmbers,
    romanize,
    grade,
+   collator,
 } from "../../lib/helpers";
 import Axios from "axios";
 import { school, url } from "../../redux/varables";
@@ -197,7 +198,10 @@ const PrintResultPage = ({
       x.map((data, i) => {
          d.children.push(v[i]);
       });
-      d.children = d.children.reverse();
+      d.children = d.children.sort((a, b) =>
+         collator.compare(a.title, b.title)
+      );
+
       d.children.push({
          title: "Total",
          key: "total",

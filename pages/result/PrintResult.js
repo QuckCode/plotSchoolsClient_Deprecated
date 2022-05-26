@@ -46,6 +46,7 @@ import {
    termTextToNUmbers,
    romanize,
    grade,
+   collator,
 } from "../../lib/helpers";
 import { getSchoolsSetting } from "../../redux/actions/school";
 
@@ -203,7 +204,9 @@ const PrintResultPage = ({
          // d.children.push(x[i]);
          d.children.push(v[i]);
       });
-      d.children = d.children.reverse();
+      d.children = d.children.sort((a, b) =>
+         collator.compare(a.title, b.title)
+      );
       d.children.push({
          title: "Total",
          key: "total",
