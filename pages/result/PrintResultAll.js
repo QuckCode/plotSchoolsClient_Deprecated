@@ -121,8 +121,6 @@ const PrintResultPage = ({
    };
 
    const parseResultColumn = (data) => {
-      console.log(results);
-      console.log(data);
       let c = [];
       let d = {
          title: `${schoolSettings.term} Term Continuous Assessments`,
@@ -133,26 +131,42 @@ const PrintResultPage = ({
          title: "Final Grade",
          key: "total",
          dataIndex: "studentResults.total",
-         render: (text) => <span>{grade(text)} </span>,
+         render: (text) => <p className="center-text">{grade(text)} </p>,
       });
       z.children.push({
          title: "Position",
          key: "position",
          dataIndex: "studentResults.position",
-         render: (text) => <span>{text + nth(text)} </span>,
+         render: (text) => <p className="center-text">{text} </p>,
       });
       c.push({
          title: "Class",
          children: [
-            { title: "High", key: "high", dataIndex: "studentResults.high" },
-            { title: "Low", key: "low", dataIndex: "studentResults.low" },
-            { title: "Avg", key: "avg", dataIndex: "studentResults.avg" },
+            {
+               title: "High",
+               key: "high",
+               dataIndex: "studentResults.high",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
+            {
+               title: "Low",
+               key: "low",
+               dataIndex: "studentResults.low",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
+            {
+               title: "Avg",
+               key: "avg",
+               dataIndex: "studentResults.avg",
+               render: (text) => <p className="center-text">{text} </p>,
+            },
          ],
       });
       c.push({
          title: "Total (100)%",
          key: "total",
          dataIndex: "studentResults.total",
+         render: (text) => <p className="center-text">{text} </p>,
       });
 
       c.push(z);
@@ -163,7 +177,11 @@ const PrintResultPage = ({
          render: (value, item, index) => {
             if (value) {
                let testScore = value.find((x) => x.test === name);
-               return <span> {testScore ? testScore.score : " "} </span>;
+               return (
+                  <p className="center-text">
+                     {testScore ? testScore.score : " "}
+                  </p>
+               );
             }
             return <span> </span>;
          },
@@ -173,7 +191,7 @@ const PrintResultPage = ({
          title: `${name} ratio`,
          key: name,
          render: (value, item, index) => {
-            return <span> {marksObtainable} </span>;
+            return <span className="center-text">{marksObtainable}</span>;
          },
       }));
       x.map((data, i) => {
@@ -184,6 +202,7 @@ const PrintResultPage = ({
          title: "Total",
          key: "total",
          dataIndex: "studentResults.total",
+         render: (text) => <p className="center-text">{text} </p>,
       });
       c.push(d);
       c.push({ title: "Subject", key: "subject", dataIndex: "subject" });
