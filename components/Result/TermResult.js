@@ -185,21 +185,29 @@ export default function TermResult({
             </Col>
          </Row>
          <Row style={{ height: 100 }} className="rowForm">
-            <Col span={12}>
+            <Col span={16}>
                <div style={{ textAlign: "start" }}>
-                  <span> Name of student : {result.name} </span>
-                  <span style={{ marginLeft: "10%" }}>
-                     Class: {result.class} {result.arm}
+                  <span>
+                     Name of student : <u> {result.name} </u>
                   </span>
                </div>
                <div style={{ textAlign: "start", marginTop: "3%" }}>
-                  <span>Admission Number: {result.admissionNumber}</span>
+                  <span>
+                     Admission Number: <xu>{result.admissionNumber} </xu>
+                  </span>
                   <span style={{ marginLeft: "10%" }}>
-                     Gender: {result.gender ? "Male" : "Female"}
+                     Class:
+                     <u>
+                        {result.class} {result.arm}
+                     </u>
+                  </span>
+
+                  <span style={{ marginLeft: "10%" }}>
+                     Gender: <u> {result.gender ? "Male" : "Female"} </u>
                   </span>
                </div>
             </Col>
-            <Col span={12}>
+            <Col span={8}>
                <div style={{ textAlign: "end" }}></div>
             </Col>
          </Row>
@@ -320,10 +328,10 @@ export default function TermResult({
                <span>
                   <span> Signed: </span>
                   <span>
-                     (i) Form Master: _________________________________{" "}
+                     (i) Form Master: _________________________________
                   </span>
                   <span>
-                     ` (ii) Principal :_________________________________{" "}
+                     ` (ii) Principal :_________________________________
                   </span>
                </span>
             </Col>
