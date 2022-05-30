@@ -294,13 +294,16 @@ export default function TermResult({
                   columns={parseAttendanceColumn()}
                />
                <div>
-                  <QRCodeSVG
-                     style={{ margin: "auto" }}
-                     value={`https://plotschool.com/qrcode/student/${result.admissionNumber}`}
-                  />
+                  <div style={{ marginTop: "10%", marginLeft: "30%" }}>
+                     <QRCodeSVG
+                        value={`https://plotschool.com/qrcode/student/${result.admissionNumber}`}
+                     />
+                  </div>
                </div>
             </Col>
          </Row>
+         <br />
+         <br />
          <br />
          <Row>
             <Col span={24}>
