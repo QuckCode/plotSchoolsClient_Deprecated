@@ -145,12 +145,6 @@ const PrintResultPage = ({
             bodyStyle={{ padding: "1rem" }}
             className="mb-4"
          >
-            <TermResult
-               result={results[position]}
-               schoolSettings={schoolSettings}
-               currentClassTests={currentClassTests}
-            />
-            <br />
             <Button
                disabled={position === results.length - 1 ? true : false}
                type="primary"
@@ -180,6 +174,15 @@ const PrintResultPage = ({
             >
                Prints All Student Result
             </Button>
+            <br />
+            <div id="result">
+               <TermResult
+                  result={results[position]}
+                  schoolSettings={schoolSettings}
+                  currentClassTests={currentClassTests}
+               />
+            </div>
+            <br />
          </Card>
       );
    }
