@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Table, Col } from "antd";
+import { Row, Table, Col, Typography } from "antd";
 import { Phone, Mail, MapPin } from "react-feather";
 import {
    capitalize,
@@ -137,6 +137,13 @@ export default function TermResult({
             ],
          },
       ];
+   };
+
+   const isPromoted = (term, avg, text) => {
+      if (term == "Third") {
+         if (avg >= 40) return "Promoted to Next Class";
+      }
+      return "";
    };
 
    return (
@@ -315,6 +322,9 @@ export default function TermResult({
          <br />
          <Row>
             <Col span={24}>
+               <h5>{isPromoted(schoolSettings.term, result.avg)}</h5>
+               <br />
+               <br />
                <span>
                   <span> NOTICE: </span>
                   {schoolSettings.notice.map((x, no) => (
