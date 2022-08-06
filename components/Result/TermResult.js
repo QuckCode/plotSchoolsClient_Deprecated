@@ -142,6 +142,7 @@ export default function TermResult({
    const isPromoted = (term, avg, text) => {
       if (term == "Third") {
          if (avg >= 40) return "Promoted to Next Class";
+         return "Advised To Repeat";
       }
       return "";
    };
