@@ -180,6 +180,7 @@ const PrintResultPage = ({
                   result={results[position]}
                   schoolSettings={schoolSettings}
                   currentClassTests={currentClassTests}
+                  totalStudent={results.length}
                />
             </div>
             <br />

@@ -60,11 +60,11 @@ const PrintResultPage = ({
                      result={x}
                      currentClassTests={currentClassTests}
                      schoolSettings={schoolSettings}
+                     totalStudent={results.length}
                   />
                   <br />
                </div>
             ))}
-            
          </div>
       );
    }

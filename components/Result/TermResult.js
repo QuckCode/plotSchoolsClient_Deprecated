@@ -16,6 +16,7 @@ export default function TermResult({
    schoolSettings,
    result,
    currentClassTests,
+   totalStudent,
 }) {
    const parseResultColumn = (data) => {
       let c = [];
@@ -231,45 +232,25 @@ export default function TermResult({
                   footer={() => (
                      <Row gutter={[16, 16]}>
                         <Col span={8}>
-                           <div
-                              style={{
-                                 margin: "1rem",
-                                 textAlign: "end",
-                              }}
-                           >
-                              <span>
-                                 {schoolSettings.term} Term Avg :{result.avg}%
-                              </span>
-                              <br />
-                           </div>
+                           <span style={{ padding: "3rem" }}>
+                              {schoolSettings.term} Term Avg :{result.avg}%
+                           </span>
                         </Col>
                         <Col span={8}>
-                           <div
-                              style={{
-                                 margin: "1rem",
-                                 textAlign: "end",
-                              }}
-                           >
-                              <span>
-                                 {schoolSettings.term} Term Total :
-                                 {result.totalScore}
-                              </span>
-                              <br />
-                           </div>
+                           <span style={{ padding: "3rem" }}>
+                              {schoolSettings.term} Term Total :
+                              {result.totalScore}
+                           </span>
                         </Col>
                         <Col span={8}>
-                           <div
-                              style={{
-                                 margin: "1rem",
-                                 textAlign: "end",
-                              }}
-                           >
-                              <span>
-                                 Position :
-                                 {result.position + nth(result.position)}
-                              </span>
-                              <br />
-                           </div>
+                           <span style={{ padding: "3rem" }}>
+                              Position :{result.position + nth(result.position)}
+                           </span>
+                        </Col>
+                        <Col span={8}>
+                           <span style={{ padding: "3rem" }}>
+                              Total Student In Class :{totalStudent}
+                           </span>
                         </Col>
                      </Row>
                   )}
@@ -323,7 +304,7 @@ export default function TermResult({
          <br />
          <Row>
             <Col span={24}>
-               <h5>{isPromoted(schoolSettings.term, result.avg)}</h5>
+               <h3>{isPromoted(schoolSettings.term, result.avg)}</h3>
                <br />
                <br />
                <span>
