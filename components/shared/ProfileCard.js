@@ -76,32 +76,12 @@ const ProfileCard = ({
                      className="mb-4"
                   >
                      <Picture>
-                        <Button
-                           shape="circle"
-                           type="primary"
-                           size="large"
-                           onClick={messageHandler}
-                           className="message"
-                        >
-                           <MessageCircle size={16} strokeWidth={1} />
-                        </Button>
-
                         <Avatar
                            alt={name}
                            src={avatar}
                            size={128}
                            className="shadow"
                         />
-
-                        <Button
-                           shape="circle"
-                           type="primary"
-                           size="large"
-                           onClick={callHandler}
-                           className="phone"
-                        >
-                           <PhoneCall size={16} strokeWidth={1} />
-                        </Button>
                      </Picture>
                   </Row>
                   <h2> Name: {name}</h2>
