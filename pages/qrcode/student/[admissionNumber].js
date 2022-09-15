@@ -7,17 +7,16 @@ import NotFound from "../../../components/NotFound";
 import ProfileCard from "../../../components/shared/ProfileCard";
 
 const StudentQRPage = ({ error, data, message }) => {
-   console.log(error, data);
    if (!error && data !== null) {
-      console.log(data);
       return (
          <ProfileCard
-            name="hhch jcjdjc "
-            images={[
-               "https://one.nyasha.vercel.app/images/avatar.jpg",
-               "https://one.nyasha.vercel.app/images/avatar.jpg",
-            ]}
-            stats={[100, 100]}
+            name={data.name}
+            avatar={data.avatar}
+            admissionNumber={data.admissionNumber}
+            gender={data.gender == "M" ? "Male" : "Female"}
+            className={data.class}
+            phone={data.phone}
+            school={data.school.name}
          />
       );
    } else {
