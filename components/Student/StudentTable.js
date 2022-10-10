@@ -7,7 +7,7 @@ import Router from "next/router";
 import axios from "axios";
 const Search = Input.Search;
 
-const StudentTable = ({ student, onDelete }) => {
+const StudentTable = ({ student, onDelete, hideActions }) => {
    //student.students student.loading
    const [tableHeight, setTableHeight] = React.useState(0);
    const [searchText, setSearchText] = React.useState("");
