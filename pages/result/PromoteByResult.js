@@ -114,7 +114,7 @@ const PromoteByResultPage = ({showResult,classes, sections,  arms, currentClassT
   if(!showResult){
     return (
       <Card 
-      title="Compute Result "
+      title="Promote Result "
        extra={
         <Dropdown overlay={menu}>
           <MoreHorizontal size={20} strokeWidth={1} fill={theme.textColor} />
