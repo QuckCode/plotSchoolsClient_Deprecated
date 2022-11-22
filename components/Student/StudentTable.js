@@ -7,7 +7,7 @@ import Router from "next/router";
 import axios from "axios";
 const Search = Input.Search;
 
-const StudentTable = ({ student, onDelete, hideActions }) => {
+const StudentTable = ({ student, onDelete, hideActions = true }) => {
    //student.students student.loading
    const [tableHeight, setTableHeight] = React.useState(0);
    const [searchText, setSearchText] = React.useState("");
@@ -95,35 +95,36 @@ const StudentTable = ({ student, onDelete, hideActions }) => {
          key: "operation",
          fixed: "right",
          width: state.mobile ? 100 : 150,
-         render: (x) => (
-            <div>
-               {" "}
-               <Button
-                  onClick={() => {
-                     Router.push(
-                        `/students/edit/${
-                           !x.admissionNumber
-                              ? "empty"
-                              : x.admissionNumber.replaceAll("/", "-")
-                        }`
-                     );
-                  }}
-                  type="primary"
-                  htmlType="submit"
-               >
-                  <Icon type="edit" />
-               </Button>
-               <Button
-                  onClick={() => {
-                     onDelete(x._id);
-                  }}
-                  style={{ marginLeft: 10 }}
-                  type="danger"
-               >
-                  <Icon type="delete" />
-               </Button>
-            </div>
-         ),
+         render: (x) =>
+            hideActions && (
+               <div>
+                  {" "}
+                  <Button
+                     onClick={() => {
+                        Router.push(
+                           `/students/edit/${
+                              !x.admissionNumber
+                                 ? "empty"
+                                 : x.admissionNumber.replaceAll("/", "-")
+                           }`
+                        );
+                     }}
+                     type="primary"
+                     htmlType="submit"
+                  >
+                     <Icon type="edit" />
+                  </Button>
+                  <Button
+                     onClick={() => {
+                        onDelete(x._id);
+                     }}
+                     style={{ marginLeft: 10 }}
+                     type="danger"
+                  >
+                     <Icon type="delete" />
+                  </Button>
+               </div>
+            ),
       },
    ];
 

@@ -55,7 +55,6 @@ export const getAllClasses = (schoolID) => {
       return axios
          .get(`${url}/class/${school}`)
          .then(({ data }) => {
-            console.log(data);
             dispatch(getAllClassesSuccess(data));
          })
          .catch((error) => {
