@@ -5,7 +5,7 @@ import { filter } from "lodash";
 import moment from "moment";
 import Router from "next/router";
 import axios from "axios";
-import { dataToExcel } from "../../lib/helpers";
+import { dataToExcel, jsonToCsvConvertor } from "../../lib/helpers";
 const Search = Input.Search;
 
 const StudentTable = ({ student, onDelete, hideActions = true }) => {
