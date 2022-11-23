@@ -5,6 +5,7 @@ import { filter } from "lodash";
 import moment from "moment";
 import Router from "next/router";
 import axios from "axios";
+import { dataToExcel } from "../../lib/helpers";
 const Search = Input.Search;
 
 const StudentTable = ({ student, onDelete, hideActions = true }) => {
@@ -133,6 +134,10 @@ const StudentTable = ({ student, onDelete, hideActions = true }) => {
       onSearch(e);
    };
 
+   const exportAsCsv = () => {
+      dataToExcel(data, "StudentData");
+   };
+
    const onSearch = (e) => {
       setData([]);
       setLoading(true);
@@ -174,6 +179,7 @@ const StudentTable = ({ student, onDelete, hideActions = true }) => {
             dataSource={data}
             scroll={{ x: state.mobile ? 950 : 1500, y: tableHeight }}
          />
+         <Button onClick={exportAsCsv}> Export To Excel</Button>
       </div>
    );
 };
