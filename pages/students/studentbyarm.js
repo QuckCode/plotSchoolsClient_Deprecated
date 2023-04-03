@@ -21,9 +21,9 @@ import { url } from "../../redux/varables";
 const Title = Typography.Title;
 
 const Content = styled.div`
-  z-index: 0;
-  min-width: 300px;,
-  backgroundColor:'#f0f0f0'
+   z-index: 0;
+   min-width: "300px";
+   background-color: "#f0f0f0";
 `;
 
 const menu = (
