@@ -49,12 +49,12 @@ describe("ArmTable", () => {
 
    test("handles loading state", () => {
       const loadingArm = { ...sampleArm, loading: true };
-      render(
+      let { container } = render(
          <AppProvider>
             <ArmTable arm={loadingArm} />
          </AppProvider>
       );
-
-      expect(screen.getByTestId("table-loading")).toBeInTheDocument();
+      let loaderItem = container.getElementsByClassName("ant-spin-dot-item");
+      expect(loaderItem.length).toBe(4);
    });
 });
