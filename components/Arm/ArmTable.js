@@ -59,7 +59,7 @@ const ArmTable = ({ arm }) => {
          pagination={false}
          loading={arm.loading}
          dataSource={arm.arms}
-         scroll={{ x: state.mobile || false ? 200 : 300, y: tableHeight }}
+         scroll={{ x: state.mobile ? 200 : 300, y: tableHeight }}
       />
    );
 };
