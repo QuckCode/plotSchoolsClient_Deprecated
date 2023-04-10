@@ -1,7 +1,9 @@
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import BehaviourScoreForm from "../BehaviourScoreForm";
+import userEvent from "@testing-library/user-event";
 import { Form } from "antd";
+import selectEvent from "react-select-event";
 
 const sections = [
    { _id: "section1", section: "Section 1" },
@@ -22,13 +24,12 @@ const arms = [
 ];
 
 const getScore = jest.fn();
-const WrappedRegisterBehaviourType = Form.create()(RegisterBehaviourType);
+const WrappedRegisterBehaviourType = Form.create()(BehaviourScoreForm);
 
 describe("BehaviourScoreForm", () => {
    beforeEach(() => {
       render(
-         <BehaviourScoreForm
-            form={mockForm}
+         <WrappedRegisterBehaviourType
             sections={sections}
             classes={classes}
             arms={arms}
@@ -37,43 +38,51 @@ describe("BehaviourScoreForm", () => {
       );
    });
 
-   //  test("form component is rendered", () => {
-   //     expect(screen.getByTestId("behaviour-score-form")).toBeInTheDocument();
-   //  });
+   test("form component is rendered", () => {
+      expect(screen.getByTestId("behaviour-score-form")).toBeInTheDocument();
+   });
 
-   //  test("labels 'Section', 'Class', and 'Arm' are displayed", () => {
-   //     expect(screen.getByText("Section")).toBeInTheDocument();
-   //     expect(screen.getByText("Class")).toBeInTheDocument();
-   //     expect(screen.getByText("Arm")).toBeInTheDocument();
-   //  });
+   test("labels 'Section', 'Class', and 'Arm' are displayed", () => {
+      expect(screen.getByText("Section")).toBeInTheDocument();
+      expect(screen.getByText("Class")).toBeInTheDocument();
+      expect(screen.getByText("Arm")).toBeInTheDocument();
+   });
 
-   //  test("button 'Load Student & Subject' is displayed", () => {
-   //     expect(screen.getByText("Load Student & Subject")).toBeInTheDocument();
-   //  });
+   test("button 'Load Student & Subject' is displayed", () => {
+      expect(screen.getByText("Load Student & Subject")).toBeInTheDocument();
+   });
 
-   //  test("dropdowns populate with options", async () => {
-   //     fireEvent.click(screen.getByText("Please select an section"));
-   //     sections.forEach((section) => {
-   //        expect(screen.getByText(section.section)).toBeInTheDocument();
-   //     });
-   //  });
+   test("dropdowns populate with options", async () => {
+      fireEvent.click(screen.getByText("Select a section"));
+      sections.forEach((section) => {
+         expect(screen.getByText(section.section)).toBeInTheDocument();
+      });
+   });
 
-   //  test("dropdown selection triggers filtering", async () => {
-   //     fireEvent.change(screen.getByLabelText("Section"), {
-   //        target: { value: "section1" },
-   //     });
-   //     fireEvent.change(screen.getByLabelText("Class"), {
-   //        target: { value: "class1" },
-   //     });
+   // test("dropdown selection triggers filtering", async () => {
+   //    let sectionsDocument = screen.getByLabelText("Section");
+   //    selectEvent.openMenu(sectionsDocument);
+   //    selectEvent.select(sectionsDocument, sections[0].section);
 
-   //     await waitFor(() => {
-   //        expect(screen.getByText("Class 1")).toBeInTheDocument();
-   //        expect(screen.getByText("Class 2")).toBeInTheDocument();
-   //        expect(screen.queryByText("Class 3")).not.toBeInTheDocument();
-   //     });
-   //  });
+   //    let classDom = screen.getByLabelText("Class");
+   //    selectEvent.openMenu(classDom);
+   //    screen.debug();
+   // userEvent.selectOptions(screen.getByText("Select a section"));
+   // const sectionOption = screen.getByText(sections[0].section);
+   // userEvent.click(sectionOption);
 
-   //  test("form submission with valid data", async () => {
+   // fireEvent.click(screen.getByText("Select a class"));
+   // const classOption = screen.getByText(classes[0].name);
+   // userEvent.click(classOption);
+
+   // await waitFor(() => {
+   //    expect(screen.getByText("Class 1")).toBeInTheDocument();
+   //    expect(screen.getByText("Class 2")).toBeInTheDocument();
+   //    expect(screen.queryByText("Class 3")).not.toBeInTheDocument();
+   // });
+   // });
+
+   //  test("form submission with valid data", async () => {s
    //     fireEvent.change(screen.getByLabelText("Section"), {
    //        target: { value: "section1" },
    //     });
@@ -96,19 +105,17 @@ describe("BehaviourScoreForm", () => {
    //     });
    //  });
 
-   //  test("form submission with invalid data", async () => {
-   //     fireEvent.click(screen.getByText("Load Student & Subject"));
+   test("form submission with invalid data", async () => {
+      userEvent.click(screen.getByText("Load Student & Subject"));
 
-   //     expect(
-   //        await screen.findByText("Please select a section")
-   //     ).toBeInTheDocument();
-   //     expect(
-   //        await screen.findByText("Please select a class")
-   //     ).toBeInTheDocument();
-   //     expect(
-   //        await screen.findByText("Please select a arm")
-   //     ).toBeInTheDocument();
+      expect(
+         await screen.findByText("Please select a section")
+      ).toBeInTheDocument();
+      expect(
+         await screen.getByText("Please select a class")
+      ).toBeInTheDocument();
+      expect(await screen.getByText("Please select a arm")).toBeInTheDocument();
 
-   //     expect(getScore).not.toHaveBeenCalled();
-   //  });
+      expect(getScore).not.toHaveBeenCalled();
+   });
 });

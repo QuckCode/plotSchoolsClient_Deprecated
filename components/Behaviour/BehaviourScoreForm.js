@@ -23,6 +23,7 @@ const BehaviourScoreScoreForm = ({
    const [armList, setArmList] = useState([]);
 
    const handleSectionChange = (e) => {
+      console.error("handle section change is called ");
       setClassList(classes.filter((x) => e == x.sectionId));
       form.setFieldsValue({ classId: "" });
       form.setFieldsValue({ armId: "" });
@@ -48,8 +49,12 @@ const BehaviourScoreScoreForm = ({
                initialValue: "",
                rules: [{ required: true, message: "Please select a section" }],
             })(
-               <Select onChange={handleSectionChange}>
-                  <Option value={""}> Please select an section </Option>
+               <Select
+                  aria-label="Section"
+                  onChange={handleSectionChange}
+                  onClick={handleSectionChange}
+               >
+                  <Option value={""}> Select a section </Option>
                   {sections.map((x) => (
                      <Option key={x._id} value={x._id}>
                         {" "}
@@ -64,8 +69,8 @@ const BehaviourScoreScoreForm = ({
                initialValue: "",
                rules: [{ required: true, message: "Please select a class" }],
             })(
-               <Select onChange={handleClassChange}>
-                  <Option value={""}> Please select an class </Option>
+               <Select aria-label="Class" onChange={handleClassChange}>
+                  <Option value={""}> Select a class </Option>
                   {classList.map((x) => (
                      <Option key={x._id} value={x._id}>
                         {" "}
@@ -80,12 +85,11 @@ const BehaviourScoreScoreForm = ({
                initialValue: "",
                rules: [{ required: true, message: "Please select a arm" }],
             })(
-               <Select>
-                  <Option value={""}> Please select an arm </Option>
+               <Select aria-label="Arm">
+                  <Option value={""}> Sselect an arm </Option>
                   {armList.map((x) => (
                      <Option key={x.id} value={x.id}>
-                        {" "}
-                        {x.arm}{" "}
+                        {x.arm}
                      </Option>
                   ))}
                </Select>
