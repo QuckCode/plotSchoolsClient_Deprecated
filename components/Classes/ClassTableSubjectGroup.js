@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table, Button, Icon, Avatar, Checkbox } from "antd";
 import { useAppState } from "../shared/AppProvider";
 
@@ -16,13 +16,13 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
          title: "Class",
          width: state.mobile ? 100 : 150,
          dataIndex: "name",
-         key: "name",
+         key: "_id",
       },
       {
          title: "Section",
          width: state.mobile ? 100 : 150,
          dataIndex: "section",
-         key: "name",
+         key: "_id",
       },
       {
          title: "Has Subject Groups",
@@ -33,10 +33,12 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
             return (
                <div>
                   <Checkbox
+                     data-testId={`checkbox-${currentClass._id}`}
                      onClick={(e) => onHasSubjectGroupClicked(e, currentClass)}
                      checked={isChecked}
                      type="primary"
                      htmlType="submit"
+                     key={currentClass._id}
                   ></Checkbox>
                </div>
             );
@@ -44,11 +46,12 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
       },
    ];
 
-   React.useEffect(() => {
+   useEffect(() => {
       setTableHeight(window.innerHeight - 280);
    }, []);
    return (
       <Table
+         rowKey={"_id"}
          columns={columns}
          bordered
          size="default"
