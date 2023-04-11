@@ -59,51 +59,51 @@ describe("BehaviourScoreForm", () => {
       });
    });
 
-   // test("dropdown selection triggers filtering", async () => {
-   //    let sectionsDocument = screen.getByLabelText("Section");
-   //    selectEvent.openMenu(sectionsDocument);
-   //    selectEvent.select(sectionsDocument, sections[0].section);
+   test("dropdown selection triggers filtering", async () => {
+      let sectionsDocument = screen.getByLabelText("Section");
+      selectEvent.openMenu(sectionsDocument);
+      selectEvent.select(sectionsDocument, sections[0].section);
 
-   //    let classDom = screen.getByLabelText("Class");
-   //    selectEvent.openMenu(classDom);
-   //    screen.debug();
-   // userEvent.selectOptions(screen.getByText("Select a section"));
-   // const sectionOption = screen.getByText(sections[0].section);
-   // userEvent.click(sectionOption);
+      let classDom = screen.getByLabelText("Class");
+      selectEvent.openMenu(classDom);
+      screen.debug();
+      userEvent.selectOptions(screen.getByText("Select a section"));
+      const sectionOption = screen.getByText(sections[0].section);
+      userEvent.click(sectionOption);
 
-   // fireEvent.click(screen.getByText("Select a class"));
-   // const classOption = screen.getByText(classes[0].name);
-   // userEvent.click(classOption);
+      fireEvent.click(screen.getByText("Select a class"));
+      const classOption = screen.getByText(classes[0].name);
+      userEvent.click(classOption);
 
-   // await waitFor(() => {
-   //    expect(screen.getByText("Class 1")).toBeInTheDocument();
-   //    expect(screen.getByText("Class 2")).toBeInTheDocument();
-   //    expect(screen.queryByText("Class 3")).not.toBeInTheDocument();
-   // });
-   // });
+      await waitFor(() => {
+         expect(screen.getByText("Class 1")).toBeInTheDocument();
+         expect(screen.getByText("Class 2")).toBeInTheDocument();
+         expect(screen.queryByText("Class 3")).not.toBeInTheDocument();
+      });
+   });
 
-   //  test("form submission with valid data", async () => {s
-   //     fireEvent.change(screen.getByLabelText("Section"), {
-   //        target: { value: "section1" },
-   //     });
-   //     fireEvent.change(screen.getByLabelText("Class"), {
-   //        target: { value: "class1" },
-   //     });
-   //     fireEvent.change(screen.getByLabelText("Arm"), {
-   //        target: { value: "arm1" },
-   //     });
+   test("form submission with valid data", async () => {
+      fireEvent.change(screen.getByLabelText("Section"), {
+         target: { value: "section1" },
+      });
+      fireEvent.change(screen.getByLabelText("Class"), {
+         target: { value: "class1" },
+      });
+      fireEvent.change(screen.getByLabelText("Arm"), {
+         target: { value: "arm1" },
+      });
 
-   //     fireEvent.click(screen.getByText("Load Student & Subject"));
+      fireEvent.click(screen.getByText("Load Student & Subject"));
 
-   //     await waitFor(() => {
-   //        expect(getScore).toHaveBeenCalledTimes(1);
-   //        expect(getScore).toHaveBeenCalledWith({
-   //           sectionId: "section1",
-   //           classId: "class1",
-   //           armId: "arm1",
-   //        });
-   //     });
-   //  });
+      await waitFor(() => {
+         expect(getScore).toHaveBeenCalledTimes(1);
+         expect(getScore).toHaveBeenCalledWith({
+            sectionId: "section1",
+            classId: "class1",
+            armId: "arm1",
+         });
+      });
+   });
 
    test("form submission with invalid data", async () => {
       userEvent.click(screen.getByText("Load Student & Subject"));
