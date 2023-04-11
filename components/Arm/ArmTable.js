@@ -52,7 +52,6 @@ const ArmTable = ({ arm }) => {
    }, []);
    return (
       <Table
-         data-testid="table-loading"
          columns={columns}
          bordered
          size="default"
