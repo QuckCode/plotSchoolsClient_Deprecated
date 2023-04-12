@@ -154,6 +154,7 @@ const Signin = ({
                         loading={loading}
                         type="primary"
                         htmlType="submit"
+                        role="submit"
                         block
                         className="mt-3"
                      >

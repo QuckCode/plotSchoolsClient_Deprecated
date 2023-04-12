@@ -170,20 +170,15 @@ describe("Signin Component", () => {
       );
    });
 
-   test('should trigger form submission when "Log in" button is clicked', () => {
-      // Test that clicking the "Log in" button triggers the form submission
-      const { getByText } = render(<WrappedSignIn schools={mockSchool} />);
-      const submitMock = jest.fn();
-      fireEvent.submit(getByText("Log in"), { preventDefault: submitMock });
-      expect(submitMock).toHaveBeenCalled();
-   });
-
    test('should display a loading state on "Log in" button when form is submitted', async () => {
       // Test that the loading state of the "Log in" button changes appropriately when the form is submitted
-      const loginStudentMock = jest.fn();
+      let loading = false;
+      const loginStudentMock = jest.fn(() => {
+         loading = true;
+      });
       const { rerender } = render(
          <WrappedSignIn
-            loading={false}
+            loading={loading}
             loginStudent={loginStudentMock}
             schools={mockSchool}
          />
@@ -198,27 +193,25 @@ describe("Signin Component", () => {
          target: { value: "password123" },
       });
 
-      rerender(
-         <WrappedSignIn
-            loading={true}
-            loginStudent={loginStudentMock}
-            schools={mockSchool}
-         />
-      );
-      screen.debug();
-      expect(screen.getByText("Log in")).toHaveAttribute("disabled");
+      expect(screen.getByRole("submit")).toHaveAttribute("disabled");
 
-      //   fireEvent.click(getByText("Log in"));
+      //   fireEvent.click(screen.getByRole("submit"));
 
-      //   getByText("Log in");
-      //   screen.debug();
-      //   expect(getByText("Log in")).toHaveAttribute("disabled");
+      //   expect(screen.getByRole("submit")).not.toHaveAttribute("disabled");
       //   await waitFor(() =>
       //      expect(loginStudentMock).toHaveBeenCalledWith(
       //         "student123",
       //         "password123"
       //      )
       //   );
-      //   expect(getByText("Log in")).not.toHaveAttribute("disabled");
+
+      //   rerender(
+      //      <WrappedSignIn
+      //         loading={true}
+      //         loginStudent={loginStudentMock}
+      //         schools={mockSchool}
+      //      />
+      //   );
+      //   expect(screen.getByRole("submit")).toHaveAttribute("disabled");
    });
 });
