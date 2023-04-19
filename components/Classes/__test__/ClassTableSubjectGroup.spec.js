@@ -20,15 +20,17 @@ const classesMock = {
 };
 
 const setHasSubjectGroupMock = jest.fn();
+let globalRender = null;
 
 describe("ClassTableSubjectGroup", () => {
    beforeEach(() => {
-      render(
+      let { rerender } = render(
          <ClassTableSubjectGroup
             classes={classesMock}
             setHasSubjectGroup={setHasSubjectGroupMock}
          />
       );
+      globalRender = rerender;
    });
 
    test("renders without crashing", () => {
@@ -55,9 +57,8 @@ describe("ClassTableSubjectGroup", () => {
 
    test("calls setHasSubjectGroup with correct arguments on checkbox click", () => {
       fireEvent.click(screen.getByTestId("checkbox-1"));
-      expect(setHasSubjectGroupMock).toHaveBeenCalledWith(false, "1");
-
+      expect(setHasSubjectGroupMock).toHaveBeenCalledWith(true, "1");
       fireEvent.click(screen.getByTestId("checkbox-2"));
-      expect(setHasSubjectGroupMock).toHaveBeenCalledWith(true, "2");
+      expect(setHasSubjectGroupMock).toHaveBeenCalledWith(false, "2");
    });
 });
