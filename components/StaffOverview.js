@@ -134,9 +134,7 @@ const StaffOverview = ({
                   value={active ? "Active" : " Not Active"}
                   icon={<MapPin size={20} strokeWidth={1} />}
                   color={theme.primaryColor}
-                  clickHandler={() =>
-                     message.info(`You  are an active student`)
-                  }
+                  clickHandler={() => message.info(`You are an active staff`)}
                />
             </Col>
             <Col xs={24} sm={12} md={6}>

@@ -36,9 +36,9 @@ const Option = Select.Option;
 const Title = Typography.Title;
 
 const Content = styled.div`
-  z-index: 0;
-  max-width: 600px;,
-  backgroundColor:'#f0f0f0'
+   z-index: 0;
+   max-width: 600px;
+   background-color: "#f0f0f0";
 `;
 
 const menu = (
