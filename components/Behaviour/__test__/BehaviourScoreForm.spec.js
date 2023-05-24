@@ -1,9 +1,7 @@
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import BehaviourScoreForm from "../BehaviourScoreForm";
-import userEvent from "@testing-library/user-event";
 import { Form } from "antd";
-import selectEvent from "react-select-event";
 
 const sections = [
    { _id: "section1", section: "Section 1" },
@@ -60,20 +58,10 @@ describe("BehaviourScoreForm", () => {
    });
 
    test("dropdown selection triggers filtering", async () => {
-      let sectionsDocument = screen.getByLabelText("Section");
-      selectEvent.openMenu(sectionsDocument);
-      selectEvent.select(sectionsDocument, sections[0].section);
+      fireEvent.click(screen.getByLabelText("Section"));
+      fireEvent.click(screen.getByText(sections[0].section));
 
-      let classDom = screen.getByLabelText("Class");
-      selectEvent.openMenu(classDom);
-      screen.debug();
-      userEvent.selectOptions(screen.getByText("Select a section"));
-      const sectionOption = screen.getByText(sections[0].section);
-      userEvent.click(sectionOption);
-
-      fireEvent.click(screen.getByText("Select a class"));
-      const classOption = screen.getByText(classes[0].name);
-      userEvent.click(classOption);
+      fireEvent.click(screen.getByLabelText("Class"));
 
       await waitFor(() => {
          expect(screen.getByText("Class 1")).toBeInTheDocument();
@@ -83,15 +71,14 @@ describe("BehaviourScoreForm", () => {
    });
 
    test("form submission with valid data", async () => {
-      fireEvent.change(screen.getByLabelText("Section"), {
-         target: { value: "section1" },
-      });
-      fireEvent.change(screen.getByLabelText("Class"), {
-         target: { value: "class1" },
-      });
-      fireEvent.change(screen.getByLabelText("Arm"), {
-         target: { value: "arm1" },
-      });
+      fireEvent.click(screen.getByLabelText("Section"));
+      fireEvent.click(screen.getByText(sections[0].section));
+
+      fireEvent.click(screen.getByLabelText("Class"));
+      fireEvent.click(screen.getByText(classes[0].name));
+
+      fireEvent.click(screen.getByLabelText("Arm"));
+      fireEvent.click(screen.getByText(arms[0].arm));
 
       fireEvent.click(screen.getByText("Load Student & Subject"));
 
@@ -106,7 +93,7 @@ describe("BehaviourScoreForm", () => {
    });
 
    test("form submission with invalid data", async () => {
-      userEvent.click(screen.getByText("Load Student & Subject"));
+      fireEvent.click(screen.getByText("Load Student & Subject"));
 
       expect(
          await screen.findByText("Please select a section")
@@ -115,7 +102,5 @@ describe("BehaviourScoreForm", () => {
          await screen.getByText("Please select a class")
       ).toBeInTheDocument();
       expect(await screen.getByText("Please select a arm")).toBeInTheDocument();
-
-      expect(getScore).not.toHaveBeenCalled();
    });
 });

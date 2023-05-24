@@ -1,14 +1,4 @@
-import {
-   Button,
-   Checkbox,
-   Form,
-   Input,
-   message,
-   Row,
-   AutoComplete,
-   Card,
-   Divider,
-} from "antd";
+import { Button, Checkbox, Form, Input, Row, Card, Divider } from "antd";
 import { Eye, User, Grid } from "react-feather";
 
 import Link from "next/link";
@@ -37,7 +27,6 @@ const Signin = ({
    loading,
 }) => {
    const [schoolName, setSchoolName] = useState([]);
-   // const [loading , setLoading] = useState(true)
    useEffect(() => {
       setSchoolName(schools.reduce((a, o) => (a.push(o.name), a), []));
    }, [schools]);
@@ -60,6 +49,7 @@ const Signin = ({
                </div>
                <Divider />
                <Form
+                  data-testid="signin-form"
                   layout="vertical"
                   onSubmit={(e) => {
                      e.preventDefault();
@@ -94,6 +84,7 @@ const Signin = ({
                         ],
                      })(
                         <Select
+                           id="userType"
                            placeholder="Login in as"
                            optionFilterProp="children"
                            filterOption={(input, option) =>
@@ -163,6 +154,7 @@ const Signin = ({
                         loading={loading}
                         type="primary"
                         htmlType="submit"
+                        role="submit"
                         block
                         className="mt-3"
                      >

@@ -84,6 +84,7 @@ const FetchSubjectForm = ({
                <Button
                   style={{ margin: 2 }}
                   disabled={disable}
+                  role="submit"
                   type="primary"
                   htmlType="submit"
                >

@@ -13,16 +13,13 @@ import {
 import { school } from "../../redux/varables";
 const FormItem = Form.Item;
 const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 class RegistrationClass extends React.Component {
    handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
-         if (!err) {
-            console.log(values);
-            console.log(this.props.createClass({ ...values, school: school }));
-         }
+         console.error("Data submit ", err, values);
+         if (!err) this.props.createClass({ ...values, school: school });
       });
    };
 
@@ -70,8 +67,14 @@ class RegistrationClass extends React.Component {
                   })(<Input />)}
                </FormItem>
                <FormItem {...tailFormItemLayout}>
-                  <Button disabled={loading} type="primary" htmlType="submit">
-                     {loading ? <Icon type="loading" /> : <> </>} Submit
+                  <Button
+                     disabled={loading}
+                     type="primary"
+                     htmlType="submit"
+                     loading={loading}
+                     role="submit"
+                  >
+                     Submit
                   </Button>
                </FormItem>
             </Form>

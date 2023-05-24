@@ -22,7 +22,7 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
          title: "Section",
          width: state.mobile ? 100 : 150,
          dataIndex: "section",
-         key: "_id",
+         key: "section",
       },
       {
          title: "Has Subject Groups",
@@ -31,16 +31,14 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
          render: (currentClass) => {
             let isChecked = currentClass?.hasSubjectGroup ? true : false;
             return (
-               <div>
-                  <Checkbox
-                     data-testId={`checkbox-${currentClass._id}`}
-                     onClick={(e) => onHasSubjectGroupClicked(e, currentClass)}
-                     checked={isChecked}
-                     type="primary"
-                     htmlType="submit"
-                     key={currentClass._id}
-                  ></Checkbox>
-               </div>
+               <Checkbox
+                  data-testid={`checkbox-${currentClass._id}`}
+                  onClick={(e) => onHasSubjectGroupClicked(e, currentClass)}
+                  checked={isChecked}
+                  type="checkbox"
+                  htmlType="submit"
+                  key={currentClass._id}
+               />
             );
          },
       },
@@ -49,6 +47,7 @@ const ClassTableSubjectGroup = ({ classes, setHasSubjectGroup }) => {
    useEffect(() => {
       setTableHeight(window.innerHeight - 280);
    }, []);
+
    return (
       <Table
          rowKey={"_id"}

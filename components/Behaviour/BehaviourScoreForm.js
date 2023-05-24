@@ -23,7 +23,6 @@ const BehaviourScoreScoreForm = ({
    const [armList, setArmList] = useState([]);
 
    const handleSectionChange = (e) => {
-      console.error("handle section change is called ");
       setClassList(classes.filter((x) => e == x.sectionId));
       form.setFieldsValue({ classId: "" });
       form.setFieldsValue({ armId: "" });
@@ -57,8 +56,7 @@ const BehaviourScoreScoreForm = ({
                   <Option value={""}> Select a section </Option>
                   {sections.map((x) => (
                      <Option key={x._id} value={x._id}>
-                        {" "}
-                        {x.section}{" "}
+                        {x.section}
                      </Option>
                   ))}
                </Select>
@@ -73,8 +71,7 @@ const BehaviourScoreScoreForm = ({
                   <Option value={""}> Select a class </Option>
                   {classList.map((x) => (
                      <Option key={x._id} value={x._id}>
-                        {" "}
-                        {x.name}{" "}
+                        {x.name}
                      </Option>
                   ))}
                </Select>
@@ -86,7 +83,7 @@ const BehaviourScoreScoreForm = ({
                rules: [{ required: true, message: "Please select a arm" }],
             })(
                <Select aria-label="Arm">
-                  <Option value={""}> Sselect an arm </Option>
+                  <Option value={""}> Select an arm </Option>
                   {armList.map((x) => (
                      <Option key={x.id} value={x.id}>
                         {x.arm}
