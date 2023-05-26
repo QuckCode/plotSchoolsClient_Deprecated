@@ -22,10 +22,10 @@ const Option = Select.Option;
 const FormItem = Form.Item;
 
 const Content = styled.div`
-  max-width: 400px;
-  z-index: 2;
-  min-width: 300px;,
-  backgroundColor:'#f0f0f0'
+   max-width: 400px;
+   z-index: 2;
+   min-width: 300px;
+   background-color: "#f0f0f0";
 `;
 
 const Signin = ({

@@ -43,6 +43,32 @@ const CreatePayment = ({ form, loading }) => {
                })(<Input />)}
             </FormItem>
 
+            <FormItem {...formItemLayout} label="Class">
+               {form.getFieldDecorator("userType", {
+                  rules: [
+                     {
+                        required: true,
+                        message: "Please select your user type",
+                     },
+                  ],
+               })(
+                  <Select
+                     placeholder="Select class"
+                     optionFilterProp="children"
+                     filterOption={(input, option) =>
+                        option.props.children
+                           .toLowerCase()
+                           .indexOf(input.toLowerCase()) >= 0
+                     }
+                  >
+                     <Option value={0}>All</Option>
+                     <Option value={1}>JSS1</Option>
+                     <Option value={2}>JSS2</Option>
+                     <Option value={3}>SS3</Option>
+                  </Select>
+               )}
+            </FormItem>
+
             <FormItem {...tailFormItemLayout}>
                <Button disabled={loading} type="primary" htmlType="submit">
                   {loading ? <Icon type="loading" /> : <> </>} Submit
